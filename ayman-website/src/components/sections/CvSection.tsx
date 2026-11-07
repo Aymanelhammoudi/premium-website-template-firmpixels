@@ -5,6 +5,7 @@ import { Button } from "../ui/Button";
 import { ArrowUpRight, Download } from "../ui/Icons";
 import { Reveal, RevealLines } from "../ui/Reveal";
 import { TiltCard } from "../ui/TiltCard";
+import { ShareButton } from "../ui/ShareButton";
 
 export function CvSection() {
   return (
@@ -12,7 +13,7 @@ export function CvSection() {
       <div aria-hidden className="absolute top-1/2 left-1/2 -z-0 size-[50rem] -translate-1/2 rounded-full bg-gold/10 blur-[140px]" />
       <div className="container-x relative grid items-center gap-16 lg:grid-cols-12">
         <div className="lg:col-span-6">
-          <p className="eyebrow mb-6">08 — Curriculum vitae</p>
+          <p className="eyebrow mb-6">09 — Curriculum vitae</p>
           <h2 id="cv-title" className="font-display text-[clamp(2.8rem,6.5vw,5.8rem)] leading-[0.98] font-light">
             <RevealLines lines={["Mijn ervaring.", <em key="a">Direct in beeld.</em>]} />
           </h2>
@@ -20,6 +21,9 @@ export function CvSection() {
             <p className="mt-8 max-w-lg text-lg text-muted">
               Download mijn cv als PDF, open hem op volledig formaat of lees de doorzoekbare online versie.
               Handig voor recruiters én sollicitatiesystemen.
+            </p>
+            <p className="mt-4 max-w-lg text-sm text-muted">
+              Alle gegevens zijn gecontroleerd: periodes en functietitels staan er alleen in als ze bevestigd zijn.
             </p>
           </Reveal>
           <Reveal delay={0.25} className="mt-10 flex flex-wrap gap-3">
@@ -38,6 +42,9 @@ export function CvSection() {
               Bekijk de online tekstversie (ATS-vriendelijk)
               <ArrowUpRight className="size-4" />
             </Link>
+            <div className="mt-6">
+              <ShareButton />
+            </div>
           </Reveal>
         </div>
 
@@ -48,8 +55,8 @@ export function CvSection() {
                 <Image
                   src={cv.preview}
                   alt="Voorbeeld van het cv van Ayman El Hammoudi"
-                  width={1200}
-                  height={1697}
+                  width={913}
+                  height={1292}
                   sizes="(max-width: 1024px) 90vw, 36vw"
                   className="h-auto w-full"
                 />

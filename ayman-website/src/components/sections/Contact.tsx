@@ -81,7 +81,7 @@ export function Contact() {
     <section id="contact" aria-labelledby="contact-title" className="relative overflow-hidden py-24 md:py-32">
       <div aria-hidden className="grid-lines absolute inset-0 -z-10 opacity-60" />
       <div className="container-x">
-        <p className="eyebrow mb-6">09 — {contact.eyebrow}</p>
+        <p className="eyebrow mb-6">10 — {contact.eyebrow}</p>
         <h2 id="contact-title" className="font-display text-[clamp(3.2rem,9vw,8.5rem)] leading-[0.92] font-light">
           <RevealLines lines={[contact.title, <em key="a">{contact.titleAccent}</em>]} />
         </h2>

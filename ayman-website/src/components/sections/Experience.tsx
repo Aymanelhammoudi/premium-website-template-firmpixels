@@ -184,7 +184,7 @@ export function Experience() {
     <section id="ervaring" aria-labelledby="ervaring-title" className="py-24 md:py-32">
       <div className="container-x">
         <SectionHeading
-          index="04"
+          index="03"
           label="Werkervaring"
           id="ervaring-title"
           title={experienceIntro.title}

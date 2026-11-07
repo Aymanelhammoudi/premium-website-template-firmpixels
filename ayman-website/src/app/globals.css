@@ -342,13 +342,29 @@ html.lenis body {
 
 /* ───────────── Print (o.a. de cv-pagina) ───────────── */
 
+@page {
+  size: A4;
+  margin: 14mm 14mm 12mm;
+}
+
 @media print {
-  :root {
+  :root,
+  [data-theme="dark"],
+  [data-theme="light"] {
+    color-scheme: light;
     --bg: #fff;
-    --ink: #000;
-    --muted: #333;
-    --gold: #000;
-    --line: #ccc;
+    --surface: #fff;
+    --ink: #071426;
+    --muted: #4a5563;
+    --gold: #7a5a22;
+    --line: rgb(7 20 38 / 0.14);
+    --line-strong: rgb(7 20 38 / 0.25);
+  }
+  html,
+  body {
+    background: #fff !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
   .no-print,
   .grain::after {

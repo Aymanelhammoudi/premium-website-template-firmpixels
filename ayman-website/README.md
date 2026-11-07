@@ -1,6 +1,6 @@
 # aymanzakelijk.nl — persoonlijke website van Ayman El Hammoudi
 
-Persoonlijke cv- en portfoliosite. Next.js (App Router) + TypeScript + Tailwind CSS 4 +
+Persoonlijke cv-site, gericht op toekomstige werkgevers en recruiters. Next.js (App Router) + TypeScript + Tailwind CSS 4 +
 Framer Motion + Lenis, volledig statisch geëxporteerd (`out/`).
 
 ## Snel starten
@@ -29,8 +29,25 @@ npm run lint
 
 - **Foto vervangen:** zet een nieuwe foto (WebP, staand 4:5, ± 800×1000) in `public/images/` en pas `person.portrait` aan.
 - **Project toevoegen:** screenshot (1200×833) in `public/images/projecten/`, kopieer een blok in `projects`, vul in, `published: true`.
-- **Cv vervangen:** overschrijf `public/cv.pdf` (en eventueel `public/images/cv-preview.webp`).
+- **Cv-pdf bijwerken:** de pdf wordt gemaakt uit de online cv-pagina (`/cv`), dus met dezelfde gegevens als
+  `content/site.ts`. Na een wijziging:
+  ```bash
+  npm run build
+  npx serve out -l 4321                  # laat dit draaien in een tweede terminal
+  npx -y playwright@1 install chromium   # alleen de eerste keer
+  npm run cv:pdf                         # maakt public/cv.pdf en public/images/cv-preview.jpg
+  npm run build                          # zet de nieuwe pdf in out/
+  ```
+  Liever je eigen pdf? Overschrijf dan gewoon `public/cv.pdf`.
 - Regels met `[INVULLEN: …]` zijn nog niet bevestigd — zie `content/bron.md`.
+
+## Online zetten zonder GitHub (aanbevolen)
+
+1. `npm run build` → de map `out/` is je complete website (of gebruik `ayman-website-statisch.zip`).
+2. Cloudflare-dashboard → **Workers & Pages → Create → Pages → Upload assets** → sleep de map `out` erin → **Deploy**.
+3. **Custom domains** → voeg `aymanzakelijk.nl` en `www.aymanzakelijk.nl` toe.
+
+Alternatief: sleep de map `out` naar https://app.netlify.com/drop.
 
 ## Online zetten op Vercel (met aymanzakelijk.nl)
 

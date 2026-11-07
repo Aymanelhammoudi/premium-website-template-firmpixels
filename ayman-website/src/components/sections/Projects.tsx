@@ -21,8 +21,8 @@ export function Projects() {
     <section id="werk" aria-labelledby="werk-title" className="relative py-24 md:py-32">
       <div className="container-x">
         <SectionHeading
-          index="05"
-          label="Geselecteerd werk"
+          index="08"
+          label={projectsIntro.label}
           id="werk-title"
           title={projectsIntro.title}
           accent={projectsIntro.titleAccent}
@@ -130,7 +130,7 @@ export function Projects() {
         <div className="mt-28 rounded-[2rem] border border-line bg-surface/50 p-8 md:p-14">
           <div className="grid gap-6 md:grid-cols-12">
             <Reveal className="md:col-span-5">
-              <p className="eyebrow mb-4">Mijn aanpak</p>
+              <p className="eyebrow mb-4">Werkwijze</p>
               <h3 className="font-display text-[clamp(2rem,3.6vw,3.2rem)] leading-tight font-light">
                 {projectsIntro.processTitle}
               </h3>

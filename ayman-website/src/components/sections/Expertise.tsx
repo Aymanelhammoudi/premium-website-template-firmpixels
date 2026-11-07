@@ -11,8 +11,8 @@ export function Expertise() {
     <section id="expertise" aria-labelledby="expertise-title" className="py-24 md:py-32">
       <div className="container-x">
         <SectionHeading
-          index="03"
-          label="Wat ik doe"
+          index="05"
+          label="Mijn sterke punten"
           id="expertise-title"
           title={expertise.title}
           accent={expertise.titleAccent}

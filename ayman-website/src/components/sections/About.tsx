@@ -9,7 +9,7 @@ export function About() {
   return (
     <section id="over" aria-labelledby="over-title" className="relative py-24 md:py-32">
       <div className="container-x">
-        <SectionHeading index="02" label="Over mij" id="over-title" title="Aangenaam." accent="Ik ben Ayman." />
+        <SectionHeading index="04" label="Over mij" id="over-title" title="Aangenaam." accent="Ik ben Ayman." />
 
         {/* Statement dat oplicht tijdens het scrollen */}
         <div className="mt-20 md:mt-28 md:grid md:grid-cols-12">

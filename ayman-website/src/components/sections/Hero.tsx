@@ -11,9 +11,9 @@ import {
   useTransform,
 } from "framer-motion";
 import { useEffect, useRef, useState, type CSSProperties, type PointerEvent } from "react";
-import { hero, person } from "@content/site";
+import { cv, hero, person } from "@content/site";
 import { Button } from "../ui/Button";
-import { ArrowDown, ArrowUpRight, Star } from "../ui/Icons";
+import { ArrowDown, Download, Star } from "../ui/Icons";
 import { TiltCard } from "../ui/TiltCard";
 import { EASE, useReducedMotion } from "../ui/motion";
 
@@ -122,7 +122,7 @@ export function Hero() {
             {hero.intro}
           </p>
           <div className="enter mt-8 flex flex-wrap items-center gap-3" style={{ "--d": "0.85s" } as CSSProperties}>
-            <Button href={hero.primaryCta.href} icon={<ArrowUpRight className="size-4" />}>
+            <Button href={hero.primaryCta.href} download={cv.fileName} icon={<Download className="size-4" />}>
               {hero.primaryCta.label}
             </Button>
             <Button href={hero.secondaryCta.href} variant="ghost" icon={<ArrowDown className="size-4" />}>

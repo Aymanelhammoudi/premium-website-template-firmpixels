@@ -77,16 +77,16 @@ export const person = {
 export const seo = {
   title: "Ayman El Hammoudi — Verkoopadviseur & webdesigner",
   description:
-    "Maak kennis met Ayman El Hammoudi uit Noord-Holland. Bekijk zijn ervaring in sales, retail en webdesign, zijn projecten en cv.",
+    "Ayman El Hammoudi, verkoopadviseur bij VodafoneZiggo uit Noord-Holland. Bekijk zijn ervaring in sales en retail, zijn sterke punten en download zijn cv.",
 };
 
 /* ───────────── Navigatie ───────────── */
 
 export const nav = [
-  { id: "over", label: "Over mij" },
-  { id: "expertise", label: "Expertise" },
   { id: "ervaring", label: "Ervaring" },
-  { id: "werk", label: "Werk" },
+  { id: "over", label: "Over mij" },
+  { id: "vaardigheden", label: "Vaardigheden" },
+  { id: "werk", label: "Initiatief" },
   { id: "cv", label: "Cv" },
   { id: "contact", label: "Contact" },
 ];
@@ -94,13 +94,13 @@ export const nav = [
 /* ───────────── Hero ───────────── */
 
 export const hero = {
-  status: "Open voor nieuwe gesprekken",
+  status: "Open voor gesprekken over een nieuwe functie",
   tagline: ["Mensen.", "Vertrouwen.", "Vooruitgang."],
   intro:
     "Een commerciële professional uit Noord-Holland met ervaring in klantadvies, retail, directe verkoop en zelfstandig webdesign.",
   footnote: "Praktisch, leergierig en klantgericht.",
-  primaryCta: { label: "Neem contact op", href: "#contact" },
-  secondaryCta: { label: "Bekijk mijn werk", href: "#werk" },
+  primaryCta: { label: "Download mijn cv", href: "/cv.pdf" },
+  secondaryCta: { label: "Bekijk mijn ervaring", href: "#ervaring" },
 };
 
 /* Werkgevers voor de logoband */
@@ -111,6 +111,24 @@ export const employers = [
   { name: "PLUS", logo: "/images/logos/plus.svg" },
   { name: "Picnic", logo: "/images/logos/picnic.svg" },
 ];
+
+/* ───────────── In het kort (voor werkgevers) ───────────── */
+
+export const quickScan = {
+  title: "In het kort.",
+  titleAccent: "Voor werkgevers & recruiters.",
+  current: {
+    label: "Huidige functie",
+    role: "Verkoopadviseur",
+    company: "VodafoneZiggo",
+    since: "Sinds juli 2025",
+    logo: "/images/logos/vodafone.svg",
+  },
+  sectors: ["Telecomretail", "Direct sales", "Supermarktretail", "E-commerce operatie", "Webdesign"],
+  strengths: ["Adviesverkoop", "Behoefteanalyse", "Bezwaren behandelen", "Klantcontact", "Eigenaarschap"],
+  seeking:
+    "Ik zoek geen snelle titel, maar een omgeving waarin prestaties, ontwikkeling en betrouwbaarheid samenkomen.",
+};
 
 /* ───────────── Over mij ───────────── */
 
@@ -174,7 +192,7 @@ export const expertise = {
       icon: "browser" as const,
       title: "Webdesign & eigenaarschap",
       text: "Ik werk ideeën zelfstandig uit tot een bruikbare website en begeleid de opdrachtgever van intake tot oplevering.",
-      link: { label: "Bekijk mijn projecten", href: "#werk" },
+      link: { label: "Bekijk mijn eigen projecten", href: "#werk" },
     },
   ],
 };
@@ -341,11 +359,13 @@ export const experience: Experience[] = [
 /* ───────────── Projecten ───────────── */
 
 export const projectsIntro = {
-  title: "Van een idee naar",
-  titleAccent: "een online visitekaartje.",
-  intro: "Een selectie uit mijn werk als zelfstandig webdesigner: websites voor lokale dienstverlening.",
+  label: "Eigen initiatief",
+  title: "Naast mijn werk:",
+  titleAccent: "zelf iets opbouwen.",
+  intro:
+    "Naast mijn baan ontwikkel ik websites voor ondernemers. Dat vraagt om initiatief, goed luisteren, structuur aanbrengen en verantwoordelijkheid nemen tot de oplevering.",
   note: "De previews tonen de websites zoals gecontroleerd in november 2026. Externe websites kunnen later veranderen. Er worden geen onbevestigde resultaten of bezoekerscijfers genoemd.",
-  processTitle: "Van vraag naar een bruikbare website.",
+  processTitle: "Zo pak ik een project aan.",
   processIntro:
     "Ik begin bij het doel van de onderneming en de informatie die een bezoeker nodig heeft. Daarna werk ik structuur, uitstraling en contactmogelijkheden uit.",
   process: [
@@ -525,8 +545,9 @@ export const testimonials: { quote: string; name: string; role: string }[] = [];
 /* ───────────── Cv ───────────── */
 
 export const cv = {
+  /** Gegenereerd uit de online cv-pagina (/cv) met alleen bevestigde gegevens — zie README. */
   pdf: "/cv.pdf",
-  preview: "/images/cv-preview.webp",
+  preview: "/images/cv-preview.jpg",
   fileName: "CV_Ayman_El_Hammoudi.pdf",
   profile:
     "Commercieel ingestelde verkoopadviseur met ervaring in telecomretail, directe acquisitie, klantservice en zelfstandig webdesign. Sterk in luisteren, behoefteanalyse en het begrijpelijk presenteren van passende opties. Combineert persoonlijk klantcontact met resultaatgericht werken, eigenaarschap en een praktische digitale blik.",
@@ -551,8 +572,8 @@ export const contact = {
   title: "Een goed gesprek.",
   titleAccent: "Een nieuw begin.",
   intro:
-    "Over sales, een nieuwe uitdaging of een website voor jouw onderneming. Ik maak graag kennis.",
-  topics: ["Een functie in sales of retail", "Een commerciële samenwerking", "Een websiteproject"],
+    "Ik sta open voor gesprekken over functies waarin klantcontact, advies, commercie en ontwikkeling samenkomen. Ik maak graag kennis.",
+  topics: ["Een vacature of functie", "Een kennismakingsgesprek", "Een vraag over mijn cv"],
   privacy: "Geen tracking, geen cookies. Je bericht gaat rechtstreeks naar mij.",
 };
 

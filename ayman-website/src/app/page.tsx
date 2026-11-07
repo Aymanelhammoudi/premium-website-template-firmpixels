@@ -1,5 +1,6 @@
 import { Hero } from "@/components/sections/Hero";
 import { LogoMarquee } from "@/components/sections/LogoMarquee";
+import { QuickScan } from "@/components/sections/QuickScan";
 import { About } from "@/components/sections/About";
 import { VelocityBand } from "@/components/sections/VelocityBand";
 import { Expertise } from "@/components/sections/Expertise";
@@ -17,13 +18,14 @@ export default function Home() {
     <>
       <Hero />
       <LogoMarquee />
+      <QuickScan />
+      <Experience />
       <About />
       <VelocityBand words={["Luisteren", "Oplossen", "Afmaken", "Mensen", "Vertrouwen", "Vooruitgang"]} />
       <Expertise />
-      <Experience />
-      <Projects />
       <Skills />
       <Growth />
+      <Projects />
       {testimonials.length > 0 && <Testimonials />}
       <CvSection />
       <Contact />

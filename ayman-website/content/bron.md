@@ -42,7 +42,8 @@ staan alleen vermeld waar ze zijn bevestigd."*
 - `ayman-portret.webp` (800×1000) en `ayman-portret-480.webp` — zakelijk portret
 - `projecten/rijschool-rewald.webp`, `projecten/paardrijles-zaanstad.webp` (1200×833) — echte websitescreenshots
 - `logos/{vodafone,oppo,coop,plus,picnic}.svg` — werkgeverslogo's (alleen ter herkenning; site meldt "Niet gelieerd aan genoemde werkgevers")
-- `cv-preview.webp` + `/cv.pdf` (= `CV_Ayman_El_Hammoudi_Vernieuwd.pdf`, identiek aan de zip-versie)
+- Oorspronkelijk cv: `CV_Ayman_El_Hammoudi_Vernieuwd.pdf` (bevat onbevestigde prijzen/periodes). **Vervangen** door een nieuwe
+  `/cv.pdf` die met `npm run cv:pdf` uit de online cv-pagina wordt gemaakt — alleen bevestigde gegevens.
 - Niet overgenomen: 4–5 AI-sfeerbeelden (kantoor, adviesruimte, werkplek, showroom). De site labelt ze zelf als
   "AI-sfeerbeeld · geen foto van …"; in een premium persoonlijke site voelen ze als stock, dus de nieuwe site
   werkt met typografie, het portret en echte projectscreenshots.
