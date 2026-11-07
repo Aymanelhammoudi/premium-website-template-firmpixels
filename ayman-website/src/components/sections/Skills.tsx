@@ -141,7 +141,7 @@ export function Skills() {
           <Reveal className="rounded-3xl border border-line p-8" delay={0.2}>
             <h3 className="eyebrow mb-6">Tools</h3>
             <ul className="flex flex-wrap gap-2">
-              {["WordPress", "Shopify", "E-commerce"].map((t) => (
+              {["bol-partnerplatform", "Amazon Seller Central", "Shopify", "WordPress"].map((t) => (
                 <li key={t} className="rounded-full bg-gold/10 px-4 py-1.5 text-gold">
                   {t}
                 </li>

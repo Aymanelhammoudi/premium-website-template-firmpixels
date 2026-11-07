@@ -56,7 +56,7 @@ export function CvSection() {
                   src={cv.preview}
                   alt="Voorbeeld van het cv van Ayman El Hammoudi"
                   width={913}
-                  height={1292}
+                  height={1291}
                   sizes="(max-width: 1024px) 90vw, 36vw"
                   className="h-auto w-full"
                 />

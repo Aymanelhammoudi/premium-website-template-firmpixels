@@ -15,6 +15,8 @@ export function Header() {
   const onHome = pathname === "/";
   const prefix = onHome ? "" : "/";
   const [active, setActive] = useState<string>("");
+  const routeActive = pathname.startsWith("/ervaring") ? "ervaring" : pathname.startsWith("/cv") ? "cv" : "";
+  const current = onHome ? active : routeActive;
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -90,7 +92,7 @@ export function Header() {
             <nav aria-label="Hoofdnavigatie" className="hidden lg:block">
               <ul className="flex items-center gap-1 rounded-full border border-line bg-surface/40 p-1 backdrop-blur">
                 {nav.map((n) => {
-                  const isActive = active === n.id;
+                  const isActive = current === n.id;
                   return (
                     <li key={n.id}>
                       <a

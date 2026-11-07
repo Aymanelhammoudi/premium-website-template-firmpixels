@@ -298,6 +298,14 @@ em.accent {
   from { transform: scale(1.06); }
 }
 
+/* Paginawissel */
+.page-enter {
+  animation: page-enter 0.9s var(--ease-out-expo) both;
+}
+@keyframes page-enter {
+  from { opacity: 0; transform: translateY(24px); }
+}
+
 /* Lenis smooth scroll */
 html.lenis,
 html.lenis body {

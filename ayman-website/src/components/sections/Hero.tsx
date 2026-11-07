@@ -153,7 +153,7 @@ export function Hero() {
                 <div className="absolute inset-x-0 bottom-0 p-6 text-[#f5f1e8]" style={{ transform: "translateZ(40px)" }}>
                   <p className="font-display text-3xl">{person.fullName}</p>
                   <p className="mt-1 font-mono text-[0.68rem] tracking-[0.2em] text-[#d5b579] uppercase">
-                    Retail · Sales · Webdesign
+                    Sales · Retail · E-commerce
                   </p>
                 </div>
               </div>

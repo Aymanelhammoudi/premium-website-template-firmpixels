@@ -12,19 +12,34 @@
 
 /* ───────────── Types (hoef je niet aan te passen) ───────────── */
 
-export type ExperienceCategory = "sales" | "retail" | "digitaal";
+export type Track = "sales" | "ondernemer";
+
+export type BrandIcon = "phone" | "key" | "door" | "bag" | "sofa" | "sun" | "swap" | "browser";
 
 export type Experience = {
+  /** wordt ook de paginanaam: /ervaring/<id>/ */
   id: string;
+  track: Track;
   company: string;
   role: string;
   period: string;
   current?: boolean;
+  /** grote tegel op de homepage */
+  featured?: boolean;
   sector: string;
-  category: ExperienceCategory;
+  /** logo-bestand in public/images/logos/ … */
   logo?: string;
+  /** … of een tekstlogo (bv. "bol") … */
+  wordmark?: string;
+  /** … of een icoon */
+  icon?: BrandIcon;
+  /** merken die je verkocht (logo's op de pagina) */
+  brands?: { name: string; logo: string }[];
   summary: string;
+  /** optioneel verhaal in stappen */
+  story?: { title: string; text: string }[];
   tasks: string[];
+  /** "Wat dit zegt over mij" */
   value: string;
   tags: string[];
 };
@@ -57,8 +72,8 @@ export const person = {
   lastName: "El Hammoudi",
   fullName: "Ayman El Hammoudi",
   initials: "ae",
-  role: "Verkoopadviseur & webdesigner",
-  roleShort: ["Verkoopadviseur", "Webdesigner"],
+  role: "Verkoopadviseur & e-commerceondernemer",
+  roleShort: ["Verkoopadviseur", "E-commerceondernemer"],
   region: "Noord-Holland",
   age: 23,
   email: "aymanae075@gmail.com",
@@ -75,9 +90,9 @@ export const person = {
 };
 
 export const seo = {
-  title: "Ayman El Hammoudi — Verkoopadviseur & webdesigner",
+  title: "Ayman El Hammoudi — Verkoopadviseur & e-commerceondernemer",
   description:
-    "Ayman El Hammoudi, verkoopadviseur bij VodafoneZiggo uit Noord-Holland. Bekijk zijn ervaring in sales en retail, zijn sterke punten en download zijn cv.",
+    "Ayman El Hammoudi, verkoopadviseur bij VodafoneZiggo en e-commerceondernemer uit Noord-Holland. Bekijk zijn ervaring in sales, retail, bol, Amazon en eigen webshops, en download zijn cv.",
 };
 
 /* ───────────── Navigatie ───────────── */
@@ -86,7 +101,7 @@ export const nav = [
   { id: "ervaring", label: "Ervaring" },
   { id: "over", label: "Over mij" },
   { id: "vaardigheden", label: "Vaardigheden" },
-  { id: "werk", label: "Initiatief" },
+  { id: "werk", label: "Websites" },
   { id: "cv", label: "Cv" },
   { id: "contact", label: "Contact" },
 ];
@@ -97,7 +112,7 @@ export const hero = {
   status: "Open voor gesprekken over een nieuwe functie",
   tagline: ["Mensen.", "Vertrouwen.", "Vooruitgang."],
   intro:
-    "Een commerciële professional uit Noord-Holland met ervaring in klantadvies, retail, directe verkoop en zelfstandig webdesign.",
+    "Een commerciële professional uit Noord-Holland met ervaring in klantadvies, retail, deur-tot-deurverkoop, high-ticket sales en e-commerce.",
   footnote: "Praktisch, leergierig en klantgericht.",
   primaryCta: { label: "Download mijn cv", href: "/cv.pdf" },
   secondaryCta: { label: "Bekijk mijn ervaring", href: "#ervaring" },
@@ -110,7 +125,12 @@ export const employers = [
   { name: "COOP", logo: "/images/logos/coop.svg" },
   { name: "PLUS", logo: "/images/logos/plus.svg" },
   { name: "Picnic", logo: "/images/logos/picnic.svg" },
-];
+  { name: "Budget Thuis", logo: "/images/logos/budget-thuis.svg" },
+  { name: "Odido", logo: "/images/logos/odido.svg" },
+  { name: "KPN", logo: "/images/logos/kpn.svg" },
+  { name: "bol", wordmark: "bol" },
+  { name: "Amazon", wordmark: "amazon" },
+] as { name: string; logo?: string; wordmark?: string }[];
 
 /* ───────────── In het kort (voor werkgevers) ───────────── */
 
@@ -124,8 +144,8 @@ export const quickScan = {
     since: "Sinds juli 2025",
     logo: "/images/logos/vodafone.svg",
   },
-  sectors: ["Telecomretail", "Direct sales", "Supermarktretail", "E-commerce operatie", "Webdesign"],
-  strengths: ["Adviesverkoop", "Behoefteanalyse", "Bezwaren behandelen", "Klantcontact", "Eigenaarschap"],
+  sectors: ["Telecomretail", "Deur-tot-deurverkoop", "High-ticket sales", "Marketplaces (bol, Amazon)", "Eigen webshops", "Magazijn & retail"],
+  strengths: ["Adviesverkoop", "Closing", "Behoefteanalyse", "Bezwaren behandelen", "Ondernemerschap", "Eigenaarschap"],
   seeking:
     "Ik zoek geen snelle titel, maar een omgeving waarin prestaties, ontwikkeling en betrouwbaarheid samenkomen.",
 };
@@ -138,14 +158,14 @@ export const about = {
   story: [
     "Ik ben 23 jaar, woon in Noord-Holland en ontwikkel mij op het snijvlak van commercie, klantcontact en ondernemerschap.",
     "Als verkoopadviseur bij VodafoneZiggo help ik klanten verschillende telecomproducten en diensten begrijpen. Daarbij combineer ik persoonlijke service met aandacht voor commerciële doelstellingen.",
-    "Eerder werkte ik in merkpresentatie, directe verkoop, supermarktretail en een operationele e-commerceomgeving. Daardoor kan ik gemakkelijk schakelen tussen klantcontact, zelfstandig werken en samenwerken in een team.",
-    "Naast mijn werk ontwikkel ik websites voor ondernemers. Dat vraagt om initiatief, goed luisteren, structuur aanbrengen en verantwoordelijkheid nemen tot de oplevering.",
+    "Eerder werkte ik in merkpresentatie, deur-tot-deurverkoop, high-ticket sales, supermarktretail en in het magazijn van Picnic. Daardoor kan ik gemakkelijk schakelen tussen klantcontact, zelfstandig werken en samenwerken in een team.",
+    "Daarnaast ben ik ondernemer. Sinds 2021 verkoop ik via bol, ik verkocht een jaar via Amazon, had eigen webshops en bouwde een bedrijf in groene energie op dat ik met winst heb verkocht. Zo leerde ik zelf beslissen, rekenen en op tijd bijsturen.",
   ],
   traits: ["Klantgericht", "Praktisch", "Leergierig", "Ondernemend"],
   stats: [
-    { value: 7, suffix: "", label: "rollen in sales, retail & digitaal" },
-    { value: 5, suffix: "", label: "bekende namen, van VodafoneZiggo tot Picnic" },
-    { value: 2, suffix: "", label: "websites live voor ondernemers" },
+    { value: 15, suffix: "", label: "ervaringen in sales, retail en e-commerce" },
+    { value: 2021, suffix: "", label: "sinds dit jaar verkooppartner op bol" },
+    { value: 1, suffix: "", label: "eigen bedrijf opgebouwd en met winst verkocht" },
     { value: 2, suffix: "", label: "talen: Nederlands & Engels" },
   ],
   principlesTitle: "Drie principes. Elke dag opnieuw.",
@@ -188,42 +208,60 @@ export const expertise = {
       link: { label: "Bekijk mijn sterke punten", href: "#vaardigheden" },
     },
     {
-      label: "Initiatief",
+      label: "Ondernemerschap",
       icon: "browser" as const,
-      title: "Webdesign & eigenaarschap",
-      text: "Ik werk ideeën zelfstandig uit tot een bruikbare website en begeleid de opdrachtgever van intake tot oplevering.",
-      link: { label: "Bekijk mijn eigen projecten", href: "#werk" },
+      title: "E-commerce & eigenaarschap",
+      text: "Ik heb ervaring met eigen webshops, marketplaces, commerciële samenwerkingen en het bouwen en verkopen van een onderneming.",
+      link: { label: "Bekijk mijn ondernemerschap", href: "#ondernemer" },
     },
   ],
 };
 
-/* ───────────── Werkervaring ───────────── */
+/* ───────────── Ervaring (twee sporen) ───────────── */
+
+export const tracks: Record<Track, { label: string; title: string; titleAccent: string; intro: string }> = {
+  sales: {
+    label: "Spoor 01 · Sales & retail",
+    title: "In loondienst",
+    titleAccent: "en in sales.",
+    intro:
+      "Van de winkelvloer en de deur tot telefonische closing: rollen waarin ik dagelijks met klanten in gesprek ben en verantwoordelijkheid neem voor resultaat.",
+  },
+  ondernemer: {
+    label: "Spoor 02 · Ondernemerschap",
+    title: "Als ondernemer",
+    titleAccent: "in e-commerce.",
+    intro:
+      "Marketplaces, eigen webshops, samenwerkingen en een eigen bedrijf in groene energie. Hier leerde ik zelf beslissen, rekenen en op tijd bijsturen.",
+  },
+};
 
 export const experienceIntro = {
-  title: "Een loopbaan in contact.",
-  titleAccent: "Een brede blik op sales.",
+  title: "Twee sporen.",
+  titleAccent: "Eén rode draad.",
   intro:
-    "Zeven rollen die samen een profiel vormen in adviesverkoop, retail, directe acquisitie, digitale dienstverlening en operationele samenwerking.",
+    "Ik combineer ervaring in loondienst met ondernemerschap. Klik op een onderdeel om te zien wat ik daar deed en wat het over mij zegt.",
   thread:
-    "Op de winkelvloer, aan de deur, bij een productdemonstratie of in een webproject: ik begin bij de vraag, maak mogelijkheden begrijpelijk en werk toe naar een concrete volgende stap.",
-  note: "Exacte periodes en functietitels staan alleen vermeld waar ze zijn bevestigd. Bedrijfslogo’s dienen uitsluitend ter herkenning van de genoemde werkervaring.",
+    "Op de winkelvloer, aan de deur, aan de telefoon of in mijn eigen webshop: ik begin bij de vraag, maak mogelijkheden begrijpelijk en werk toe naar een concrete volgende stap.",
+  note: "Exacte periodes en functietitels staan alleen vermeld waar ze zijn bevestigd. Bedrijfslogo’s dienen uitsluitend ter herkenning; ik ben niet gelieerd aan de genoemde merken. Samenwerkingspartners en eigen ondernemingen zijn bewust anoniem.",
   filters: [
     { id: "alles", label: "Alles" },
-    { id: "sales", label: "Sales" },
-    { id: "retail", label: "Retail & operatie" },
-    { id: "digitaal", label: "Digitaal" },
-  ] as { id: "alles" | ExperienceCategory; label: string }[],
+    { id: "sales", label: "Sales & retail" },
+    { id: "ondernemer", label: "Ondernemerschap" },
+  ] as { id: "alles" | Track; label: string }[],
 };
 
 export const experience: Experience[] = [
+  /* ── Spoor 01 · Sales & retail ── */
   {
     id: "vodafoneziggo",
+    track: "sales",
     company: "VodafoneZiggo",
     role: "Verkoopadviseur",
     period: "Juli 2025 — heden",
     current: true,
+    featured: true,
     sector: "Telecomretail",
-    category: "sales",
     logo: "/images/logos/vodafone.svg",
     summary:
       "In een klantgerichte winkelomgeving adviseer ik consumenten over telecomproducten, abonnementen en aanvullende diensten. Ik combineer service met commerciële scherpte en zoek naar een oplossing die past bij het gebruik en de situatie van de klant.",
@@ -233,37 +271,82 @@ export const experience: Experience[] = [
       "Verkoopgesprekken professioneel afronden en vragen of bezwaren zorgvuldig behandelen.",
       "Bijdragen aan klanttevredenheid, winkelservice en commerciële doelstellingen.",
     ],
-    value:
-      "Een sterke combinatie van persoonlijk advies, productkennis en resultaatgericht werken.",
+    value: "Een sterke combinatie van persoonlijk advies, productkennis en resultaatgericht werken.",
     tags: ["Adviesverkoop", "Behoefteanalyse", "Telecom", "Service", "Commerciële doelen"],
   },
   {
-    id: "eigen-onderneming",
-    company: "Eigen onderneming",
-    role: "Websiteontwikkeling & webdesign",
-    period: "Heden",
-    current: true,
-    sector: "Digitale dienstverlening",
-    category: "digitaal",
+    id: "high-ticket-closer",
+    track: "sales",
+    company: "High-ticket closing",
+    role: "Sales closer · coaching voor e-commerceondernemers",
+    period: "Eerdere saleservaring",
+    featured: true,
+    sector: "High-ticket sales",
+    icon: "phone",
     summary:
-      "Als zelfstandig webdesigner begeleid ik ondernemers van de eerste vraag tot een bruikbare online presentatie. Daarbij combineer ik klantcontact, structuur, vormgeving en technische uitvoering.",
+      "Als high-ticket closer sprak ik e-commerceondernemers die al goed draaiden en wilden doorgroeien. Ik onderzocht of begeleiding door een ervaren coachingbedrijf bij hun volgende stap paste en bracht hen samen met dat bedrijf en zijn coaches. Het ging om trajecten van enkele duizenden euro’s. Veel ondernemers die de stap zetten, behaalden daarna met hulp van de coaches meer omzet.",
     tasks: [
-      "Doel, doelgroep en inhoud van een website samen met de opdrachtgever verhelderen.",
-      "Klantwensen vertalen naar navigatie, pagina-indeling en een passende visuele stijl.",
-      "Websites uitwerken met onder meer WordPress, Shopify en e-commercekennis.",
-      "Opdrachtgevers begeleiden tijdens feedback, oplevering en ondersteuning daarna.",
+      "Verkoopgesprekken voeren met ondernemers die al een lopend e-commercebedrijf hadden.",
+      "Ambities, knelpunten en de mogelijke aansluiting op coaching helder in kaart brengen.",
+      "Een investering van enkele duizenden euro’s eerlijk en begrijpelijk toelichten.",
+      "Geschikte ondernemers in contact brengen met het coachingbedrijf en zijn coaches.",
     ],
     value:
-      "Bewijs van initiatief, zelfstandigheid en het vermogen om een klantvraag van gesprek tot oplevering te begeleiden.",
-    tags: ["Klantintake", "Webdesign", "WordPress", "Shopify", "Projecteigenaarschap"],
+      "Ik kan een gesprek over een grote beslissing rustig en eerlijk leiden, en weet wanneer iets wél of níet past.",
+    tags: ["High-ticket sales", "Closing", "Kwalificatie", "Doorvragen", "Vertrouwen"],
+  },
+  {
+    id: "deur-tot-deurverkoop",
+    track: "sales",
+    company: "Deur-tot-deurverkoop",
+    role: "Direct sales · telecom en energie",
+    period: "Eerdere ervaring",
+    featured: true,
+    sector: "Direct sales",
+    icon: "door",
+    brands: [
+      { name: "Budget Thuis", logo: "/images/logos/budget-thuis.svg" },
+      { name: "Odido", logo: "/images/logos/odido.svg" },
+      { name: "KPN", logo: "/images/logos/kpn.svg" },
+    ],
+    summary:
+      "In deur-tot-deurverkoop verkocht ik diensten van Budget Thuis, Odido en KPN. Ik benaderde potentiële klanten actief, bracht hun situatie in korte tijd in kaart en presenteerde een passend aanbod in een persoonlijk gesprek.",
+    tasks: [
+      "Zelfstandig nieuwe gesprekken openen en snel vertrouwen opbouwen.",
+      "In korte tijd de situatie en mogelijke behoefte van een prospect verkennen.",
+      "Diensten helder presenteren en koppelen aan relevante voordelen.",
+      "Respectvol omgaan met afwijzing, vragen en bezwaren.",
+    ],
+    value:
+      "Een stevige commerciële basis: initiatief nemen, helder communiceren en professioneel blijven onder druk.",
+    tags: ["Deur-tot-deurverkoop", "Acquisitie", "Behoefteanalyse", "Bezwaren behandelen"],
+  },
+  {
+    id: "the-secret-skill",
+    track: "sales",
+    company: "The Secret Skill",
+    role: "Salesmedewerker · cursusverkoop",
+    period: "2020",
+    featured: true,
+    sector: "Salesopleiding",
+    icon: "key",
+    summary:
+      "In 2020 werkte ik in sales voor The Secret Skill, destijds onder leiding van Rébien Ghazali. Ik sprak geïnteresseerden over een cursus waarmee zij hun verkoopvaardigheden konden ontwikkelen en beter werden in sales.",
+    tasks: [
+      "Interesse en leerdoelen van potentiële deelnemers bespreken.",
+      "De inhoud en mogelijke aansluiting van de salescursus toelichten.",
+      "Ervaring opdoen met telefonische verkoop van een kennisproduct.",
+    ],
+    value: "Hier leerde ik sales als vak: structuur in een gesprek, doorvragen en een duidelijke afronding.",
+    tags: ["Cursusverkoop", "Telefonische sales", "Kwalificatie", "Salesontwikkeling"],
   },
   {
     id: "oppo",
+    track: "sales",
     company: "OPPO",
     role: "Merkambassadeur",
-    period: "Eerdere ervaring", // [INVULLEN: exacte periode, nog niet bevestigd]
+    period: "Eerdere ervaring",
     sector: "Smartphones & merkactivatie",
-    category: "sales",
     logo: "/images/logos/oppo.svg",
     summary:
       "Binnen telecomretail vertegenwoordigde ik OPPO richting winkelbezoekers. De rol draaide om productdemonstraties, begrijpelijke uitleg en een consistente merkpresentatie.",
@@ -278,31 +361,32 @@ export const experience: Experience[] = [
     tags: ["Productdemonstratie", "Merkbeleving", "Presenteren", "Telecomretail"],
   },
   {
-    id: "direct-sales",
-    company: "Direct sales",
-    role: "Deur-aan-deurverkoop · Telecom",
-    period: "Eerdere ervaring", // [INVULLEN: duur, nog niet bevestigd]
-    sector: "Direct sales",
-    category: "sales",
+    id: "picnic",
+    track: "sales",
+    company: "Picnic",
+    role: "Orderpicker · magazijn",
+    period: "Eerdere ervaring",
+    sector: "E-commerce logistiek",
+    logo: "/images/logos/picnic.svg",
     summary:
-      "In directe verkoop voor telecomcampagnes van onder andere Vodafone, KPN en Budget legde ik actief contact met potentiële klanten en presenteerde ik diensten in een kort, persoonlijk gesprek.",
+      "In het magazijn van Picnic deed ik ervaring op als orderpicker. Ik verzamelde en controleerde boodschappen volgens vaste processen, waarbij nauwkeurigheid, tempo en goede afstemming met collega’s belangrijk waren.",
     tasks: [
-      "Zelfstandig nieuwe gesprekken openen en snel vertrouwen opbouwen.",
-      "In korte tijd de situatie en mogelijke behoefte van een prospect verkennen.",
-      "Diensten helder presenteren en koppelen aan relevante voordelen.",
-      "Respectvol omgaan met afwijzing, vragen en bezwaren.",
+      "Bestellingen verzamelen aan de hand van de aangegeven magazijnroute en werkwijze.",
+      "Producten en aantallen controleren voordat een bestelling verderging in het proces.",
+      "Nauwkeurig en in een constant tempo werken binnen vaste logistieke processen.",
+      "De werkplek ordelijk houden en met collega’s afstemmen voor een soepele doorstroom.",
     ],
     value:
-      "Een stevige commerciële basis: initiatief nemen, helder communiceren en professioneel blijven onder druk.",
-    tags: ["Acquisitie", "Overtuigingskracht", "Weerbaarheid", "Gespreksopening"],
+      "Praktische magazijnervaring met orderpicking, kwaliteitscontrole en samenwerken binnen een logistiek proces.",
+    tags: ["Orderpicking", "Magazijnwerk", "Nauwkeurigheid", "Werktempo", "Teamwerk"],
   },
   {
     id: "coop",
+    track: "sales",
     company: "Coop",
     role: "Winkelmedewerker",
     period: "Eerdere ervaring",
     sector: "Supermarktretail",
-    category: "retail",
     logo: "/images/logos/coop.svg",
     summary:
       "Op de winkelvloer droeg ik bij aan klantservice, een verzorgde presentatie en de dagelijkse winkelwerkzaamheden. Deze omgeving vormde een praktische basis voor servicegericht en collegiaal werken.",
@@ -317,11 +401,11 @@ export const experience: Experience[] = [
   },
   {
     id: "plus",
+    track: "sales",
     company: "PLUS",
     role: "Winkelmedewerker",
     period: "Eerdere ervaring",
     sector: "Supermarktretail",
-    category: "retail",
     logo: "/images/logos/plus.svg",
     summary:
       "Bij PLUS deed ik verdere ervaring op met klantcontact en uitvoerend winkelwerk in een dynamische omgeving waar service en een verzorgde winkel samenkomen.",
@@ -334,36 +418,167 @@ export const experience: Experience[] = [
     value: "Aanvullende ervaring in service, werktempo en verantwoordelijkheid op de winkelvloer.",
     tags: ["Klantcontact", "Nauwkeurigheid", "Flexibiliteit", "Samenwerken"],
   },
+
+  /* ── Spoor 02 · Ondernemerschap ── */
   {
-    id: "picnic",
-    company: "Picnic",
-    role: "Operationele werkzaamheden", // [INVULLEN: exacte functietitel, nog niet bevestigd]
-    period: "Eerdere ervaring",
-    sector: "E-commerce operatie",
-    category: "retail",
-    logo: "/images/logos/picnic.svg",
+    id: "bol",
+    track: "ondernemer",
+    company: "bol",
+    role: "Verkooppartner · marketplaceverkoper",
+    period: "2021 — heden",
+    current: true,
+    featured: true,
+    sector: "Marketplace",
+    wordmark: "bol",
     summary:
-      "Bij Picnic deed ik ervaring op in een operationele e-commerceomgeving. De werkzaamheden vroegen om nauwkeurigheid, een constant werktempo en goede afstemming met collega’s.",
+      "Sinds 2021 verkoop ik als verkooppartner via bol, de grootste online winkel van Nederland en België. Daardoor heb ik praktijkervaring opgebouwd met productkeuze, aanbod, online verkoop en de dagelijkse aandacht die een marketplace vraagt.",
     tasks: [
-      "Dagelijkse operationele taken volgens een duidelijke werkwijze uitvoeren.",
-      "Nauwkeurig werken in een omgeving met tempo en vaste processen.",
-      "Afstemmen met collega’s om het gezamenlijke proces soepel te laten verlopen.",
-      "Verantwoordelijkheid nemen voor de kwaliteit van toegewezen taken.",
+      "Producten en assortiment selecteren en als verkooppartner online aanbieden.",
+      "Productpagina’s, prijzen en aanbod onderhouden binnen het bol-partnerplatform.",
+      "Bestellingen, voorraad en klantvragen bijhouden.",
+      "Ervaring opbouwen met marketplaceverkoop en e-commerceprocessen.",
+    ],
+    value: "Ik weet hoe online verkopen in de praktijk werkt, van productkeuze tot een tevreden klant.",
+    tags: ["Verkooppartner", "Marketplace", "Assortiment", "Online verkoop", "E-commerce"],
+  },
+  {
+    id: "amazon",
+    track: "ondernemer",
+    company: "Amazon",
+    role: "Verkoper · Seller Central",
+    period: "1 jaar",
+    featured: true,
+    sector: "Marketplace",
+    wordmark: "amazon",
+    summary:
+      "Een jaar lang verkocht ik als verkoper via Amazon, een internationaal marketplaceplatform. Ik werkte met zowel Fulfilment by Amazon (FBA), waarbij mijn producten vanuit het magazijn van Amazon werden verzonden, als met verzending vanuit eigen voorraad (Fulfilled by Merchant, FBM).",
+    tasks: [
+      "Productaanbod beheren in Amazon Seller Central.",
+      "Voorraad naar het Amazon-magazijn sturen voor verzending via FBA.",
+      "Bestellingen vanuit eigen voorraad zelf verzenden (FBM).",
+      "Werken met de structuur, eisen en richtlijnen van Amazon.",
     ],
     value:
-      "Ervaring met procesgericht werken, betrouwbaarheid en samenwerken in een snel bewegende operatie.",
-    tags: ["Operationele discipline", "Procesmatig werken", "Tempo", "Teamwerk"],
+      "Ik ken de logistiek achter online verkoop: wanneer je het uitbesteedt en wanneer je het zelf doet.",
+    tags: ["Amazon", "FBA", "FBM", "Seller Central", "Voorraadbeheer"],
+  },
+  {
+    id: "webshops",
+    track: "ondernemer",
+    company: "Eigen webshops",
+    role: "E-commerceondernemer",
+    period: "Meerdere ondernemingen",
+    featured: true,
+    sector: "Webshops",
+    icon: "bag",
+    summary:
+      "Ik heb verschillende webshops opgezet en succesvol producten verkocht in kleding, woon- en thuisartikelen, keukenartikelen, babyspeelgoed en elektronica.",
+    tasks: [
+      "Webshops en productcategorieën opzetten en beheren.",
+      "Producten kiezen en presenteren voor verschillende doelgroepen.",
+      "Het verkoopproces van bestelling tot levering bewaken.",
+      "Praktijkervaring opdoen met online verkoop en ondernemerschap.",
+    ],
+    value: "Ik kan een verkoopkanaal vanaf nul opbouwen en zelfstandig draaiende houden.",
+    tags: ["Webshops", "Productselectie", "Kleding", "Wonen & keuken", "Elektronica"],
+  },
+  {
+    id: "groene-energie",
+    track: "ondernemer",
+    company: "Groene energie",
+    role: "Eigenaar · verkoop zonnepanelen en laadpalen",
+    period: "Eerdere onderneming",
+    featured: true,
+    sector: "Eigen bedrijf",
+    icon: "sun",
+    summary:
+      "Ik bouwde een eigen onderneming in groene energie op en werkte samen met een Nederlandse groothandel voor de verkoop van zonnepanelen en laadpalen. Toen corona, een tekort aan installateurs en sterk gestegen productiekosten de marge structureel onder druk zetten, heb ik het bedrijf met winst verkocht.",
+    story: [
+      { title: "Opgebouwd", text: "Een eigen bedrijf opgezet in zonnepanelen en laadpalen." },
+      { title: "Samengewerkt", text: "Een samenwerking met een Nederlandse groothandel voor de producten." },
+      { title: "Markt veranderde", text: "Corona, een tekort aan installateurs en stijgende productiekosten drukten de marge." },
+      { title: "Met winst verkocht", text: "Op tijd een zakelijk besluit genomen en het bedrijf winstgevend overgedragen." },
+    ],
+    tasks: [
+      "Zonnepanelen en laadpalen verkopen via een Nederlandse groothandelspartner.",
+      "Een commerciële samenwerking opbouwen en de onderneming ontwikkelen.",
+      "Tijdig reageren op veranderde marktomstandigheden en het bedrijf winstgevend overdragen.",
+    ],
+    value:
+      "Ik kan cijfers lezen, de markt realistisch beoordelen en een moeilijke beslissing op tijd en zakelijk nemen.",
+    tags: ["Eigen bedrijf", "Groene energie", "B2B-samenwerking", "Sales", "Ondernemersbesluit"],
+  },
+  {
+    id: "webshop-bemiddeling",
+    track: "ondernemer",
+    company: "Webshops kopen & verkopen",
+    role: "Bemiddelaar bij webshopovernames",
+    period: "Eerdere ervaring",
+    featured: true,
+    sector: "Overnames",
+    icon: "swap",
+    summary:
+      "Ik heb webshops en websites overgenomen en weer doorverkocht. Daarnaast hielp ik ondernemers die met iets nieuws wilden beginnen om hun bestaande webshop te verkopen: ik bracht koper en verkoper samen, begeleidde de verkoop en ontving daarvoor een commissie.",
+    tasks: [
+      "Webshops en websites overnemen en weer doorverkopen.",
+      "Voor verkopers een geschikte koper zoeken en benaderen.",
+      "Koper en verkoper begeleiden tot de overdracht rond was.",
+      "Werken op commissiebasis: alleen een vergoeding bij een geslaagde verkoop.",
+    ],
+    value: "Ik kan onderhandelen, belangen van twee partijen verbinden en een deal tot het einde begeleiden.",
+    tags: ["Bemiddeling", "Overnames", "Onderhandelen", "Commissie"],
+  },
+  {
+    id: "meubelverkoop",
+    track: "ondernemer",
+    company: "Meubelverkoop",
+    role: "Online verkooppartner van een Nederlands meubelbedrijf",
+    period: "Eerdere onderneming",
+    sector: "Samenwerking",
+    icon: "sofa",
+    summary:
+      "Voor een Nederlands meubelbedrijf verkocht ik artikelen online. In deze samenwerking combineerde ik e-commerce met de online presentatie van een bestaand assortiment.",
+    tasks: [
+      "Meubelartikelen online presenteren en verkopen.",
+      "Werken met het assortiment van een Nederlandse samenwerkingspartner.",
+      "E-commerce inzetten binnen de woon- en meubelbranche.",
+    ],
+    value: "Ik kan zakelijke samenwerkingen aangaan en een bestaand merk zorgvuldig vertegenwoordigen.",
+    tags: ["Meubels", "E-commerce", "Samenwerking", "Online presentatie"],
+  },
+  {
+    id: "webdesign",
+    track: "ondernemer",
+    company: "Eigen onderneming",
+    role: "Websiteontwikkeling & webdesign",
+    period: "Heden",
+    current: true,
+    sector: "Digitale dienstverlening",
+    icon: "browser",
+    summary:
+      "Als zelfstandig webdesigner begeleid ik ondernemers van de eerste vraag tot een bruikbare online presentatie. Daarbij combineer ik klantcontact, structuur, vormgeving en technische uitvoering.",
+    tasks: [
+      "Doel, doelgroep en inhoud van een website samen met de opdrachtgever verhelderen.",
+      "Klantwensen vertalen naar navigatie, pagina-indeling en een passende visuele stijl.",
+      "Websites uitwerken met onder meer WordPress, Shopify en e-commercekennis.",
+      "Opdrachtgevers begeleiden tijdens feedback, oplevering en ondersteuning daarna.",
+    ],
+    value:
+      "Bewijs van initiatief, zelfstandigheid en het vermogen om een klantvraag van gesprek tot oplevering te begeleiden.",
+    tags: ["Klantintake", "Webdesign", "WordPress", "Shopify", "Projecteigenaarschap"],
   },
 ];
+
+export const experienceBySlug = (slug: string) => experience.find((e) => e.id === slug);
 
 /* ───────────── Projecten ───────────── */
 
 export const projectsIntro = {
-  label: "Eigen initiatief",
+  label: "Websites die ik bouwde",
   title: "Naast mijn werk:",
-  titleAccent: "zelf iets opbouwen.",
+  titleAccent: "websites voor ondernemers.",
   intro:
-    "Naast mijn baan ontwikkel ik websites voor ondernemers. Dat vraagt om initiatief, goed luisteren, structuur aanbrengen en verantwoordelijkheid nemen tot de oplevering.",
+    "Als zelfstandig webdesigner bouw ik websites voor lokale ondernemers. Dat vraagt om initiatief, goed luisteren, structuur aanbrengen en verantwoordelijkheid nemen tot de oplevering.",
   note: "De previews tonen de websites zoals gecontroleerd in november 2026. Externe websites kunnen later veranderen. Er worden geen onbevestigde resultaten of bezoekerscijfers genoemd.",
   processTitle: "Zo pak ik een project aan.",
   processIntro:
@@ -438,7 +653,7 @@ export const skillGroups: SkillGroup[] = [
     title: "Verkoop & klantadvies",
     intro:
       "Ik stel gerichte vragen, vergelijk mogelijkheden en maak de keuze voor een klant begrijpelijk.",
-    practice: "Toegepast bij VodafoneZiggo, OPPO en directe telecomverkoop.",
+    practice: "Toegepast bij VodafoneZiggo, OPPO, deur-tot-deurverkoop en high-ticket closing.",
     skills: [
       "Adviesverkoop",
       "Behoefteanalyse",
@@ -465,16 +680,16 @@ export const skillGroups: SkillGroup[] = [
   },
   {
     id: "web",
-    title: "Webdesign & uitvoering",
+    title: "E-commerce & webdesign",
     intro:
       "Ik vertaal een zakelijke vraag naar een overzichtelijke website en begeleid het proces tot een bruikbare oplevering.",
-    practice: "Zichtbaar in twee actuele projecten voor ondernemers.",
+    practice: "Opgebouwd met bol (sinds 2021), Amazon, eigen webshops en websites voor ondernemers.",
     skills: [
-      "Websiteontwikkeling",
+      "Marketplaces (bol, Amazon)",
+      "Eigen webshops",
       "Webdesign",
       "WordPress",
       "Shopify",
-      "E-commerce",
       "Digitale communicatie",
     ],
   },
@@ -550,18 +765,18 @@ export const cv = {
   preview: "/images/cv-preview.jpg",
   fileName: "CV_Ayman_El_Hammoudi.pdf",
   profile:
-    "Commercieel ingestelde verkoopadviseur met ervaring in telecomretail, directe acquisitie, klantservice en zelfstandig webdesign. Sterk in luisteren, behoefteanalyse en het begrijpelijk presenteren van passende opties. Combineert persoonlijk klantcontact met resultaatgericht werken, eigenaarschap en een praktische digitale blik.",
+    "Commercieel ingestelde verkoopadviseur met ervaring in telecomretail, deur-tot-deurverkoop, high-ticket sales, klantservice, marketplaces en zelfstandig ondernemerschap. Sterk in luisteren, behoefteanalyse en het begrijpelijk presenteren van passende opties. Combineert persoonlijk klantcontact met resultaatgericht werken, eigenaarschap en een praktische digitale blik.",
   skills: [
     "Adviesverkoop",
     "Klantbehoefteanalyse",
-    "Communicatie",
-    "Acquisitie",
-    "Productdemonstratie",
-    "Klantservice",
+    "Deur-tot-deurverkoop",
+    "High-ticket closing",
+    "Marketplaceverkoop (bol, Amazon FBA/FBM)",
+    "E-commerce",
     "Webdesign",
     "WordPress",
     "Shopify",
-    "E-commerce",
+    "Orderpicking",
   ],
 };
 

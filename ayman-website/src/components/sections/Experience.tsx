@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Link from "next/link";
 import {
   AnimatePresence,
   motion,
@@ -10,26 +10,13 @@ import {
 } from "framer-motion";
 import { useRef, useState, type PointerEvent } from "react";
 import { experience, experienceIntro, type Experience as Exp } from "@content/site";
-import { Plus } from "../ui/Icons";
+import { ArrowRight, Plus } from "../ui/Icons";
+import { BrandMark } from "../ui/BrandMark";
 import { Reveal } from "../ui/Reveal";
 import { SectionHeading } from "../ui/SectionHeading";
 import { EASE, useReducedMotion } from "../ui/motion";
 
 type Filter = (typeof experienceIntro.filters)[number]["id"];
-
-function Logo({ item, size = 40 }: { item: Exp; size?: number }) {
-  if (item.logo) {
-    return <Image src={item.logo} alt="" width={size} height={size} style={{ width: size, height: size }} />;
-  }
-  return (
-    <span
-      className="font-display grid place-items-center rounded-full bg-gold text-on-gold italic"
-      style={{ width: size, height: size, fontSize: size * 0.42 }}
-    >
-      {item.company === "Eigen onderneming" ? "ae" : item.company.slice(0, 2)}
-    </span>
-  );
-}
 
 function Row({
   item,
@@ -69,7 +56,7 @@ function Row({
           open ? "border-line-strong bg-surface/70" : "border-transparent hover:bg-surface/40"
         }`}
       >
-        <h3>
+        <h2>
           <button
             type="button"
             aria-expanded={open}
@@ -85,8 +72,8 @@ function Row({
               )}
             </span>
             <span className="flex items-center gap-4">
-              <span className="hidden shrink-0 sm:block">
-                <Logo item={item} size={40} />
+              <span className="hidden size-12 shrink-0 place-items-center rounded-xl border border-line bg-bg sm:grid">
+                <BrandMark item={item} size={item.logo ? 28 : 26} />
               </span>
               <span>
                 <span className="font-display block text-[clamp(1.6rem,3vw,2.4rem)] leading-tight">
@@ -106,7 +93,7 @@ function Row({
               <Plus className="size-5" />
             </span>
           </button>
-        </h3>
+        </h2>
         <AnimatePresence initial={false}>
           {open && (
             <motion.div
@@ -133,7 +120,7 @@ function Row({
                     </ul>
                   </div>
                   <div>
-                    <h4 className="eyebrow mb-3">Werkzaamheden</h4>
+                    <h3 className="eyebrow mb-3">Werkzaamheden</h3>
                     <ul className="space-y-2 text-muted">
                       {item.tasks.map((t) => (
                         <li key={t} className="flex gap-3">
@@ -143,9 +130,16 @@ function Row({
                       ))}
                     </ul>
                     <div className="mt-6 rounded-2xl border-l-2 border-gold bg-gold/5 p-4">
-                      <h4 className="eyebrow mb-1">Wat deze rol toevoegt</h4>
+                      <h3 className="eyebrow mb-1">Wat dit zegt over mij</h3>
                       <p className="text-sm">{item.value}</p>
                     </div>
+                    <Link
+                      href={`/ervaring/${item.id}/`}
+                      className="group mt-6 inline-flex items-center gap-2 text-sm text-gold"
+                    >
+                      Open de volledige pagina
+                      <ArrowRight className="size-4 transition-transform duration-500 group-hover:translate-x-1" />
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -178,18 +172,19 @@ export function Experience() {
     fy.set(e.clientY - r.top - 40);
   };
 
-  const items = experience.filter((e) => filter === "alles" || e.category === filter);
+  const items = experience.filter((e) => filter === "alles" || e.track === filter);
 
   return (
-    <section id="ervaring" aria-labelledby="ervaring-title" className="py-24 md:py-32">
+    <section id="tijdlijn" aria-labelledby="tijdlijn-title" className="pt-36 pb-24 md:pt-44 md:pb-32">
       <div className="container-x">
         <SectionHeading
-          index="03"
-          label="Werkervaring"
-          id="ervaring-title"
-          title={experienceIntro.title}
-          accent={experienceIntro.titleAccent}
-          intro={experienceIntro.intro}
+          index="—"
+          label="Alle ervaring op een rij"
+          id="tijdlijn-title"
+          title="Een loopbaan in contact."
+          accent="Een ondernemer in e-commerce."
+          intro="Alle ervaring in één tijdlijn. Filter op spoor, klap een onderdeel open of open de volledige pagina."
+          level="h1"
         />
 
         <Reveal className="mt-16 md:grid md:grid-cols-12">
@@ -269,7 +264,7 @@ export function Experience() {
                     transition={{ type: "spring", stiffness: 300, damping: 22 }}
                     className="grid size-24 place-items-center rounded-3xl border border-line-strong bg-surface shadow-2xl"
                   >
-                    <Logo item={hovered} size={52} />
+                    <BrandMark item={hovered} size={hovered.logo ? 52 : 44} />
                   </motion.div>
                 )}
               </AnimatePresence>

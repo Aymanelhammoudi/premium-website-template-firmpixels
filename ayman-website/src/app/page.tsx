@@ -4,7 +4,7 @@ import { QuickScan } from "@/components/sections/QuickScan";
 import { About } from "@/components/sections/About";
 import { VelocityBand } from "@/components/sections/VelocityBand";
 import { Expertise } from "@/components/sections/Expertise";
-import { Experience } from "@/components/sections/Experience";
+import { Tracks } from "@/components/sections/Tracks";
 import { Projects } from "@/components/sections/Projects";
 import { Skills } from "@/components/sections/Skills";
 import { Growth } from "@/components/sections/Growth";
@@ -19,7 +19,7 @@ export default function Home() {
       <Hero />
       <LogoMarquee />
       <QuickScan />
-      <Experience />
+      <Tracks />
       <About />
       <VelocityBand words={["Luisteren", "Oplossen", "Afmaken", "Mensen", "Vertrouwen", "Vooruitgang"]} />
       <Expertise />

@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 /**
@@ -14,6 +15,13 @@ export function Cursor() {
     label: "",
     down: false,
   });
+  const pathname = usePathname();
+  // Na een paginawissel staat de muis vaak niet meer op een link: label resetten.
+  const [prevPath, setPrevPath] = useState(pathname);
+  if (prevPath !== pathname) {
+    setPrevPath(pathname);
+    setState((s) => ({ ...s, hover: false, label: "" }));
+  }
   const x = useMotionValue(-100);
   const y = useMotionValue(-100);
   const rx = useSpring(x, { stiffness: 350, damping: 30, mass: 0.5 });

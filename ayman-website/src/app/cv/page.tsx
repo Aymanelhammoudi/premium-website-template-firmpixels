@@ -40,7 +40,7 @@ export default function CvPage() {
             <h1 id="cv-name" className="font-display mt-3 text-5xl md:text-6xl print:text-5xl">
               {person.fullName}
             </h1>
-            <p className="mt-2 text-lg">Verkoopadviseur · Retail &amp; sales · Webdesigner</p>
+            <p className="mt-2 text-lg">Verkoopadviseur · Sales &amp; retail · E-commerceondernemer</p>
             <p className="mt-4 text-muted">
               {person.region} · <a href={`mailto:${person.email}`} className="underline-offset-4 hover:underline">{person.email}</a> ·{" "}
               <a href={`tel:${person.phoneHref}`} className="whitespace-nowrap underline-offset-4 hover:underline">{person.phoneDisplay}</a>
@@ -66,31 +66,44 @@ export default function CvPage() {
             <p className="text-lg print:text-base">{cv.profile}</p>
           </section>
 
-          <section aria-labelledby="cv-ervaring" className="border-b border-line py-8 print:py-5">
-            <h2 id="cv-ervaring" className="eyebrow mb-6">Werkervaring</h2>
-            <ol className="space-y-8 print:space-y-3">
-              {experience.map((e) => (
-                <li key={e.id} className="break-inside-avoid print:text-[10pt]">
-                  <div className="flex flex-wrap items-baseline justify-between gap-2">
-                    <h3 className="font-display text-2xl print:text-xl">
-                      {e.company} — {e.role}
-                    </h3>
-                    <p className="font-mono text-xs tracking-wider text-gold uppercase">
-                      {e.period} · {e.sector}
-                    </p>
-                  </div>
-                  <p className="mt-2 text-muted print:mt-1">{e.summary}</p>
-                  <ul className="mt-3 list-disc space-y-1 pl-5 text-muted marker:text-gold print:mt-1 print:space-y-0">
-                    {e.tasks.map((t, i) => (
-                      <li key={t} className={i >= 2 ? "print:hidden" : undefined}>
-                        {t}
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-              ))}
-            </ol>
-          </section>
+          {(
+            [
+              { id: "cv-ervaring", title: "Werkervaring & sales", track: "sales", printTasks: 2 },
+              { id: "cv-ondernemerschap", title: "Ondernemerschap", track: "ondernemer", printTasks: 0 },
+            ] as const
+          ).map((group) => (
+            <section key={group.id} aria-labelledby={group.id} className="border-b border-line py-8 print:py-5">
+              <h2 id={group.id} className="eyebrow mb-6">
+                {group.title}
+              </h2>
+              <ol className="space-y-8 print:space-y-3">
+                {experience
+                  .filter((e) => e.track === group.track)
+                  .map((e) => (
+                    <li key={e.id} className="break-inside-avoid print:text-[10pt]">
+                      <div className="flex flex-wrap items-baseline justify-between gap-2">
+                        <h3 className="font-display text-2xl print:text-xl">
+                          <Link href={`/ervaring/${e.id}/`} className="hover:text-gold">
+                            {e.company} — {e.role}
+                          </Link>
+                        </h3>
+                        <p className="font-mono text-xs tracking-wider text-gold uppercase">
+                          {e.period} · {e.sector}
+                        </p>
+                      </div>
+                      <p className="mt-2 text-muted print:mt-1">{e.summary}</p>
+                      <ul className="mt-3 list-disc space-y-1 pl-5 text-muted marker:text-gold print:mt-1 print:space-y-0">
+                        {e.tasks.map((t, i) => (
+                          <li key={t} className={i >= group.printTasks ? "print:hidden" : undefined}>
+                            {t}
+                          </li>
+                        ))}
+                      </ul>
+                    </li>
+                  ))}
+              </ol>
+            </section>
+          ))}
 
           <section aria-labelledby="cv-opleiding" className="break-inside-avoid border-b border-line py-8 print:py-5">
             <h2 id="cv-opleiding" className="eyebrow mb-3">Opleiding</h2>

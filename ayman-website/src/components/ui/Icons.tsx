@@ -118,3 +118,55 @@ export const Star = (p: P) => (
     <path d="M50 0v100M0 50h100M15 15l70 70M15 85l70-70" />
   </svg>
 );
+export const Key = (p: P) => (
+  <svg viewBox="0 0 48 48" {...base} strokeWidth={1.4} {...p}>
+    <circle cx="16" cy="24" r="8" />
+    <path d="M24 24h18M36 24v6M41 24v4" />
+  </svg>
+);
+export const Door = (p: P) => (
+  <svg viewBox="0 0 48 48" {...base} strokeWidth={1.4} {...p}>
+    <path d="M12 42V8a2 2 0 0 1 2-2h20a2 2 0 0 1 2 2v34M8 42h32" />
+    <path d="M30 25v.01" strokeWidth={2.6} />
+  </svg>
+);
+export const Bag = (p: P) => (
+  <svg viewBox="0 0 48 48" {...base} strokeWidth={1.4} {...p}>
+    <path d="M9 16h30l-2.5 24a2 2 0 0 1-2 2h-21a2 2 0 0 1-2-2Z" />
+    <path d="M17 20v-6a7 7 0 0 1 14 0v6" />
+  </svg>
+);
+export const Sofa = (p: P) => (
+  <svg viewBox="0 0 48 48" {...base} strokeWidth={1.4} {...p}>
+    <path d="M10 22v-6a4 4 0 0 1 4-4h20a4 4 0 0 1 4 4v6" />
+    <path d="M6 26a4 4 0 0 1 8 0v4h20v-4a4 4 0 0 1 8 0v8a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2Z" />
+    <path d="M10 36v4M38 36v4" />
+  </svg>
+);
+export const SunBig = (p: P) => (
+  <svg viewBox="0 0 48 48" {...base} strokeWidth={1.4} {...p}>
+    <circle cx="24" cy="24" r="8" />
+    <path d="M24 6v5M24 37v5M6 24h5M37 24h5M11.3 11.3l3.5 3.5M33.2 33.2l3.5 3.5M11.3 36.7l3.5-3.5M33.2 14.8l3.5-3.5" />
+  </svg>
+);
+export const PhoneBig = (p: P) => (
+  <svg viewBox="0 0 48 48" {...base} strokeWidth={1.4} {...p}>
+    <path d="M10 8h8l4 10-5 3a22 22 0 0 0 10 10l3-5 10 4v8a4 4 0 0 1-4 4A32 32 0 0 1 6 12a4 4 0 0 1 4-4" />
+    <path d="M30 6a12 12 0 0 1 12 12M30 13a5 5 0 0 1 5 5" />
+  </svg>
+);
+export const Swap = (p: P) => (
+  <svg viewBox="0 0 48 48" {...base} strokeWidth={1.4} {...p}>
+    <path d="M8 17h30l-7-7M40 31H10l7 7" />
+  </svg>
+);
+export const ArrowLeft = (p: P) => (
+  <svg viewBox="0 0 24 24" {...base} {...p}>
+    <path d="M19 12H5M11 6l-6 6 6 6" />
+  </svg>
+);
+export const ArrowRight = (p: P) => (
+  <svg viewBox="0 0 24 24" {...base} {...p}>
+    <path d="M5 12h14M13 6l6 6-6 6" />
+  </svg>
+);

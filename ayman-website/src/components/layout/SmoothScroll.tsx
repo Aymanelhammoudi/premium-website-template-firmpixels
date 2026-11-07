@@ -1,6 +1,7 @@
 "use client";
 
 import Lenis from "lenis";
+import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
 declare global {
@@ -11,6 +12,14 @@ declare global {
 
 /** Boterzacht scrollen (Lenis). Wordt uitgeschakeld bij "minder beweging". */
 export function SmoothScroll() {
+  const pathname = usePathname();
+
+  // Nieuwe pagina = bovenaan beginnen (ook als Lenis actief is).
+  useEffect(() => {
+    if (window.location.hash) return;
+    window.__lenis?.scrollTo(0, { immediate: true });
+  }, [pathname]);
+
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const lenis = new Lenis({

@@ -73,6 +73,14 @@ src/components/layout    ← Header, Footer, Cursor, SmoothScroll, ScrollProgres
 src/components/ui        ← Reveal, TiltCard, Magnetic, ScrollText, CountUp, Spotlight, Icons
 ```
 
+## Ervaring: twee sporen, elk een eigen pagina
+
+- Alle ervaring staat in `experience` in `content/site.ts`, verdeeld over `track: "sales"` en `track: "ondernemer"`.
+- Elk onderdeel krijgt automatisch een eigen pagina op `/ervaring/<id>/`, plus een plek in de tijdlijn op `/ervaring/` en in het cv.
+- Logo: zet `logo: "/images/logos/naam.svg"`, of gebruik `wordmark` (tekstlogo) of `icon` (lijnicoon).
+  Heb je de officiële logo's van bol of Amazon? Zet ze in `public/images/logos/` en vervang `wordmark: "bol"` door `logo: "/images/logos/bol.svg"`.
+- `featured: true` = brede tegel op de homepage. Houd per spoor het aantal tegels zo dat het raster netjes sluit.
+
 ## Interactie & effecten
 
 Kopregels die uit een masker omhoog schuiven · lichtvlek die de muis volgt · 3D-kantelend portret en

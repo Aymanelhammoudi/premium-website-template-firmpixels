@@ -83,6 +83,11 @@ export function Footer() {
               </li>
             ))}
             <li>
+              <Link href="/ervaring/" className="text-muted transition-colors hover:text-gold">
+                Alle ervaring
+              </Link>
+            </li>
+            <li>
               <Link href="/cv/" className="text-muted transition-colors hover:text-gold">
                 Online cv
               </Link>
