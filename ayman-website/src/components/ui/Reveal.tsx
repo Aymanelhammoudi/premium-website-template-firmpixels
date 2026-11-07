@@ -13,7 +13,7 @@ type Props = {
 };
 
 /** Laat een blok zacht invliegen zodra het in beeld komt. */
-export function Reveal({ children, className, delay = 0, y = 32, as = "div" }: Props) {
+export function Reveal({ children, className, delay = 0, y = 12, as = "div" }: Props) {
   const reduce = useReducedMotion();
   const Comp = motion[as];
   return (
@@ -22,7 +22,7 @@ export function Reveal({ children, className, delay = 0, y = 32, as = "div" }: P
       initial={reduce ? false : { opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-      transition={{ duration: 1, ease: EASE, delay }}
+      transition={{ duration: 0.6, ease: EASE, delay }}
     >
       {children}
     </Comp>
@@ -43,7 +43,7 @@ export function RevealLines({
   className,
   lineClassName,
   delay = 0,
-  stagger = 0.09,
+  stagger = 0.06,
 }: LinesProps) {
   const reduce = useReducedMotion();
   return (
@@ -59,8 +59,8 @@ export function RevealLines({
           <motion.span
             className={`block will-change-transform ${lineClassName ?? ""}`}
             variants={{
-              hidden: { y: "110%", rotate: 2 },
-              show: { y: "0%", rotate: 0, transition: { duration: 1.1, ease: EASE } },
+              hidden: { y: "105%" },
+              show: { y: "0%", transition: { duration: 0.7, ease: EASE } },
             }}
           >
             {line}

@@ -1,118 +1,132 @@
-// Rendert de echte site (NL + EN) en legt alle weergaven en interactieve toestanden vast als HTML.
+// Rendert de echte multi-pagina site (NL + EN) en legt elke pagina en de interactieve toestanden vast als HTML.
 const { chromium } = require('playwright');
 const fs = require('fs');
 const BASE = 'http://localhost:4321';
 const OUT = process.argv[2];
 const EXP = JSON.parse(process.argv[3]); // [{id, track}]
 
-const LANGS = {
-  nl: { home: '/', overview: '/ervaring/', exp: (id) => `/ervaring/${id}/`, cv: '/cv/', prefix: '' },
-  en: { home: '/en/', overview: '/en/experience/', exp: (id) => `/en/experience/${id}/`, cv: '/en/cv/', prefix: 'en-' },
+const PAGES = {
+  home: { nl: '/', en: '/en/' },
+  about: { nl: '/over-mij/', en: '/en/about/' },
+  experience: { nl: '/ervaring/', en: '/en/experience/' },
+  ventures: { nl: '/ondernemerschap/', en: '/en/entrepreneurship/' },
+  skills: { nl: '/vaardigheden/', en: '/en/skills/' },
+  websites: { nl: '/websites/', en: '/en/websites/' },
+  cv: { nl: '/cv/', en: '/en/cv/' },
+  contact: { nl: '/contact/', en: '/en/contact/' },
 };
+const detail = (l, id) => (l === 'en' ? `/en/experience/${id}/` : `/ervaring/${id}/`);
+/** "/" → home, "/en/" → en, "/ervaring/bol/" → ervaring-bol, "/en/about/" → en-about */
+const viewOf = (path) => path.replace(/^\/|\/$/g, '').replace(/\//g, '-') || 'home';
 
-// In de pagina: framer-motion inline stijlen opruimen en markeren wat later animeert.
+// In de pagina: framer-motion inline stijlen opruimen en markeren wat later in beeld schuift.
 const CLEAN = () => {
   document.querySelectorAll('[style]').forEach((el) => {
     const st = el.style;
     const hadMotion = st.opacity !== '' || st.transform !== '' || st.filter !== '';
-    if (hadMotion && !el.closest('header') && !el.closest('[data-velocity]')) el.setAttribute('data-rv', '');
+    if (hadMotion && !el.closest('header') && !el.closest('[role=tabpanel]')) el.setAttribute('data-rv', '');
     ['opacity', 'transform', 'filter', 'will-change', 'translate', 'rotate', 'scale', 'clip-path', 'transform-style', 'transform-perspective'].forEach((p) => st.removeProperty(p));
     if (el.getAttribute('style') === '') el.removeAttribute('style');
   });
-};
-const MARK = () => {
-  document.querySelectorAll('p').forEach((el) => {
-    if (el.querySelector(':scope > span[aria-hidden] > span.inline-block')) el.setAttribute('data-scrolltext', '');
-  });
-  const vb = [...document.querySelectorAll('div[aria-hidden]')].find((d) => d.className.includes('overflow-hidden border-y') && d.querySelector('.font-display.flex.w-max'));
-  if (vb) vb.setAttribute('data-velocity', '');
 };
 
 async function settle(p) {
   const H = await p.evaluate(() => document.documentElement.scrollHeight);
   for (let y = 0; y < H; y += 500) {
     await p.evaluate((y) => window.scrollTo(0, y), y);
-    await p.waitForTimeout(90);
+    await p.waitForTimeout(70);
   }
   await p.evaluate(() => window.scrollTo(0, 0));
-  await p.waitForTimeout(1600);
+  await p.waitForTimeout(1200);
 }
 
 (async () => {
   const b = await chromium.launch();
   const p = await b.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: 'no-preference' });
-  const data = { views: {}, states: {}, panels: {}, chrome: {} };
+  const data = { views: {}, pairs: {}, states: {}, panels: {}, chrome: {}, order: [] };
   const grab = (sel) => p.evaluate((sel) => document.querySelector(sel).innerHTML, sel);
-  const cleanNow = () => p.evaluate(CLEAN);
+  const main = () => p.evaluate(() => document.querySelector('main').innerHTML);
+  const open = async (path) => {
+    await p.goto(BASE + path, { waitUntil: 'networkidle' });
+    await settle(p);
+  };
 
-  for (const [lang, L] of Object.entries(LANGS)) {
-    // ---------- Home ----------
-    await p.goto(BASE + L.home, { waitUntil: 'networkidle' });
-    await settle(p);
-    await p.evaluate(MARK);
-    data.states[lang] = {};
-    for (const [key, wrap, btnSel] of [
-      ['skills', '#vaardigheden .container-x', '#vaardigheden [role=tab]'],
-      ['growth', '#ambitie .container-x', '#ambitie [role=group] button'],
-      ['projects', '#werk .container-x', '#werk [role=group] button'],
-    ]) {
-      const n = await p.locator(btnSel).count();
-      data.states[lang][key] = [];
-      for (let i = 0; i < n; i++) {
-        await p.locator(btnSel).nth(i).click();
-        await p.waitForTimeout(1300);
-        await cleanNow();
-        data.states[lang][key].push(await grab(wrap));
-      }
-      await p.locator(btnSel).nth(0).click();
-      await p.waitForTimeout(900);
-    }
-    await cleanNow();
-    data.chrome[lang] = {
-      header: await p.evaluate(() => document.querySelector('header').outerHTML),
-      footer: await p.evaluate(() => document.querySelector('footer').outerHTML),
-    };
-    if (lang === 'nl') {
-      data.progress = await p.evaluate(() => {
-        const el = [...document.querySelectorAll('div[aria-hidden]')].find((d) => d.className.includes('h-[2px]'));
-        return el ? el.outerHTML : '';
-      });
-    }
-    data.views[lang === 'nl' ? 'home' : 'en'] = await p.evaluate(() => document.querySelector('main').innerHTML);
+  // Paren NL ↔ EN
+  for (const k of Object.keys(PAGES)) {
+    const [a, c] = [viewOf(PAGES[k].nl), viewOf(PAGES[k].en)];
+    data.pairs[a] = c; data.pairs[c] = a;
+  }
+  for (const e of EXP) {
+    const [a, c] = [viewOf(detail('nl', e.id)), viewOf(detail('en', e.id))];
+    data.pairs[a] = c; data.pairs[c] = a;
+  }
 
-    // ---------- Overzicht ----------
-    await p.goto(BASE + L.overview, { waitUntil: 'networkidle' });
-    await settle(p);
-    data.panels[lang] = {};
-    for (const e of EXP) {
-      const btn = p.locator(`button[aria-controls="exp-${e.id}"]`);
-      if ((await btn.getAttribute('aria-expanded')) !== 'true') {
-        await btn.click();
-        await p.waitForTimeout(900);
+  for (const lang of ['nl', 'en']) {
+    // ---------- Gewone pagina's ----------
+    for (const [key, paths] of Object.entries(PAGES)) {
+      const path = paths[lang];
+      const view = viewOf(path);
+      await open(path);
+
+      if (key === 'home') {
+        await p.evaluate(CLEAN);
+        data.chrome[lang] = {
+          header: await p.evaluate(() => document.querySelector('header').outerHTML),
+          footer: await p.evaluate(() => document.querySelector('footer').outerHTML),
+        };
+        if (lang === 'nl') {
+          data.progress = await p.evaluate(() => {
+            const el = [...document.querySelectorAll('div[aria-hidden]')].find((d) => d.className.includes('h-[2px]'));
+            return el ? el.outerHTML : '';
+          });
+        }
       }
-      await cleanNow();
-      data.panels[lang][e.id] = await p.evaluate((id) => document.getElementById('exp-' + id).outerHTML, e.id);
+
+      // Toestanden van tabs en schakelaars
+      const STATE = { skills: ['#vaardigheden', '[role=tab]'], about: ['#ambitie', '[role=group] button'], websites: ['#werk', '[role=group] button'] };
+      if (STATE[key]) {
+        const [id, btn] = STATE[key];
+        const sel = `${id} ${btn}`;
+        const n = await p.locator(sel).count();
+        data.states[view] = { id: id.slice(1), btn, html: [] };
+        for (let i = 0; i < n; i++) {
+          await p.locator(sel).nth(i).click();
+          await p.waitForTimeout(900);
+          await p.evaluate(CLEAN);
+          data.states[view].html.push(await grab(`${id} .container-x`));
+        }
+        await p.locator(sel).nth(0).click();
+        await p.waitForTimeout(700);
+      }
+
+      // Panelen van de tijdlijn
+      if (key === 'experience' || key === 'ventures') {
+        data.panels[view] = {};
+        for (const e of EXP.filter((x) => (key === 'experience' ? x.track === 'sales' : x.track === 'ondernemer'))) {
+          const b2 = p.locator(`button[aria-controls="exp-${e.id}"]`);
+          if ((await b2.getAttribute('aria-expanded')) !== 'true') {
+            await b2.click();
+            await p.waitForTimeout(700);
+          }
+          await p.evaluate(CLEAN);
+          data.panels[view][e.id] = await p.evaluate((id) => document.getElementById('exp-' + id).outerHTML, e.id);
+        }
+        await open(path); // terug naar de begintoestand (eerste onderdeel open)
+      }
+
+      await p.evaluate(CLEAN);
+      data.views[view] = { lang, html: await main() };
+      data.order.push(view);
     }
-    await p.goto(BASE + L.overview, { waitUntil: 'networkidle' });
-    await settle(p);
-    await p.locator(`button[aria-controls="exp-${EXP[0].id}"]`).click();
-    await p.waitForTimeout(900);
-    await cleanNow();
-    data.views[L.prefix + 'alle-ervaring'] = await p.evaluate(() => document.querySelector('main').innerHTML);
 
     // ---------- Detailpagina's ----------
     for (const e of EXP) {
-      await p.goto(BASE + L.exp(e.id), { waitUntil: 'networkidle' });
-      await settle(p);
-      await cleanNow();
-      data.views[L.prefix + 'ervaring-' + e.id] = await p.evaluate(() => document.querySelector('main').innerHTML);
+      const path = detail(lang, e.id);
+      await open(path);
+      await p.evaluate(CLEAN);
+      data.views[viewOf(path)] = { lang, html: await main() };
+      data.order.push(viewOf(path));
     }
-
-    // ---------- Online cv ----------
-    await p.goto(BASE + L.cv, { waitUntil: 'networkidle' });
-    await settle(p);
-    await cleanNow();
-    data.views[L.prefix + 'online-cv'] = await p.evaluate(() => document.querySelector('main').innerHTML);
   }
 
   fs.writeFileSync(OUT, JSON.stringify(data));

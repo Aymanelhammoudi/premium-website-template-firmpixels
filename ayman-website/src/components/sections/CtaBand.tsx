@@ -10,7 +10,7 @@ export function CtaBand({ locale }: { locale: Locale }) {
     <section aria-labelledby="cta-title" className="relative overflow-hidden border-t border-line bg-bg-2 py-24 md:py-28">
       <div aria-hidden className="grid-lines absolute inset-0 opacity-60" />
       <div className="container-x relative flex flex-col items-start justify-between gap-10 md:flex-row md:items-end">
-        <h2 id="cta-title" className="font-display text-[clamp(2.4rem,5.5vw,4.6rem)] leading-[0.98] font-light">
+        <h2 id="cta-title" className="heading text-[clamp(2.4rem,5.5vw,4.6rem)]">
           <RevealLines lines={[ui.cta.title, <em key="a">{ui.cta.accent}</em>]} />
         </h2>
         <Reveal className="flex flex-wrap gap-3" delay={0.15}>

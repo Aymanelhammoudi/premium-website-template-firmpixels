@@ -170,3 +170,14 @@ export const ArrowRight = (p: P) => (
     <path d="M5 12h14M13 6l6 6-6 6" />
   </svg>
 );
+export const Search = (p: P) => (
+  <svg viewBox="0 0 24 24" {...base} {...p}>
+    <circle cx="11" cy="11" r="7" />
+    <path d="m20 20-3.5-3.5" />
+  </svg>
+);
+export const CornerDownLeft = (p: P) => (
+  <svg viewBox="0 0 24 24" {...base} {...p}>
+    <path d="M20 4v7a4 4 0 0 1-4 4H4M9 10l-5 5 5 5" />
+  </svg>
+);

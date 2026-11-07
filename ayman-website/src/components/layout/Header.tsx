@@ -2,177 +2,160 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { base, localeFromPath, locales, switchPath } from "@content/routes";
+import { PAGES, base, localeFromPath, locales, pageFromPath, switchPath } from "@content/routes";
 import type { Chrome } from "@content";
 import { ThemeToggle } from "./ThemeToggle";
-import { ArrowUpRight } from "../ui/Icons";
-import { Magnetic } from "../ui/Magnetic";
+import { ArrowUpRight, Search } from "../ui/Icons";
 import { EASE } from "../ui/motion";
+
+/** Opent het ⌘K-menu (zie CommandMenu). */
+export const openCommandMenu = () => window.dispatchEvent(new Event("open-cmdk"));
 
 export function Header({ chrome }: { chrome: Chrome }) {
   const pathname = usePathname();
   const locale = localeFromPath(pathname);
-  const { nav, person, ui } = chrome[locale];
-  const home = base(locale);
-  const onHome = pathname === home || pathname === home.slice(0, -1);
-  const prefix = onHome ? "" : home;
-  const [active, setActive] = useState<string>("");
-  const routeActive = /^\/(en\/experience|ervaring)/.test(pathname) ? "ervaring" : /^\/(en\/)?cv/.test(pathname) ? "cv" : "";
-  const current = onHome ? active : routeActive;
-  const [hidden, setHidden] = useState(false);
+  const { nav, person, ui, ventureIds } = chrome[locale];
+  const active = pageFromPath(pathname, ventureIds);
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const { scrollY } = useScroll();
+  const isMac = typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.platform);
 
-  // Verberg bij naar beneden scrollen, toon bij omhoog scrollen.
-  useMotionValueEvent(scrollY, "change", (y) => {
-    const prev = scrollY.getPrevious() ?? 0;
-    setScrolled(y > 24);
-    setHidden(y > 400 && y > prev && !open);
-  });
-
-  // Actieve sectie bijhouden.
   useEffect(() => {
-    if (!onHome) return;
-    const els = nav.map((n) => document.getElementById(n.id)).filter(Boolean) as HTMLElement[];
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => e.isIntersecting && setActive(e.target.id));
-      },
-      { rootMargin: "-45% 0px -50% 0px" },
-    );
-    els.forEach((el) => io.observe(el));
-    return () => io.disconnect();
-  }, [onHome, nav]);
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
-  // Menu: Escape sluit, scroll blokkeren.
+  // Menu sluiten bij paginawissel; Escape sluit; scroll blokkeren.
+  const [prevPath, setPrevPath] = useState(pathname);
+  if (prevPath !== pathname) {
+    setPrevPath(pathname);
+    setOpen(false);
+  }
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
     window.addEventListener("keydown", onKey);
-    window.__lenis?.stop();
-    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
     return () => {
       window.removeEventListener("keydown", onKey);
-      window.__lenis?.start();
-      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
     };
   }, [open]);
 
   return (
     <>
-      <motion.header
+      <header
         lang={locale}
-        className="fixed inset-x-0 top-0 z-50 no-print"
-        animate={{ y: hidden ? "-110%" : "0%" }}
-        transition={{ duration: 0.5, ease: EASE }}
+        className={`sticky top-0 z-50 border-b transition-[background-color,border-color] duration-300 no-print ${
+          scrolled || open ? "border-line bg-bg/80 backdrop-blur-xl" : "border-transparent bg-bg/0"
+        }`}
+        style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
       >
-        <div
-          className={`transition-[background-color,border-color,backdrop-filter] duration-500 ${
-            scrolled || open ? "border-b border-line bg-bg/75 backdrop-blur-xl" : "border-b border-transparent"
-          }`}
-        >
-          <div className="container-x flex h-20 items-center justify-between gap-6">
-            <Link
-              href={home}
-              className="group flex items-center gap-3"
-              onClick={() => setOpen(false)}
+        <div className="container-x flex h-[4.5rem] items-center justify-between gap-4">
+          <Link href={base(locale)} className="group flex shrink-0 items-center gap-3">
+            <span
+              aria-hidden
+              className="grid size-9 place-items-center rounded-lg bg-ink text-[0.95rem] leading-none font-semibold tracking-tight text-bg transition-transform duration-300 group-hover:-rotate-6"
             >
-              <span
-                aria-hidden
-                className="font-display text-[2rem] leading-none italic transition-transform duration-500 group-hover:-rotate-6"
-              >
-                {person.initials}
-                <span className="text-gold">.</span>
-              </span>
-              <span className="sr-only font-mono text-[0.68rem] leading-tight tracking-[0.18em] whitespace-nowrap uppercase sm:not-sr-only sm:block">
-                {person.firstName}
-                <br />
-                <span className="text-muted">{person.lastName}</span>
-              </span>
-            </Link>
+              ae
+            </span>
+            <span className="hidden text-sm leading-tight font-semibold tracking-tight whitespace-nowrap sm:block">
+              {person.fullName}
+              <span className="block text-xs font-normal text-muted">{person.region}</span>
+            </span>
+            <span className="sr-only sm:hidden">{person.fullName}</span>
+            <span className="sr-only">, {ui.header.homeAria}</span>
+          </Link>
 
-            <nav aria-label={ui.header.navAria} className="hidden xl:block">
-              <ul className="flex items-center gap-1 rounded-full border border-line bg-surface/40 p-1 backdrop-blur">
-                {nav.map((n) => {
-                  const isActive = current === n.id;
-                  return (
-                    <li key={n.id}>
-                      <a
-                        href={`${prefix}#${n.id}`}
-                        aria-current={isActive ? "true" : undefined}
-                        className={`relative block rounded-full px-4 py-2 text-sm whitespace-nowrap transition-colors ${
-                          isActive ? "text-on-gold" : "text-muted hover:text-ink"
-                        }`}
-                      >
-                        {isActive && (
-                          <motion.span
-                            layoutId="nav-pill"
-                            className="absolute inset-0 -z-10 rounded-full bg-gold"
-                            transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                          />
-                        )}
-                        {n.label}
-                      </a>
-                    </li>
-                  );
-                })}
-              </ul>
-            </nav>
+          <nav aria-label={ui.header.navAria} className="hidden xl:block">
+            <ul className="flex items-center gap-0.5 rounded-full border border-line bg-surface/60 p-1">
+              {nav.map((n) => {
+                const on = active === n.key;
+                return (
+                  <li key={n.key}>
+                    <Link
+                      href={PAGES[n.key][locale]}
+                      aria-current={on ? "page" : undefined}
+                      className={`relative isolate block rounded-full px-3.5 py-1.5 text-sm whitespace-nowrap transition-colors duration-200 ${
+                        on ? "text-bg" : "text-muted hover:text-ink"
+                      }`}
+                    >
+                      {on && (
+                        <motion.span
+                          layoutId="nav-active"
+                          className="absolute inset-0 -z-10 rounded-full bg-ink"
+                          transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                        />
+                      )}
+                      {n.label}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
 
-            <div className="flex items-center gap-3">
-              <div
-                role="group"
-                aria-label={ui.header.langSwitch}
-                className="hidden items-center rounded-full border border-line-strong p-1 font-mono text-[0.68rem] tracking-[0.14em] uppercase sm:flex"
-              >
-                {locales.map((l) => (
-                  <Link
-                    key={l}
-                    href={switchPath(pathname, l)}
-                    hrefLang={l}
-                    lang={l}
-                    aria-current={l === locale ? "true" : undefined}
-                    className={`grid h-8 min-w-9 place-items-center rounded-full px-2 transition-colors duration-300 ${
-                      l === locale ? "bg-ink text-bg" : "text-muted hover:text-ink"
-                    }`}
-                  >
-                    {l}
-                  </Link>
-                ))}
-              </div>
-              <ThemeToggle toDark={ui.header.toDark} toLight={ui.header.toLight} />
-              <Magnetic className="hidden md:inline-block">
-                <a
-                  href={`${prefix}#contact`}
-                  data-cursor="hover"
-                  className="group inline-flex h-11 items-center gap-2 rounded-full bg-ink px-5 text-sm font-medium text-bg transition-colors hover:bg-gold hover:text-on-gold"
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={openCommandMenu}
+              data-cmdk
+              aria-label={ui.nav2.searchLabel}
+              className="group inline-flex h-10 items-center gap-2 rounded-full border border-line-strong px-3 text-sm text-muted transition-colors hover:border-ink hover:text-ink"
+            >
+              <Search className="size-4" />
+              <span className="hidden lg:inline">{ui.nav2.search}</span>
+              <kbd className="hidden rounded border border-line px-1.5 font-mono text-[0.65rem] lg:inline" suppressHydrationWarning>
+                {isMac ? "⌘K" : "Ctrl K"}
+              </kbd>
+            </button>
+            <div
+              role="group"
+              aria-label={ui.header.langSwitch}
+              className="hidden items-center rounded-full border border-line-strong p-0.5 font-mono text-[0.65rem] tracking-[0.12em] uppercase sm:flex"
+            >
+              {locales.map((l) => (
+                <Link
+                  key={l}
+                  href={switchPath(pathname, l)}
+                  hrefLang={l}
+                  lang={l}
+                  aria-current={l === locale ? "true" : undefined}
+                  className={`grid h-8 min-w-9 place-items-center rounded-full px-2 transition-colors duration-200 ${
+                    l === locale ? "bg-ink text-bg" : "text-muted hover:text-ink"
+                  }`}
                 >
-                  {ui.header.cta}
-                  <ArrowUpRight className="size-4 transition-transform duration-500 group-hover:rotate-45" />
-                </a>
-              </Magnetic>
-              <button
-                type="button"
-                className="relative grid size-11 place-items-center rounded-full border border-line-strong xl:hidden"
-                aria-expanded={open}
-                aria-controls="mobile-menu"
-                aria-label={open ? ui.header.menuClose : ui.header.menuOpen}
-                onClick={() => setOpen((o) => !o)}
-              >
-                <span
-                  className={`absolute h-px w-5 bg-ink transition-transform duration-500 ${open ? "rotate-45" : "-translate-y-[4px]"}`}
-                />
-                <span
-                  className={`absolute h-px w-5 bg-ink transition-transform duration-500 ${open ? "-rotate-45" : "translate-y-[4px]"}`}
-                />
-              </button>
+                  {l}
+                </Link>
+              ))}
             </div>
+            <ThemeToggle toDark={ui.header.toDark} toLight={ui.header.toLight} className="size-10" />
+            <Link
+              href={PAGES.contact[locale]}
+              aria-current={active === "contact" ? "page" : undefined}
+              className="group hidden h-10 items-center gap-1.5 rounded-full bg-ink px-4 text-sm font-medium text-bg transition-[background-color,transform] duration-200 hover:bg-gold hover:text-on-gold active:scale-[0.98] md:inline-flex"
+            >
+              {ui.nav2.contact}
+              <ArrowUpRight className="size-4 transition-transform duration-300 group-hover:rotate-45" />
+            </Link>
+            <button
+              type="button"
+              className="relative grid size-10 place-items-center rounded-full border border-line-strong xl:hidden"
+              aria-expanded={open}
+              aria-controls="mobile-menu"
+              data-menu-btn
+              aria-label={open ? ui.header.menuClose : ui.header.menuOpen}
+              onClick={() => setOpen((o) => !o)}
+            >
+              <span className={`absolute h-px w-4.5 bg-ink transition-transform duration-300 ${open ? "rotate-45" : "-translate-y-[3px]"}`} />
+              <span className={`absolute h-px w-4.5 bg-ink transition-transform duration-300 ${open ? "-rotate-45" : "translate-y-[3px]"}`} />
+            </button>
           </div>
         </div>
-      </motion.header>
+      </header>
 
       <AnimatePresence>
         {open && (
@@ -181,50 +164,47 @@ export function Header({ chrome }: { chrome: Chrome }) {
             role="dialog"
             aria-modal="true"
             aria-label={ui.header.menu}
-            className="fixed inset-0 z-40 flex flex-col bg-bg pt-24 xl:hidden"
-            initial={{ clipPath: "circle(0% at calc(100% - 3rem) 2.5rem)" }}
-            animate={{ clipPath: "circle(150% at calc(100% - 3rem) 2.5rem)" }}
-            exit={{ clipPath: "circle(0% at calc(100% - 3rem) 2.5rem)" }}
-            transition={{ duration: 0.7, ease: EASE }}
+            lang={locale}
+            className="fixed inset-0 z-40 flex flex-col overflow-y-auto bg-bg pt-[calc(4.5rem+env(safe-area-inset-top,0px))] xl:hidden"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.25, ease: EASE }}
           >
-            <nav aria-label={ui.header.mobileNavAria} className="container-x flex-1">
+            <nav aria-label={ui.header.mobileNavAria} className="container-x flex-1 py-6">
               <ul className="flex flex-col">
-                {nav.map((n, i) => (
-                  <li key={n.id} className="overflow-hidden border-b border-line">
-                    <motion.a
-                      href={`${prefix}#${n.id}`}
-                      onClick={() => setOpen(false)}
-                      className="flex items-baseline justify-between py-4 font-display text-[clamp(2.4rem,11vw,4rem)] leading-none"
-                      initial={{ y: "100%" }}
-                      animate={{ y: "0%" }}
-                      transition={{ delay: 0.15 + i * 0.06, duration: 0.8, ease: EASE }}
+                {[...nav, { key: "contact" as const, label: ui.nav2.contact }].map((n, i) => (
+                  <motion.li
+                    key={n.key}
+                    className="border-b border-line"
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.04 + i * 0.04, duration: 0.4, ease: EASE }}
+                  >
+                    <Link
+                      href={PAGES[n.key][locale]}
+                      aria-current={active === n.key ? "page" : undefined}
+                      className={`flex items-center justify-between py-4 text-2xl font-semibold tracking-tight ${active === n.key ? "text-ink" : "text-muted"}`}
                     >
                       {n.label}
-                      <span className="font-mono text-xs text-gold">0{i + 1}</span>
-                    </motion.a>
-                  </li>
+                      <ArrowUpRight className="size-5 text-gold" />
+                    </Link>
+                  </motion.li>
                 ))}
               </ul>
             </nav>
-            <motion.div
-              className="container-x flex flex-col gap-1 py-8 text-sm text-muted"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.6 }}
-            >
-              <a href={`mailto:${person.email}`} className="text-ink">
-                {person.email}
-              </a>
-              <a href={`tel:${person.phoneHref}`}>{person.phoneDisplay}</a>
-              <span>{person.region}</span>
-              <span className="mt-4 flex gap-2">
+            <div className="container-x flex flex-wrap items-center justify-between gap-4 border-t border-line py-6 text-sm text-muted">
+              <span>
+                <span className="block text-ink">{person.email}</span>
+                {person.phoneDisplay}
+              </span>
+              <span className="flex gap-2">
                 {locales.map((l) => (
                   <Link
                     key={l}
                     href={switchPath(pathname, l)}
                     hrefLang={l}
-                    onClick={() => setOpen(false)}
-                    className={`grid h-11 place-items-center rounded-full border px-4 font-mono text-xs tracking-[0.14em] uppercase ${
+                    className={`grid h-11 place-items-center rounded-full border px-4 font-mono text-xs tracking-[0.12em] uppercase ${
                       l === locale ? "border-ink bg-ink text-bg" : "border-line-strong text-ink"
                     }`}
                   >
@@ -232,7 +212,7 @@ export function Header({ chrome }: { chrome: Chrome }) {
                   </Link>
                 ))}
               </span>
-            </motion.div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

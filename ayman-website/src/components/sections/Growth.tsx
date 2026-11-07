@@ -21,7 +21,7 @@ export function Growth({ growth, ui }: { growth: Site["growth"]; ui: Pick<Site["
     <section id="ambitie" aria-labelledby="ambitie-title" className="py-24 md:py-32">
       <div className="container-x">
         <SectionHeading
-          index="07"
+         
           label={ui.growth.label}
           id="ambitie-title"
           title={growth.title}
@@ -36,13 +36,13 @@ export function Growth({ growth, ui }: { growth: Site["growth"]; ui: Pick<Site["
                   aria-pressed={view === v.id}
                   onClick={() => setView(v.id)}
                   className={`relative z-10 rounded-full px-5 py-2.5 text-sm transition-colors duration-300 ${
-                    view === v.id ? "text-on-gold" : "text-muted hover:text-ink"
+                    view === v.id ? "text-bg" : "text-muted hover:text-ink"
                   }`}
                 >
                   {view === v.id && (
                     <motion.span
                       layoutId="growth-toggle"
-                      className="absolute inset-0 -z-10 rounded-full bg-gold"
+                      className="absolute inset-0 -z-10 rounded-full bg-ink"
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -72,9 +72,9 @@ export function Growth({ growth, ui }: { growth: Site["growth"]; ui: Pick<Site["
                   }}
                   style={{ transformPerspective: 800 }}
                 >
-                  <Spotlight className="h-full rounded-3xl border border-line bg-surface/60 p-8">
-                    <span className="font-display text-5xl font-light text-gold">0{i + 1}</span>
-                    <h3 className="font-display mt-8 text-2xl">{item.title}</h3>
+                  <Spotlight className="h-full rounded-2xl border border-line bg-surface p-8">
+                    <span className="font-mono text-sm text-muted">0{i + 1}</span>
+                    <h3 className="font-semibold tracking-tight mt-8 text-2xl">{item.title}</h3>
                     <p className="mt-3 text-muted">{item.text}</p>
                   </Spotlight>
                 </motion.li>
@@ -93,7 +93,7 @@ export function Growth({ growth, ui }: { growth: Site["growth"]; ui: Pick<Site["
             <p className="text-muted">{growth.seeking}</p>
             <ul className="mt-6 flex flex-wrap gap-2">
               {growth.seekingTags.map((t) => (
-                <li key={t} className="rounded-full border border-gold/50 px-4 py-1.5 text-sm text-gold">
+                <li key={t} className="rounded-full border border-line-strong px-4 py-1.5 text-sm">
                   {t}
                 </li>
               ))}

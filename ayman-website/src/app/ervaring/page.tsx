@@ -1,7 +1,7 @@
-import { OverviewView, overviewMetadata } from "@/views/OverviewView";
+import { TrackView, trackMetadata } from "@/views/TrackView";
 
-export const metadata = overviewMetadata("nl");
+export const metadata = trackMetadata("nl", "sales");
 
-export default function ErvaringPage() {
-  return <OverviewView locale="nl" />;
+export default function Page() {
+  return <TrackView locale="nl" track="sales" />;
 }

@@ -5,6 +5,7 @@
  * ─────────────────────────────────────────────────────────────────────────────
  */
 import type { Experience, Project, SkillGroup, Track } from "./site";
+import type { PageKey } from "./routes";
 
 export const person = {
   firstName: "Ayman",
@@ -33,13 +34,13 @@ export const seo = {
 };
 
 export const nav = [
-  { id: "ervaring", label: "Experience" },
-  { id: "over", label: "About" },
-  { id: "vaardigheden", label: "Skills" },
-  { id: "werk", label: "Websites" },
-  { id: "cv", label: "CV" },
-  { id: "contact", label: "Contact" },
-];
+  { key: "experience", label: "Experience" },
+  { key: "ventures", label: "Entrepreneurship" },
+  { key: "about", label: "About" },
+  { key: "skills", label: "Skills" },
+  { key: "websites", label: "Websites" },
+  { key: "cv", label: "CV" },
+] as { key: PageKey; label: string }[];
 
 export const hero = {
   status: "Open to conversations about a new role",
@@ -48,7 +49,7 @@ export const hero = {
     "A commercially minded professional from North Holland with experience in customer advice, retail, door-to-door sales, high-ticket sales and e-commerce.",
   footnote: "Practical, curious and customer-focused.",
   primaryCta: { label: "Download my CV", href: "/cv/CV_Ayman_El_Hammoudi_EN.pdf" },
-  secondaryCta: { label: "View my experience", href: "#ervaring" },
+  secondaryCta: { label: "View my experience", href: "/en/experience/" },
 };
 
 export const employers = [
@@ -115,21 +116,21 @@ export const expertise = {
       icon: "chat" as const,
       title: "Advice and sales",
       text: "I listen carefully, compare options and explain solutions clearly. My experience covers telecommunications, retail and direct sales.",
-      link: { label: "View my career", href: "#ervaring" },
+      link: { label: "View my career", href: "/en/experience/" },
     },
     {
       label: "Collaboration",
       icon: "handshake" as const,
       title: "Communication and reliability",
       text: "I communicate clearly, respond professionally to questions or concerns and honour commitments to customers and colleagues.",
-      link: { label: "Explore my strengths", href: "#vaardigheden" },
+      link: { label: "Explore my strengths", href: "/en/skills/" },
     },
     {
       label: "Entrepreneurship",
       icon: "browser" as const,
       title: "E-commerce and ownership",
       text: "I have experience with online stores, marketplaces, commercial partnerships and building and selling a business.",
-      link: { label: "View my ventures", href: "#ondernemer" },
+      link: { label: "View my ventures", href: "/en/entrepreneurship/" },
     },
   ],
 };
@@ -151,6 +152,64 @@ export const tracks: Record<Track, { label: string; title: string; titleAccent: 
   },
 };
 
+export const pages = {
+  about: {
+    eyebrow: "About",
+    title: "Personal in conversation.",
+    accent: "Entrepreneurial by nature.",
+    intro: "A commercial background, a curious outlook and a genuine interest in helping people.",
+  },
+  experience: {
+    eyebrow: "Experience",
+    title: "A career built on contact.",
+    accent: "A broad perspective on sales.",
+    intro: "From the shop floor and the doorstep to closing by phone: roles in which I speak with customers every day and take responsibility for results.",
+  },
+  ventures: {
+    eyebrow: "Entrepreneurship",
+    title: "Built through action.",
+    accent: "Learned through selling.",
+    intro: "An overview of my experience with marketplaces, online stores, commercial partnerships and sales.",
+  },
+  skills: {
+    eyebrow: "Skills",
+    title: "Commercial thinking.",
+    accent: "A personal approach.",
+    intro: "My skills connect customer advice, communication and digital execution, grounded in practice rather than arbitrary scores.",
+  },
+  websites: {
+    eyebrow: "Websites",
+    title: "Alongside my job:",
+    accent: "websites for business owners.",
+    intro: "As an independent web designer, I build websites for local business owners. This requires initiative, careful listening, structure and ownership through to delivery.",
+  },
+  cv: {
+    eyebrow: "Curriculum vitae",
+    title: "My experience.",
+    accent: "Clearly presented.",
+    intro: "Read my CV on this page, open the full PDF or download a copy for later.",
+  },
+  contact: {
+    eyebrow: "Contact",
+    title: "Discuss an opportunity?",
+    accent: "Contact me directly.",
+    intro: "I am available to discuss sales or retail roles, commercial partnerships and website projects.",
+  },
+};
+
+export const home = {
+  highlightsTitle: "Three things",
+  highlightsAccent: "worth remembering.",
+  highlights: [
+    { id: "vodafoneziggo", label: "Now", text: "Sales Adviser at VodafoneZiggo since July 2025." },
+    { id: "bol", label: "Since 2021", text: "Seller on bol, alongside my job." },
+    { id: "groene-energie", label: "2018 — 2020", text: "Built my own renewable-energy business and sold it at a profit." },
+  ],
+  tracksTitle: "Two tracks.",
+  tracksAccent: "One common thread.",
+  tracksIntro: "I combine employment with entrepreneurship. Choose a track for all the details.",
+};
+
 export const experienceIntro = {
   title: "Two tracks.",
   titleAccent: "One common thread.",
@@ -159,6 +218,19 @@ export const experienceIntro = {
   thread:
     "Whether on the shop floor, at a customer's door, on the phone or in my own online store, I begin with the question, make the options clear and work towards a concrete next step.",
   note: "Exact dates and job titles are shown only where they have been confirmed. Company logos are used solely to identify the experience described; I am not affiliated with these brands. Business partners and my own ventures are intentionally anonymous.",
+  trackFilters: {
+    sales: [
+      { id: "alles", label: "All" },
+      { id: "sales", label: "Sales" },
+      { id: "retail", label: "Retail & operations" },
+    ],
+    ondernemer: [
+      { id: "alles", label: "All" },
+      { id: "marketplace", label: "Marketplaces" },
+      { id: "webshops", label: "Online stores & partnerships" },
+      { id: "eigen-bedrijf", label: "Own business" },
+    ],
+  } as Record<Track, { id: string; label: string }[]>,
   filters: [
     { id: "alles", label: "All" },
     { id: "sales", label: "Sales & retail" },
@@ -171,6 +243,7 @@ export const experience: Experience[] = [
   {
     id: "vodafoneziggo",
     track: "sales",
+    group: "sales",
     company: "VodafoneZiggo",
     role: "Sales Adviser",
     period: "July 2025 — present",
@@ -192,6 +265,7 @@ export const experience: Experience[] = [
   {
     id: "high-ticket-closer",
     track: "sales",
+    group: "sales",
     company: "High-ticket closing",
     role: "Sales Closer · e-commerce coaching",
     period: "Previous sales experience",
@@ -212,6 +286,7 @@ export const experience: Experience[] = [
   {
     id: "deur-tot-deurverkoop",
     track: "sales",
+    group: "sales",
     company: "Door-to-door sales",
     role: "Direct sales · telecommunications and energy",
     period: "Previous experience",
@@ -237,6 +312,7 @@ export const experience: Experience[] = [
   {
     id: "the-secret-skill",
     track: "sales",
+    group: "sales",
     company: "The Secret Skill",
     role: "Sales Representative · course sales",
     period: "2020",
@@ -256,6 +332,7 @@ export const experience: Experience[] = [
   {
     id: "oppo",
     track: "sales",
+    group: "sales",
     company: "OPPO",
     role: "Brand Ambassador",
     period: "Previous experience",
@@ -275,6 +352,7 @@ export const experience: Experience[] = [
   {
     id: "picnic",
     track: "sales",
+    group: "retail",
     company: "Picnic",
     role: "Warehouse Order Picker",
     period: "Previous experience",
@@ -294,6 +372,7 @@ export const experience: Experience[] = [
   {
     id: "coop",
     track: "sales",
+    group: "retail",
     company: "Coop",
     role: "Store Assistant",
     period: "Previous experience",
@@ -313,6 +392,7 @@ export const experience: Experience[] = [
   {
     id: "plus",
     track: "sales",
+    group: "retail",
     company: "PLUS",
     role: "Store Assistant",
     period: "Previous experience",
@@ -334,6 +414,7 @@ export const experience: Experience[] = [
   {
     id: "bol",
     track: "ondernemer",
+    group: "marketplace",
     company: "bol",
     role: "Seller · marketplace partner",
     period: "2021 — present",
@@ -355,6 +436,7 @@ export const experience: Experience[] = [
   {
     id: "amazon",
     track: "ondernemer",
+    group: "marketplace",
     company: "Amazon",
     role: "Seller · Seller Central",
     period: "One year",
@@ -375,6 +457,7 @@ export const experience: Experience[] = [
   {
     id: "webshops",
     track: "ondernemer",
+    group: "webshops",
     company: "Independent online stores",
     role: "E-commerce Entrepreneur",
     period: "Multiple ventures",
@@ -395,6 +478,7 @@ export const experience: Experience[] = [
   {
     id: "groene-energie",
     track: "ondernemer",
+    group: "eigen-bedrijf",
     company: "Renewable energy",
     role: "Owner · solar-panel and EV-charger sales",
     period: "2018 — 2020",
@@ -420,6 +504,7 @@ export const experience: Experience[] = [
   {
     id: "webshop-bemiddeling",
     track: "ondernemer",
+    group: "webshops",
     company: "Buying & selling online stores",
     role: "Online-store acquisition broker",
     period: "Previous experience",
@@ -440,6 +525,7 @@ export const experience: Experience[] = [
   {
     id: "meubelverkoop",
     track: "ondernemer",
+    group: "webshops",
     company: "Furniture e-commerce",
     role: "Online Sales Partner for a Dutch furniture company",
     period: "Previous venture",
@@ -458,6 +544,7 @@ export const experience: Experience[] = [
   {
     id: "webdesign",
     track: "ondernemer",
+    group: "eigen-bedrijf",
     company: "Independent business",
     role: "Website development and web design",
     period: "Present",
@@ -621,6 +708,24 @@ export const ui = {
   lang: "en",
   langName: "English",
   skip: "Skip to content",
+  nav2: {
+    search: "Search",
+    searchHint: "Search for a page or experience…",
+    searchLabel: "Quick navigation",
+    empty: "Nothing found. Try another word.",
+    groupPages: "Pages",
+    groupExperience: "Experience & entrepreneurship",
+    home: "Home",
+    contact: "Contact",
+    close: "Close",
+    navigate: "navigate",
+    open: "open",
+  },
+  toc: "On this page",
+  availability: { title: "Availability", text: "Open to conversations about a new role in sales, retail or e-commerce.", region: "Region", email: "Email", phone: "Phone", languages: "Languages" },
+  homeUi: { highlights: "Highlights", tracks: "Experience", viewTrack: { sales: "View my experience", ondernemer: "View my entrepreneurship" }, items: "items" },
+  caseTitle: "Case: renewable energy",
+  footerCols: { pages: "Pages", contact: "Contact", language: "Language" },
   header: {
     navAria: "Main navigation",
     homeAria: "to the homepage",

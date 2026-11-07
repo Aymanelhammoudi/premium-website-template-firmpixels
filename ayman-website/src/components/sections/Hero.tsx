@@ -1,19 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import {
-  AnimatePresence,
-  motion,
-  useMotionTemplate,
-  useMotionValue,
-  useScroll,
-  useSpring,
-  useTransform,
-} from "framer-motion";
-import { useEffect, useRef, useState, type CSSProperties, type PointerEvent } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState, type CSSProperties } from "react";
 import type { Site } from "@content";
 import { Button } from "../ui/Button";
-import { ArrowDown, Download, Star } from "../ui/Icons";
+import { ArrowRight, Download } from "../ui/Icons";
 import { TiltCard } from "../ui/TiltCard";
 import { EASE, useReducedMotion } from "../ui/motion";
 
@@ -26,18 +18,19 @@ function RotatingRole({ roles }: { roles: string[] }) {
     return () => clearInterval(id);
   }, [reduce, roles.length]);
 
-  if (reduce) return <em className="accent">{roles.join(" & ").toLowerCase()}</em>;
+  if (reduce) return <em className="not-italic text-gold">{roles.join(" & ").toLowerCase()}</em>;
 
   return (
     <span className="relative inline-grid overflow-hidden align-bottom">
       {/* Onzichtbare "maatvoerder": reserveert de breedte van de langste titel, zodat er niets verspringt */}
-      <em aria-hidden className="accent invisible col-start-1 row-start-1 whitespace-nowrap">
+      <em aria-hidden className="invisible col-start-1 row-start-1 whitespace-nowrap not-italic">
         {roles.reduce((a, b) => (b.length > a.length ? b : a), "").toLowerCase()}
       </em>
       <AnimatePresence mode="popLayout" initial={false}>
         <motion.em
           key={roles[i]}
-          className="accent col-start-1 row-start-1 whitespace-nowrap"
+          data-role
+          className="col-start-1 row-start-1 whitespace-nowrap not-italic text-gold"
           initial={{ y: "100%", opacity: 0 }}
           animate={{ y: "0%", opacity: 1 }}
           exit={{ y: "-100%", opacity: 0 }}
@@ -51,143 +44,93 @@ function RotatingRole({ roles }: { roles: string[] }) {
   );
 }
 
-export function Hero({ cv, hero, person, ui }: { cv: Site["cv"]; hero: Site["hero"]; person: Site["person"]; ui: Pick<Site["ui"], "hero"> }) {
-  const ref = useRef<HTMLElement>(null);
-  const reduce = useReducedMotion();
-  const mx = useMotionValue(-1000);
-  const my = useMotionValue(-1000);
-  const smx = useSpring(mx, { stiffness: 80, damping: 20 });
-  const smy = useSpring(my, { stiffness: 80, damping: 20 });
-  const spotlight = useMotionTemplate`radial-gradient(640px circle at ${smx}px ${smy}px, var(--glow), transparent 65%)`;
-
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const portraitY = useTransform(scrollYProgress, [0, 1], ["0%", "18%"]);
-  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "-12%"]);
-  const fade = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-
-  const onMove = (e: PointerEvent) => {
-    if (!ref.current) return;
-    const r = ref.current.getBoundingClientRect();
-    mx.set(e.clientX - r.left);
-    my.set(e.clientY - r.top);
-  };
-
+export function Hero({
+  cv,
+  hero,
+  person,
+  ui,
+  secondaryHref,
+}: {
+  cv: Site["cv"];
+  hero: Site["hero"];
+  person: Site["person"];
+  ui: Pick<Site["ui"], "hero">;
+  secondaryHref: string;
+}) {
+  const d = (s: number) => ({ "--d": `${s}s` }) as CSSProperties;
   return (
-    <section
-      ref={ref}
-      id="top"
-      onPointerMove={onMove}
-      aria-labelledby="hero-title"
-      className="relative isolate flex min-h-[100svh] flex-col overflow-hidden pt-28 pb-8 md:pt-32"
-    >
-      {/* Achtergrond: raster, lichtvlek die muis volgt, gouden gloed */}
-      <div aria-hidden className="grid-lines absolute inset-0 -z-10" />
-      {!reduce && <motion.div aria-hidden className="absolute inset-0 -z-10" style={{ background: spotlight }} />}
-      <div
-        aria-hidden
-        className="absolute -top-40 right-[-10%] -z-10 size-[42rem] rounded-full bg-gold/10 blur-[120px]"
-      />
+    <section id="top" aria-labelledby="hero-title" className="relative isolate overflow-hidden border-b border-line">
+      <div aria-hidden className="dot-grid absolute inset-0 -z-10" />
+      <div aria-hidden className="absolute -top-48 right-[-12%] -z-10 size-[40rem] rounded-full bg-gold/8 blur-[120px]" />
 
-      <div className="container-x grid flex-1 items-center gap-12 lg:grid-cols-12 lg:gap-8">
-        <motion.div style={reduce ? undefined : { y: textY, opacity: fade }} className="lg:col-span-7">
+      <div className="container-x grid items-center gap-12 py-14 md:py-20 lg:grid-cols-12 lg:gap-10 lg:py-24">
+        <div className="lg:col-span-7">
           <p
-            className="enter mb-8 inline-flex items-center gap-3 rounded-full border border-line-strong bg-surface/50 py-2 pr-4 pl-3 font-mono text-[0.7rem] tracking-[0.16em] uppercase backdrop-blur"
-            style={{ "--d": "0.1s" } as CSSProperties}
+            className="enter inline-flex items-center gap-2.5 rounded-full border border-line bg-surface/70 py-1.5 pr-3.5 pl-2.5 text-xs text-muted"
+            style={d(0.05)}
           >
-            <span className="pulse-dot size-2 rounded-full bg-emerald-400 text-emerald-400" aria-hidden />
+            <span className="pulse-dot size-2 rounded-full bg-emerald-500 text-emerald-500" aria-hidden />
             {hero.status}
-            <span className="hidden xl:inline">· {person.region}</span>
           </p>
 
-          <p
-            className="enter font-display text-[clamp(1.4rem,2.6vw,2.1rem)] leading-snug font-light"
-            style={{ "--d": "0.2s" } as CSSProperties}
-          >
-            {ui.hero.iAm} <strong className="font-normal">{person.fullName}</strong>, <RotatingRole roles={person.roleShort} />
+          <p className="enter mt-8 text-lg text-muted md:text-xl" style={d(0.12)}>
+            {ui.hero.iAm} <strong className="font-semibold text-ink">{person.fullName}</strong>, <RotatingRole roles={person.roleShort} />
           </p>
 
-          <h1
-            id="hero-title"
-            className="font-display mt-4 text-[clamp(3.6rem,10.5vw,9.5rem)] leading-[0.92] font-light"
-          >
+          <h1 id="hero-title" className="heading mt-4 text-[clamp(3rem,7.6vw,6.25rem)] leading-[0.98]">
             <span className="sr-only">
               {person.fullName}, {person.role}:{" "}
             </span>
             {[hero.tagline[0], hero.tagline[1], <em key="v">{hero.tagline[2]}</em>].map((line, i) => (
               <span key={i} className="line-mask">
-                <span className="line-up" style={{ "--d": `${0.3 + i * 0.12}s` } as CSSProperties}>
+                <span className="line-up" style={d(0.18 + i * 0.08)}>
                   {line}
                 </span>
               </span>
             ))}
           </h1>
 
-          <p className="enter mt-10 max-w-md text-lg text-muted" style={{ "--d": "0.7s" } as CSSProperties}>
+          <p className="enter mt-8 max-w-xl text-lg text-muted" style={d(0.35)}>
             {hero.intro}
           </p>
-          <div className="enter mt-8 flex flex-wrap items-center gap-3" style={{ "--d": "0.85s" } as CSSProperties}>
+          <div className="enter mt-9 flex flex-wrap items-center gap-3" style={d(0.42)}>
             <Button href={hero.primaryCta.href} download={cv.fileName} icon={<Download className="size-4" />}>
               {hero.primaryCta.label}
             </Button>
-            <Button href={hero.secondaryCta.href} variant="ghost" icon={<ArrowDown className="size-4" />}>
+            <Button href={secondaryHref} variant="secondary" icon={<ArrowRight className="size-4" />}>
               {hero.secondaryCta.label}
             </Button>
           </div>
-        </motion.div>
+          <p className="enter mt-8 text-sm text-muted" style={d(0.5)}>
+            {hero.footnote}
+          </p>
+        </div>
 
-        <motion.div
-          style={reduce ? undefined : { y: portraitY }}
-          className="relative mx-auto w-full max-w-[26rem] lg:col-span-5 lg:max-w-none lg:pl-8"
-        >
+        <div className="relative mx-auto w-full max-w-[24rem] lg:col-span-5 lg:max-w-[28rem] lg:justify-self-end">
           <div className="portrait-in">
-            <TiltCard max={7} className="rounded-[2rem]">
-              <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-line-strong bg-surface">
+            <TiltCard className="rounded-3xl">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-line bg-surface shadow-[0_30px_80px_-40px_rgb(7_20_38/0.55)]">
                 <Image
                   src={person.portrait}
                   alt={person.portraitAlt}
                   fill
-                  priority
-                  sizes="(max-width: 1024px) 90vw, 36vw"
+                  preload
+                  sizes="(max-width: 1024px) 90vw, 30vw"
                   className="object-cover object-top"
                 />
-                <div
-                  aria-hidden
-                  className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#071426]/95 via-[#071426]/40 to-transparent"
-                />
-                <div className="absolute inset-x-0 bottom-0 p-6 text-[#f5f1e8]" style={{ transform: "translateZ(40px)" }}>
-                  <p className="font-display text-3xl">{person.fullName}</p>
-                  <p className="mt-1 font-mono text-[0.68rem] tracking-[0.2em] text-[#d5b579] uppercase">
-                    {ui.hero.caption}
-                  </p>
+                <div aria-hidden className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-[#071426]/90 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5 text-[#f5f1e8]">
+                  <div>
+                    <p className="text-lg font-semibold tracking-tight">{person.fullName}</p>
+                    <p className="text-sm text-[#a9b5c3]">{ui.hero.caption}</p>
+                  </div>
+                  <span className="rounded-full border border-white/20 bg-white/10 px-2.5 py-1 text-xs backdrop-blur">{person.region}</span>
                 </div>
               </div>
             </TiltCard>
           </div>
-          <div
-            aria-hidden
-            className="absolute -inset-3 -z-10 rounded-[2.4rem] border border-line-strong lg:left-5"
-          />
-          <Star aria-hidden className="spin-slow absolute -top-8 -left-4 size-16 text-gold lg:left-2 lg:size-20" />
-          <p
-            aria-hidden
-            className="absolute top-8 -right-8 hidden font-mono text-[0.62rem] tracking-[0.3em] text-muted uppercase [writing-mode:vertical-rl] xl:block"
-          >
-            {ui.hero.side}
-          </p>
-        </motion.div>
+        </div>
       </div>
-
-      <div className="container-x mt-12 flex items-center justify-between font-mono text-[0.68rem] tracking-[0.18em] text-muted uppercase">
-        <span className="hidden sm:inline">{hero.footnote}</span>
-        <a href="#over" className="group inline-flex items-center gap-3 hover:text-gold">
-          <span className="relative h-10 w-px overflow-hidden bg-line-strong">
-            <span className="absolute inset-x-0 top-0 h-1/2 animate-[scrollcue_2s_ease-in-out_infinite] bg-gold" />
-          </span>
-          {ui.hero.scroll}
-        </a>
-        <span>{ui.hero.index}</span>
-      </div>
-      <style>{`@keyframes scrollcue{0%{transform:translateY(-100%)}100%{transform:translateY(200%)}}`}</style>
     </section>
   );
 }

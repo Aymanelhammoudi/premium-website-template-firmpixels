@@ -1,8 +1,12 @@
 # Artifact-versie bouwen (claude.ai-link)
 
-Maakt van de Next.js-site (NL + EN) één zelfstandig HTML-bestand dat werkt als Claude Artifact
-(hash-weergaven per ervaring en taal, ingebedde afbeeldingen, Google Fonts, vanilla JS).
-Weergaven: `#home`, `#ervaring-<id>`, `#alle-ervaring`, `#online-cv` en Engels `#en`, `#en-ervaring-<id>`, `#en-alle-ervaring`, `#en-online-cv`.
+Maakt van de multi-pagina Next.js-site (NL + EN) één zelfstandig HTML-bestand dat werkt als Claude Artifact:
+één hash-weergave per pagina en taal, ingebedde afbeeldingen, Google Fonts en een kleine vanilla runtime
+(menu met actieve pil, ⌘K-zoeken, NL/EN-wissel naar dezelfde pagina, tijdlijnfilters en -panelen, tabs,
+inhoudsopgave, contactformulier dat het bericht kopieert).
+
+Weergaven volgen de URL's: `/` → `#home`, `/over-mij/` → `#over-mij`, `/ervaring/bol/` → `#ervaring-bol`,
+`/en/` → `#en`, `/en/about/` → `#en-about`, `/en/experience/bol/` → `#en-experience-bol`, enzovoort.
 
 ```bash
 cd ayman-website && npm run build

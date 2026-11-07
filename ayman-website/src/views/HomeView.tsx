@@ -1,50 +1,30 @@
-import { getSite, type Locale } from "@content";
+import { getSite, routes, type Locale } from "@content";
 import { Hero } from "@/components/sections/Hero";
 import { LogoMarquee } from "@/components/sections/LogoMarquee";
 import { QuickScan } from "@/components/sections/QuickScan";
-import { Tracks } from "@/components/sections/Tracks";
-import { About } from "@/components/sections/About";
-import { VelocityBand } from "@/components/sections/VelocityBand";
-import { Expertise } from "@/components/sections/Expertise";
-import { Skills } from "@/components/sections/Skills";
-import { Growth } from "@/components/sections/Growth";
-import { Projects } from "@/components/sections/Projects";
+import { Highlights } from "@/components/sections/Highlights";
+import { TracksTeaser } from "@/components/sections/TracksTeaser";
 import { Testimonials } from "@/components/sections/Testimonials";
-import { CvSection } from "@/components/sections/CvSection";
-import { Contact } from "@/components/sections/Contact";
+import { CtaBand } from "@/components/sections/CtaBand";
 
-const strip = (s: string) => s.replace(/\.$/, "");
-
+/** Home: in één oogopslag wie ik ben, met doorverwijzingen naar de subpagina’s. */
 export function HomeView({ locale }: { locale: Locale }) {
   const site = getSite(locale);
-  const { about, hero, testimonials, ui } = site;
-  const band = [...about.principles.map((p) => strip(p.title)), ...hero.tagline.map(strip)];
   return (
     <>
-      <Hero cv={site.cv} hero={hero} person={site.person} ui={{ hero: ui.hero }} />
+      <Hero
+        cv={site.cv}
+        hero={site.hero}
+        person={site.person}
+        ui={{ hero: site.ui.hero }}
+        secondaryHref={routes.page(locale, "experience")}
+      />
       <LogoMarquee locale={locale} />
       <QuickScan locale={locale} />
-      <Tracks locale={locale} />
-      <About locale={locale} />
-      <VelocityBand words={band} />
-      <Expertise locale={locale} />
-      <Skills
-        certificates={site.certificates}
-        education={site.education}
-        person={site.person}
-        skillGroups={site.skillGroups}
-        skillsIntro={site.skillsIntro}
-        ui={{ skills: ui.skills }}
-      />
-      <Growth growth={site.growth} ui={{ growth: ui.growth }} />
-      <Projects
-        projects={site.projects.filter((p) => p.published)}
-        projectsIntro={site.projectsIntro}
-        ui={{ projects: ui.projects }}
-      />
-      {testimonials.length > 0 && <Testimonials locale={locale} />}
-      <CvSection locale={locale} />
-      <Contact contact={site.contact} person={site.person} ui={{ contact: ui.contact }} />
+      <Highlights locale={locale} />
+      <TracksTeaser locale={locale} />
+      {site.testimonials.length > 0 && <Testimonials locale={locale} />}
+      <CtaBand locale={locale} />
     </>
   );
 }

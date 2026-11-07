@@ -2,140 +2,131 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
-import { base, localeFromPath, routes } from "@content/routes";
+import { useEffect, useState } from "react";
+import { PAGES, base, localeFromPath, locales, switchPath } from "@content/routes";
 import type { Chrome } from "@content";
-import { ArrowUp, Instagram, Linkedin, Mail } from "../ui/Icons";
+import { ArrowUp, Linkedin, Mail, Phone } from "../ui/Icons";
 
 function LocalTime() {
   const [time, setTime] = useState("");
   useEffect(() => {
-    const fmt = new Intl.DateTimeFormat("nl-NL", {
-      hour: "2-digit",
-      minute: "2-digit",
-      timeZone: "Europe/Amsterdam",
-    });
+    const fmt = new Intl.DateTimeFormat("nl-NL", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Amsterdam" });
     const tick = () => setTime(fmt.format(new Date()));
-    tick();
+    const first = setTimeout(tick, 0);
     const id = setInterval(tick, 15_000);
-    return () => clearInterval(id);
+    return () => {
+      clearTimeout(first);
+      clearInterval(id);
+    };
   }, []);
-  return <span suppressHydrationWarning>{time || "--:--"}</span>;
+  return (
+    <time className="tabular-nums" suppressHydrationWarning>
+      {time || "--:--"}
+    </time>
+  );
 }
 
 export function Footer({ chrome }: { chrome: Chrome }) {
   const pathname = usePathname();
   const locale = localeFromPath(pathname);
   const { footer, nav, person, ui } = chrome[locale];
-  const home = base(locale);
-  const prefix = pathname === home ? "" : home;
-  const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end end"] });
-  const y = useTransform(scrollYProgress, [0, 1], ["60%", "0%"]);
   const year = new Date().getFullYear();
+  const link = "text-muted transition-colors duration-200 hover:text-ink";
 
   return (
-    <footer ref={ref} lang={locale} className="relative overflow-hidden border-t border-line bg-bg-2 no-print">
-      <div className="container-x grid gap-12 pt-20 pb-10 md:grid-cols-12">
-        <div className="md:col-span-5">
-          <p className="font-display text-3xl leading-tight">
-            {footer.motto[0]}
-            <br />
-            <em className="accent">{footer.motto[1]}</em>
+    <footer lang={locale} className="border-t border-line bg-bg-2 no-print">
+      <div className="container-x grid gap-12 py-16 md:grid-cols-12">
+        <div className="md:col-span-4">
+          <Link href={base(locale)} className="inline-flex items-center gap-3">
+            <span aria-hidden className="grid size-9 place-items-center rounded-lg bg-ink text-[0.95rem] leading-none font-semibold tracking-tight text-bg">
+              ae
+            </span>
+            <span className="font-semibold tracking-tight">{person.fullName}</span>
+          </Link>
+          <p className="mt-5 max-w-xs text-muted">
+            {footer.motto[0]} {footer.motto[1]}
           </p>
-          <div className="mt-8 flex items-center gap-3">
-            <a
-              href={`mailto:${person.email}`}
-              aria-label={ui.footer.emailAria}
-              className="grid size-11 place-items-center rounded-full border border-line-strong transition-colors hover:border-gold hover:text-gold"
-            >
-              <Mail className="size-5" />
-            </a>
-            {person.linkedin && (
-              <a
-                href={person.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn (nieuw tabblad)"
-                className="grid size-11 place-items-center rounded-full border border-line-strong transition-colors hover:border-gold hover:text-gold"
-              >
-                <Linkedin className="size-5" />
-              </a>
-            )}
-            {person.instagram && (
-              <a
-                href={person.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram (nieuw tabblad)"
-                className="grid size-11 place-items-center rounded-full border border-line-strong transition-colors hover:border-gold hover:text-gold"
-              >
-                <Instagram className="size-5" />
-              </a>
-            )}
-          </div>
         </div>
-        <nav aria-label={ui.footer.nav} className="md:col-span-4">
-          <p className="eyebrow mb-4">{ui.footer.nav}</p>
-          <ul className="grid grid-cols-2 gap-x-6 gap-y-2">
+
+        <nav aria-label={ui.footer.nav} className="md:col-span-3 md:col-start-6">
+          <h2 className="eyebrow mb-4">{ui.nav2.groupPages}</h2>
+          <ul className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
+            <li>
+              <Link href={PAGES.home[locale]} className={link}>
+                {ui.nav2.home}
+              </Link>
+            </li>
             {nav.map((n) => (
-              <li key={n.id}>
-                <a href={`${prefix}#${n.id}`} className="text-muted transition-colors hover:text-gold">
+              <li key={n.key}>
+                <Link href={PAGES[n.key][locale]} className={link}>
                   {n.label}
-                </a>
+                </Link>
               </li>
             ))}
             <li>
-              <Link href={routes.overview(locale)} className="text-muted transition-colors hover:text-gold">
-                {ui.footer.allExperience}
-              </Link>
-            </li>
-            <li>
-              <Link href={routes.cv(locale)} className="text-muted transition-colors hover:text-gold">
-                {ui.footer.onlineCv}
+              <Link href={PAGES.contact[locale]} className={link}>
+                {ui.nav2.contact}
               </Link>
             </li>
           </ul>
         </nav>
-        <div className="flex flex-col items-start gap-6 md:col-span-3 md:items-end">
-          <p className="font-mono text-xs tracking-widest text-muted uppercase md:text-right">
-            {person.region}
-            <br />
-            <span className="text-ink">
-              <LocalTime />
-            </span>{" "}
-            {ui.footer.localTime}
+
+        <div className="md:col-span-2">
+          <h2 className="eyebrow mb-4">{ui.nav2.contact}</h2>
+          <ul className="space-y-2 text-sm">
+            <li>
+              <a href={`mailto:${person.email}`} className={`inline-flex items-center gap-2 ${link}`}>
+                <Mail className="size-4" />
+                {ui.footer.emailAria}
+              </a>
+            </li>
+            <li>
+              <a href={`tel:${person.phoneHref}`} className={`inline-flex items-center gap-2 whitespace-nowrap ${link}`}>
+                <Phone className="size-4" />
+                {person.phoneDisplay}
+              </a>
+            </li>
+            {person.linkedin && (
+              <li>
+                <a href={person.linkedin} target="_blank" rel="noopener noreferrer" className={`inline-flex items-center gap-2 ${link}`}>
+                  <Linkedin className="size-4" />
+                  LinkedIn
+                </a>
+              </li>
+            )}
+          </ul>
+        </div>
+
+        <div className="flex flex-col items-start gap-5 md:col-span-2 md:items-end">
+          <div role="group" aria-label={ui.header.langSwitch} className="flex rounded-full border border-line-strong p-0.5 font-mono text-[0.65rem] tracking-[0.12em] uppercase">
+            {locales.map((l) => (
+              <Link
+                key={l}
+                href={switchPath(pathname, l)}
+                hrefLang={l}
+                aria-current={l === locale ? "true" : undefined}
+                className={`grid h-8 min-w-9 place-items-center rounded-full px-2 ${l === locale ? "bg-ink text-bg" : "text-muted hover:text-ink"}`}
+              >
+                {l}
+              </Link>
+            ))}
+          </div>
+          <p className="text-xs text-muted md:text-right">
+            {person.region} · <LocalTime /> {ui.footer.localTime}
           </p>
           <button
             type="button"
-            onClick={() => (window.__lenis ? window.__lenis.scrollTo(0) : window.scrollTo({ top: 0, behavior: "smooth" }))}
-            className="group inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-gold"
+            onClick={() => window.scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" })}
+            className="group inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-ink"
           >
             {ui.footer.backToTop}
-            <span className="grid size-9 place-items-center rounded-full border border-line-strong transition-transform duration-500 group-hover:-translate-y-1">
-              <ArrowUp className="size-4" />
+            <span className="grid size-8 place-items-center rounded-full border border-line-strong transition-transform duration-300 group-hover:-translate-y-0.5">
+              <ArrowUp className="size-3.5" />
             </span>
           </button>
         </div>
       </div>
-
-      <div aria-hidden className="pointer-events-none h-[15vw] overflow-hidden select-none">
-        {/* Decoratief woordmerk als SVG (geen leestekst) */}
-        <motion.svg style={{ y }} viewBox="0 0 1000 170" className="block w-full" role="presentation">
-          <text
-            x="500"
-            y="150"
-            textAnchor="middle"
-            className="font-display"
-            style={{ fontSize: 196, fontWeight: 300, letterSpacing: "-0.06em", fill: "color-mix(in srgb, var(--ink) 7%, transparent)" }}
-          >
-            El Hammoudi<tspan style={{ fill: "color-mix(in srgb, var(--gold) 45%, transparent)" }}>.</tspan>
-          </text>
-        </motion.svg>
-      </div>
-
-      <div className="relative z-10 container-x flex flex-col gap-2 border-t border-line py-6 font-mono text-[0.7rem] tracking-wider text-muted uppercase md:flex-row md:justify-between">
+      <div className="container-x flex flex-col gap-2 border-t border-line py-6 text-xs text-muted md:flex-row md:items-center md:justify-between">
         <span>
           © {year} {person.fullName}
         </span>

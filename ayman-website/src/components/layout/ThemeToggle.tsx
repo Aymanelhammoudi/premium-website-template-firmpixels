@@ -59,6 +59,7 @@ export function ThemeToggle({
     <button
       type="button"
       onClick={toggle}
+      data-theme-toggle
       aria-label={label}
       title={label}
       className={`grid size-11 place-items-center rounded-full border border-line-strong text-ink transition-colors hover:border-gold hover:text-gold ${className ?? ""}`}

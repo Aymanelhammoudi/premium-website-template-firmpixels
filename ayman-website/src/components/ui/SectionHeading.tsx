@@ -1,9 +1,8 @@
 import type { ReactNode } from "react";
-import { RevealLines, Reveal } from "./Reveal";
+import { Reveal, RevealLines } from "./Reveal";
 
-/** Vaste sectiekop: nummer + label, grote titel met goud cursief accent, intro. */
+/** Sectiekop: label, tweekleurige titel (inkt + gedempt) en intro. */
 export function SectionHeading({
-  index,
   label,
   title,
   accent,
@@ -11,42 +10,42 @@ export function SectionHeading({
   id,
   aside,
   level = "h2",
+  align = "split",
 }: {
-  index: string;
+  index?: string;
   label: string;
   title: string;
   accent?: string;
   intro?: string;
   id?: string;
   aside?: ReactNode;
-  /** h1 op een losse pagina, anders h2 */
   level?: "h1" | "h2";
+  align?: "split" | "stack";
 }) {
   const H = level;
   return (
-    <div className="grid gap-8 md:grid-cols-12 md:gap-6">
-      <Reveal className="md:col-span-3">
-        <p className="eyebrow flex items-center gap-4">
-          <span>{index}</span>
-          <span className="h-px w-10 bg-current opacity-50" aria-hidden />
-          <span>{label}</span>
-        </p>
-      </Reveal>
-      <div className="md:col-span-9">
-        <H id={id} className="font-display text-[clamp(2.6rem,6.2vw,5.6rem)] leading-[0.98] font-light">
+    <div className={align === "split" ? "grid gap-8 md:grid-cols-12 md:items-end" : "max-w-3xl"}>
+      <div className={align === "split" ? "md:col-span-7" : ""}>
+        <Reveal y={8}>
+          <p className="eyebrow mb-5 inline-flex items-center gap-2">
+            <span aria-hidden className="size-1.5 rounded-full bg-gold" />
+            {label}
+          </p>
+        </Reveal>
+        <H id={id} className="heading text-[clamp(2.1rem,4.4vw,3.75rem)]">
           <RevealLines lines={[title, ...(accent ? [<em key="a">{accent}</em>] : [])]} />
         </H>
-        {(intro || aside) && (
-          <div className="mt-8 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-            {intro && (
-              <Reveal delay={0.15}>
-                <p className="max-w-xl text-lg text-muted">{intro}</p>
-              </Reveal>
-            )}
-            {aside}
-          </div>
-        )}
       </div>
+      {(intro || aside) && (
+        <div className={align === "split" ? "flex flex-col gap-6 md:col-span-5 md:items-end md:text-right" : "mt-6 flex flex-col gap-6"}>
+          {intro && (
+            <Reveal delay={0.1} y={8}>
+              <p className={`max-w-md text-lg text-muted ${align === "split" ? "md:ml-auto" : ""}`}>{intro}</p>
+            </Reveal>
+          )}
+          {aside}
+        </div>
+      )}
     </div>
   );
 }

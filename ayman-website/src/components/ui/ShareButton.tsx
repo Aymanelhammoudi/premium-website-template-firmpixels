@@ -25,6 +25,7 @@ export function ShareButton({ person, ui }: { person: Site["person"]; ui: Pick<S
     <button
       type="button"
       onClick={share}
+      data-share
       className="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-gold"
     >
       {done ? <Check className="size-4 text-gold" /> : <Copy className="size-4" />}

@@ -1,27 +1,27 @@
 import { getSite, type Locale } from "@content";
 import { CountUp } from "../ui/CountUp";
 import { Reveal } from "../ui/Reveal";
-import { ScrollText } from "../ui/ScrollText";
 import { SectionHeading } from "../ui/SectionHeading";
 import { Spotlight } from "../ui/Spotlight";
 
-export function About({ locale }: { locale: Locale }) {
+export function About({ locale, heading = true }: { locale: Locale; heading?: boolean }) {
   const { about, ui } = getSite(locale);
-  const accentMarked = about.statementAccent.split(" ").map((w) => "*" + w).join(" ");
+  const [before, after = ""] = about.statement.split(about.statementAccent);
   return (
-    <section id="over" aria-labelledby="over-title" className="relative py-24 md:py-32">
+    <section id="over" {...(heading ? { "aria-labelledby": "over-title" } : { "aria-label": ui.about.label })} className={`relative ${heading ? "py-24 md:py-32" : "py-16 md:py-24"}`}>
       <div className="container-x">
-        <SectionHeading index="04" label={ui.about.label} id="over-title" title={ui.about.title} accent={ui.about.accent} />
+        {heading && <SectionHeading label={ui.about.label} id="over-title" title={ui.about.title} accent={ui.about.accent} />}
 
-        {/* Statement dat oplicht tijdens het scrollen */}
-        <div className="mt-20 md:mt-28 md:grid md:grid-cols-12">
-          <ScrollText
-            className="font-display text-[clamp(2rem,4.6vw,4.2rem)] leading-[1.08] font-light md:col-span-10 md:col-start-3"
-            text={`${about.statement.replace(about.statementAccent, accentMarked)} ${about.lead}`}
-          />
+        {/* Statement */}
+        <div className={`md:grid md:grid-cols-12 ${heading ? "mt-20 md:mt-28" : ""}`}>
+          <p className="enter font-display text-[clamp(1.9rem,4vw,3.6rem)] leading-[1.12] font-light text-pretty md:col-span-10 md:col-start-2">
+            {before}
+            <span className="font-normal">{about.statementAccent}</span>
+            {after} <span className="text-muted">{about.lead}</span>
+          </p>
         </div>
 
-        <div className="mt-20 grid gap-12 md:mt-28 md:grid-cols-12">
+        <div className="mt-16 grid gap-12 md:mt-20 md:grid-cols-12">
           <div className="space-y-5 text-lg text-muted md:col-span-6 md:col-start-3">
             {about.story.map((p, i) => (
               <Reveal key={i} delay={i * 0.05}>
@@ -35,7 +35,7 @@ export function About({ locale }: { locale: Locale }) {
               {about.traits.map((t) => (
                 <li
                   key={t}
-                  className="rounded-full border border-line-strong px-4 py-1.5 text-sm transition-colors hover:border-gold hover:bg-gold hover:text-on-gold"
+                  className="rounded-full border border-line-strong px-4 py-1.5 text-sm transition-colors hover:border-ink"
                 >
                   {t}
                 </li>
@@ -49,7 +49,7 @@ export function About({ locale }: { locale: Locale }) {
           {about.stats.map((s, i) => (
             <Reveal as="li" key={s.label} delay={i * 0.08} className="border-r border-b border-line">
               <Spotlight className="h-full p-6 md:p-8">
-                <span className="font-display block text-[clamp(3.5rem,8vw,6.5rem)] leading-none font-light text-gold">
+                <span className="block text-[clamp(2.75rem,5vw,4rem)] leading-none font-semibold tracking-tight text-ink">
                   <CountUp value={s.value} suffix={s.suffix} />
                 </span>
                 <span className="mt-4 block max-w-[14rem] text-sm text-muted">{s.label}</span>
@@ -61,14 +61,16 @@ export function About({ locale }: { locale: Locale }) {
         {/* Principes */}
         <div className="mt-28">
           <Reveal>
-            <p className="eyebrow mb-10">{ui.about.way} — {about.principlesTitle}</p>
+            <h2 className="eyebrow mb-10">
+              {ui.about.way} — {about.principlesTitle}
+            </h2>
           </Reveal>
           <ol className="grid gap-px overflow-hidden rounded-3xl border border-line bg-line md:grid-cols-3">
             {about.principles.map((p, i) => (
               <Reveal as="li" key={p.title} delay={i * 0.1} className="bg-bg">
                 <Spotlight className="group h-full p-8 md:p-10">
                   <span className="font-mono text-xs text-gold">0{i + 1}</span>
-                  <h3 className="font-display mt-10 text-4xl transition-[font-variation-settings] duration-700 [font-variation-settings:'wght'_300] group-hover:[font-variation-settings:'wght'_600]">
+                  <h3 className="mt-10 text-3xl font-semibold tracking-tight">
                     {p.title}
                   </h3>
                   <p className="mt-4 text-muted">{p.text}</p>

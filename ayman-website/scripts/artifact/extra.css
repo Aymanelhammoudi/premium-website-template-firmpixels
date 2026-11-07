@@ -4,49 +4,31 @@
   --font-geist: "Geist", "Geist Fallback";
   --font-geist-mono: "Geist Mono", "Geist Mono Fallback";
 }
-header.fixed {
-  padding-top: env(safe-area-inset-top, 0px);
-  transition: transform 0.5s var(--ease-out-expo);
-}
-[data-progress] {
-  transform: scaleX(0);
-  top: env(safe-area-inset-top, 0px);
-}
+[data-progress] { transform: scaleX(0); }
 
 /* verschijnen bij scrollen: tekst blijft altijd zichtbaar, schuift alleen in */
-.rv { transform: translateY(28px); transition: transform 1.1s var(--ease-out-expo); }
+.rv { transform: translateY(12px); transition: transform var(--dur-move) var(--ease-out-expo); }
 .rv.rv-in { transform: none; }
 
-.state-in, .panel-in { animation: enter 0.6s var(--ease-out-expo) both; }
-.role-in { display: inline-block; animation: line-up 0.7s var(--ease-out-expo) both; }
+.state-in, .panel-in { animation: enter var(--dur-base) var(--ease-out-expo) both; }
+.role-in { display: inline-block; animation: line-up 0.6s var(--ease-out-expo) both; }
 
 /* mobiel menu */
-.menu-in { animation: menu-open 0.7s var(--ease-out-expo) both; padding-top: calc(6rem + env(safe-area-inset-top, 0px)); }
-@keyframes menu-open {
-  from { clip-path: circle(0% at calc(100% - 3rem) 2.5rem); }
-  to { clip-path: circle(150% at calc(100% - 3rem) 2.5rem); }
+.menu-in {
+  padding-top: calc(4.5rem + env(safe-area-inset-top, 0px));
+  animation: menu-open var(--dur-base) var(--ease-out-expo) both;
 }
-.menu-link { animation: line-up 0.8s var(--ease-out-expo) both; }
+@keyframes menu-open { from { opacity: 0; transform: translateY(-8px); } }
+.menu-link { animation: enter var(--dur-move) var(--ease-out-expo) both; }
 
-/* kinetische tekstband */
-[data-velocity] > div { animation: marquee 48s linear infinite; }
+/* ⌘K */
+.cmdk-in { animation: cmdk-fade 150ms ease-out both; }
+.cmdk-panel { animation: cmdk-pop 250ms var(--ease-out-expo) both; }
+@keyframes cmdk-fade { from { opacity: 0; } }
+@keyframes cmdk-pop { from { opacity: 0; transform: translateY(12px) scale(0.98); } }
 
-/* kantelende kaarten */
-[class*="group/tilt"] { transition: transform 0.4s var(--ease-out-expo); will-change: transform; }
-
-/* cursor */
-.cur-dot, .cur-ring {
-  position: fixed; left: 0; top: 0; z-index: 70; pointer-events: none; border-radius: 9999px;
-}
-.cur-dot { width: 6px; height: 6px; margin: -3px 0 0 -3px; background: var(--gold); }
-.cur-ring {
-  width: 28px; height: 28px; margin: -14px 0 0 -14px; border: 1px solid var(--gold);
-  display: grid; place-items: center; overflow: hidden;
-  font: 10px/1 var(--font-mono); letter-spacing: 0.18em; text-transform: uppercase; color: var(--on-gold);
-  transition: width 0.3s, height 0.3s, margin 0.3s, background-color 0.3s;
-}
-.cur-ring.is-hover { width: 56px; height: 56px; margin: -28px 0 0 -28px; }
-.cur-ring.is-label { width: 96px; height: 96px; margin: -48px 0 0 -48px; background: var(--gold); }
+/* actieve pil in menu en filters */
+header nav a { isolation: isolate; }
 
 @media (prefers-reduced-motion: reduce) {
   .rv { transform: none; }

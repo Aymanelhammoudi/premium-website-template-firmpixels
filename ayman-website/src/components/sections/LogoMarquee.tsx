@@ -24,7 +24,7 @@ export function LogoMarquee({ locale }: { locale: Locale }) {
                   <span className="text-gold">.</span>
                 </span>
               )}
-              {e.logo && <span className="font-display text-3xl whitespace-nowrap">{e.name}</span>}
+              {e.logo && <span className="font-semibold tracking-tight text-3xl whitespace-nowrap">{e.name}</span>}
             </li>
           ))}
         </ul>

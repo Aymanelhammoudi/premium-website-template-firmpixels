@@ -4,7 +4,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useState, type FormEvent } from "react";
 import type { Site } from "@content";
 import { Check, Copy, Linkedin, Mail, Phone, Pin } from "../ui/Icons";
-import { Magnetic } from "../ui/Magnetic";
 import { Reveal, RevealLines } from "../ui/Reveal";
 import { EASE } from "../ui/motion";
 
@@ -17,7 +16,7 @@ const ENDPOINT = process.env.NEXT_PUBLIC_FORM_ENDPOINT ?? "";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
-export function Contact({ contact, person, ui }: { contact: Site["contact"]; person: Site["person"]; ui: Pick<Site["ui"], "contact"> }) {
+export function Contact({ contact, person, ui, heading = true }: { contact: Site["contact"]; person: Site["person"]; ui: Pick<Site["ui"], "contact">; heading?: boolean }) {
   const t = ui.contact;
   const [topic, setTopic] = useState(contact.topics[0]);
   const [status, setStatus] = useState<Status>("idle");
@@ -74,20 +73,24 @@ export function Contact({ contact, person, ui }: { contact: Site["contact"]; per
   };
 
   const field =
-    "peer w-full border-b border-line-strong bg-transparent pt-7 pb-3 text-lg text-ink outline-none transition-colors placeholder:text-transparent focus:border-gold";
+    "peer w-full border-b border-line-strong bg-transparent pt-7 pb-3 text-lg text-ink outline-none transition-colors placeholder:text-transparent focus:border-ink";
   const label =
     "pointer-events-none absolute top-7 left-0 text-muted transition-all duration-300 peer-focus:top-0 peer-focus:text-xs peer-focus:text-gold peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs";
 
   return (
-    <section id="contact" aria-labelledby="contact-title" className="relative overflow-hidden py-24 md:py-32">
+    <section id="contact" {...(heading ? { "aria-labelledby": "contact-title" } : { "aria-label": contact.eyebrow })} className={`relative overflow-hidden ${heading ? "py-24 md:py-32" : "py-16 md:py-24"}`}>
       <div aria-hidden className="grid-lines absolute inset-0 -z-10 opacity-60" />
       <div className="container-x">
-        <p className="eyebrow mb-6">10 — {contact.eyebrow}</p>
-        <h2 id="contact-title" className="font-display text-[clamp(3.2rem,9vw,8.5rem)] leading-[0.92] font-light">
+        {heading && (
+          <>
+        <p className="eyebrow mb-6">{contact.eyebrow}</p>
+        <h2 id="contact-title" className="heading text-[clamp(3.2rem,9vw,8.5rem)]">
           <RevealLines lines={[contact.title, <em key="a">{contact.titleAccent}</em>]} />
         </h2>
+          </>
+        )}
 
-        <div className="mt-20 grid gap-16 lg:grid-cols-12">
+        <div className={`grid gap-16 lg:grid-cols-12 ${heading ? "mt-20" : ""}`}>
           <div className="lg:col-span-5">
             <Reveal>
               <p className="text-lg text-muted">{contact.intro}</p>
@@ -133,7 +136,7 @@ export function Contact({ contact, person, ui }: { contact: Site["contact"]; per
           </div>
 
           <Reveal className="lg:col-span-6 lg:col-start-7" delay={0.15}>
-            <form onSubmit={submit} noValidate className="rounded-[2rem] border border-line bg-surface/70 p-6 backdrop-blur md:p-10">
+            <form onSubmit={submit} noValidate className="rounded-3xl border border-line bg-surface/70 p-6 backdrop-blur md:p-10">
               <fieldset>
                 <legend className="eyebrow mb-4">{t.topicLegend}</legend>
                 <div className="flex flex-wrap gap-2">
@@ -141,7 +144,7 @@ export function Contact({ contact, person, ui }: { contact: Site["contact"]; per
                     <label
                       key={t}
                       className={`cursor-pointer rounded-full border px-4 py-2 text-sm transition-all duration-300 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-gold ${
-                        topic === t ? "border-gold bg-gold text-on-gold" : "border-line-strong text-muted hover:border-gold hover:text-ink"
+                        topic === t ? "border-ink bg-ink text-bg" : "border-line-strong text-muted hover:border-ink hover:text-ink"
                       }`}
                     >
                       <input
@@ -208,16 +211,14 @@ export function Contact({ contact, person, ui }: { contact: Site["contact"]; per
               </div>
 
               <div className="mt-10 flex flex-wrap items-center justify-between gap-4">
-                <Magnetic strength={0.2}>
                   <button
                     type="submit"
                     disabled={status === "sending"}
-                    className="group relative inline-flex h-14 items-center gap-3 overflow-hidden rounded-full bg-gold px-8 font-medium text-on-gold transition-colors hover:bg-gold-2 disabled:opacity-60"
+                    className="group relative inline-flex h-14 items-center gap-3 overflow-hidden rounded-full bg-ink px-8 font-medium text-bg transition-colors hover:bg-gold hover:text-on-gold active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     {status === "sending" ? t.sending : ENDPOINT ? t.send : t.sendMail}
-                    <Mail className="size-5 transition-transform duration-500 group-hover:-rotate-12" />
+                    <Mail className="size-5 transition-transform duration-500 group-hover:translate-x-0.5" />
                   </button>
-                </Magnetic>
                 <AnimatePresence>
                   {(status === "sent" || status === "error") && (
                     <motion.p

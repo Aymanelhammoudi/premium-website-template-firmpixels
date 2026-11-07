@@ -49,7 +49,7 @@ export function BrandMark({ item, size = 44, className }: { item: Mark; size?: n
   const Icon = item.icon ? icons[item.icon] : null;
   if (Icon) return <Icon className={`text-gold ${className ?? ""}`} style={{ width: size, height: size }} />;
   return (
-    <span aria-hidden className={`font-display text-gold italic ${className ?? ""}`} style={{ fontSize: size * 0.5 }}>
+    <span aria-hidden className={`font-semibold tracking-tight text-gold ${className ?? ""}`} style={{ fontSize: size * 0.5 }}>
       {item.company.slice(0, 2)}
     </span>
   );

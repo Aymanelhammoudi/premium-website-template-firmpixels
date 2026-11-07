@@ -8,8 +8,8 @@ import { useReducedMotion } from "./motion";
 export function TiltCard({
   children,
   className,
-  max = 10,
-  glare = true,
+  max = 3,
+  glare = false,
 }: {
   children: ReactNode;
   className?: string;

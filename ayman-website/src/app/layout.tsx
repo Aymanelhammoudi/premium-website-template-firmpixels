@@ -8,20 +8,20 @@ const { person, seo, cv, experience } = getSite("nl");
 const chrome = getChrome();
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { SmoothScroll } from "@/components/layout/SmoothScroll";
-import { Cursor } from "@/components/layout/Cursor";
+import { CommandMenu } from "@/components/layout/CommandMenu";
 import { ScrollProgress } from "@/components/layout/ScrollProgress";
 import "./globals.css";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
   subsets: ["latin"],
-  axes: ["SOFT", "WONK", "opsz"],
-  style: ["normal", "italic"],
+  axes: ["opsz"],
+  // Alleen voor citaten en statements (rechtop): één bestand, vooraf geladen tegen verspringen.
+  style: ["normal"],
   display: "swap",
 });
 const geist = Geist({ variable: "--font-geist", subsets: ["latin"], display: "swap" });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"], display: "swap" });
+const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"], display: "swap", preload: false });
 
 export const metadata: Metadata = {
   metadataBase: new URL(person.siteUrl),
@@ -85,17 +85,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
-      <body className="grain">
+      <body>
         <LocaleSync skip={{ nl: chrome.nl.ui.skip, en: chrome.en.ui.skip }} />
         <MotionConfig reducedMotion="user">
-          <SmoothScroll />
           <ScrollProgress />
-          <Cursor />
           <Header chrome={chrome} />
           <main id="main" tabIndex={-1} className="outline-none">
             {children}
           </main>
           <Footer chrome={chrome} />
+          <CommandMenu chrome={chrome} />
         </MotionConfig>
       </body>
     </html>

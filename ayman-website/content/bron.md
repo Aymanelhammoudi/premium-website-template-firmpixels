@@ -696,3 +696,33 @@ Back-up: `backup-aymanzakelijk-2026-11-07-avond/` (wget-mirror + screenshots). G
 Bewust behouden uit eerdere instructies van Ayman (staan niet letterlijk op de live site):
 Amazon met FBA én FBM, high-ticket closing met trajecten van enkele duizenden euro's en klanten die meer omzet haalden,
 bemiddeling bij webshopovernames op commissie, KPN/Odido/Budget Thuis als verkochte merken.
+
+---
+
+# Update 7 november 2026 (v4) — multi-pagina, zakelijk
+
+Back-up: `backup-aymanzakelijk-2026-11-07-v4/`. Tekstvergelijking met de avond-back-up: **geen inhoudelijke verschillen**
+(alleen Cloudflare-tokens in de HTML). site.ts en site.en.ts blijven feitelijk ongewijzigd.
+
+## Ontwerpplan
+
+**Sitemap (NL / EN)**
+`/` · `/over-mij/` · `/ervaring/` · `/ondernemerschap/` · `/ervaring/[id]/` · `/vaardigheden/` · `/websites/` · `/cv/` · `/contact/`
+`/en/` · `/en/about/` · `/en/experience/` · `/en/entrepreneurship/` · `/en/experience/[id]/` · `/en/skills/` · `/en/websites/` · `/en/cv/` · `/en/contact/`
+Hoofdmenu (6): Ervaring · Ondernemerschap · Over mij · Vaardigheden · Websites · Cv — plus knop Contact, ⌘K-zoeken, NL/EN, thema.
+
+**Design tokens**
+- Kleur: navy `#071426` / ivoor `#f5f1e8` blijven de basis; goud alleen als accent (eyebrows, actieve indicator, dunne lijnen, focus).
+- Koppen: tweekleurig (regel 1 inkt, regel 2 gedempt) in Geist 600, tracking −0.035em. Fraunces alleen voor statements en citaten.
+- Typeschaal: 12 · 14 · 16 · 18 · 22 · 28 · 36 · 48 · 64 · 80 px. Tabulaire cijfers.
+- Raster: 12 kolommen, gutter 24 px; secties `py-20 md:py-28`; kaarten `rounded-2xl`, 1 px rand, padding 24/32 px.
+- Knoppen: primair = inkt (navy/ivoor), secundair = rand. Hoogte 44 px.
+
+**Motion-tokens**: 150 / 250 / 400 / 600 ms · ease-out-expo `cubic-bezier(.16,1,.3,1)` · spring (stiffness 380, damping 32) voor indicatoren · stagger 50 ms · entree = fade + 12 px.
+
+**Componenten** (zelf nagebouwd, geïnspireerd op shadcn/ui, Magic UI, Aceternity, 21st.dev, Linear/Vercel/Stripe):
+navbar met schuivende actieve pill · ⌘K-commandomenu · kruimelpad · bento-grid · logowolk-marquee · highlight-kaarten ·
+tijdlijn met scrollvoortgang · schuivende filter-pill · tabs met schuivende onderstreping · subtiele spotlightkaart ·
+optellende cijfers (alleen bevestigde gegevens) · sticky inhoudsopgave · accordion · CTA-band · sitemap-footer.
+
+**Geschrapt (te speels)**: gouden cursor, filmkorrel, kinetische tekstband, draaiende ster, sterk kantelende kaarten, cursief-gouden koppen.

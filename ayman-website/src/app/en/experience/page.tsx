@@ -1,7 +1,7 @@
-import { OverviewView, overviewMetadata } from "@/views/OverviewView";
+import { TrackView, trackMetadata } from "@/views/TrackView";
 
-export const metadata = overviewMetadata("en");
+export const metadata = trackMetadata("en", "sales");
 
-export default function ExperienceOverviewEn() {
-  return <OverviewView locale="en" />;
+export default function Page() {
+  return <TrackView locale="en" track="sales" />;
 }

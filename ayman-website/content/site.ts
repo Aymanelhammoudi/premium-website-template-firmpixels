@@ -12,6 +12,9 @@
 
 /* ───────────── Types (hoef je niet aan te passen) ───────────── */
 
+import type { PageKey } from "./routes";
+
+
 export type Track = "sales" | "ondernemer";
 
 export type BrandIcon = "phone" | "key" | "door" | "bag" | "sofa" | "sun" | "swap" | "browser";
@@ -20,6 +23,8 @@ export type Experience = {
   /** wordt ook de paginanaam: /ervaring/<id>/ */
   id: string;
   track: Track;
+  /** filtergroep binnen het spoor */
+  group: "sales" | "retail" | "marketplace" | "webshops" | "eigen-bedrijf";
   company: string;
   role: string;
   period: string;
@@ -98,13 +103,13 @@ export const seo = {
 /* ───────────── Navigatie ───────────── */
 
 export const nav = [
-  { id: "ervaring", label: "Ervaring" },
-  { id: "over", label: "Over mij" },
-  { id: "vaardigheden", label: "Vaardigheden" },
-  { id: "werk", label: "Websites" },
-  { id: "cv", label: "Cv" },
-  { id: "contact", label: "Contact" },
-];
+  { key: "experience", label: "Ervaring" },
+  { key: "ventures", label: "Ondernemerschap" },
+  { key: "about", label: "Over mij" },
+  { key: "skills", label: "Vaardigheden" },
+  { key: "websites", label: "Websites" },
+  { key: "cv", label: "Cv" },
+] as { key: PageKey; label: string }[];
 
 /* ───────────── Hero ───────────── */
 
@@ -115,7 +120,7 @@ export const hero = {
     "Een commerciële professional uit Noord-Holland met ervaring in klantadvies, retail, deur-tot-deurverkoop, high-ticket sales en e-commerce.",
   footnote: "Praktisch, leergierig en klantgericht.",
   primaryCta: { label: "Download mijn cv", href: "/cv/CV_Ayman_El_Hammoudi.pdf" },
-  secondaryCta: { label: "Bekijk mijn ervaring", href: "#ervaring" },
+  secondaryCta: { label: "Bekijk mijn ervaring", href: "/ervaring/" },
 };
 
 /* Werkgevers voor de logoband */
@@ -154,7 +159,7 @@ export const quickScan = {
 
 export const about = {
   statement: "Goed advies begint met écht luisteren.",
-  /** woorden in de statement die goud oplichten */
+  /** woorden in de statement die extra nadruk krijgen */
   statementAccent: "écht luisteren.",
   lead: "Ik wil begrijpen wat iemand nodig heeft. Daar begint voor mij een goed gesprek.",
   story: [
@@ -200,21 +205,21 @@ export const expertise = {
       icon: "chat" as const,
       title: "Advies & verkoop",
       text: "Ik luister gericht, vergelijk mogelijkheden en leg een oplossing begrijpelijk uit. Ervaring uit telecom, retail en directe verkoop.",
-      link: { label: "Bekijk mijn loopbaan", href: "#ervaring" },
+      link: { label: "Bekijk mijn loopbaan", href: "/ervaring/" },
     },
     {
       label: "Samenwerking",
       icon: "handshake" as const,
       title: "Contact & betrouwbaarheid",
       text: "Ik communiceer helder, blijf professioneel bij vragen of bezwaren en kom afspraken na in klant- en teamcontact.",
-      link: { label: "Bekijk mijn sterke punten", href: "#vaardigheden" },
+      link: { label: "Bekijk mijn sterke punten", href: "/vaardigheden/" },
     },
     {
       label: "Ondernemerschap",
       icon: "browser" as const,
       title: "E-commerce & eigenaarschap",
       text: "Ik heb ervaring met eigen webshops, marketplaces, commerciële samenwerkingen en het bouwen en verkopen van een onderneming.",
-      link: { label: "Bekijk mijn ondernemerschap", href: "#ondernemer" },
+      link: { label: "Bekijk mijn ondernemerschap", href: "/ondernemerschap/" },
     },
   ],
 };
@@ -238,6 +243,68 @@ export const tracks: Record<Track, { label: string; title: string; titleAccent: 
   },
 };
 
+/* ───────────── Paginakoppen (multi-pagina) ───────────── */
+
+export const pages = {
+  about: {
+    eyebrow: "Over mij",
+    title: "Persoonlijk in contact.",
+    accent: "Ondernemend van nature.",
+    intro: "Een commerciële achtergrond, een nieuwsgierige blik en plezier in het helpen van mensen.",
+  },
+  experience: {
+    eyebrow: "Ervaring",
+    title: "Een loopbaan in contact.",
+    accent: "Een brede blik op sales.",
+    intro: "Van de winkelvloer en de deur tot telefonische closing: rollen waarin ik dagelijks met klanten in gesprek ben en verantwoordelijkheid neem voor resultaat.",
+  },
+  ventures: {
+    eyebrow: "Ondernemerschap",
+    title: "Gebouwd door te doen.",
+    accent: "Geleerd door te verkopen.",
+    intro: "Een overzicht van mijn ervaring met marketplaces, webshops, commerciële samenwerkingen en sales.",
+  },
+  skills: {
+    eyebrow: "Vaardigheden",
+    title: "Commercieel denken.",
+    accent: "Persoonlijk handelen.",
+    intro: "Mijn vaardigheden verbinden klantadvies, communicatie en digitale uitvoering. Toegepast in de praktijk, zonder betekenisloze scores.",
+  },
+  websites: {
+    eyebrow: "Websites",
+    title: "Naast mijn werk:",
+    accent: "websites voor ondernemers.",
+    intro: "Als zelfstandig webdesigner bouw ik websites voor lokale ondernemers. Dat vraagt om initiatief, goed luisteren, structuur aanbrengen en verantwoordelijkheid nemen tot de oplevering.",
+  },
+  cv: {
+    eyebrow: "Curriculum vitae",
+    title: "Mijn ervaring.",
+    accent: "Direct in beeld.",
+    intro: "Bekijk mijn cv direct op deze pagina, open de pdf op volledig formaat of download hem voor later.",
+  },
+  contact: {
+    eyebrow: "Contact",
+    title: "Een mogelijkheid bespreken?",
+    accent: "Neem direct contact op.",
+    intro: "Voor een functie in sales of retail, een commerciële samenwerking of een websiteproject ben ik rechtstreeks bereikbaar.",
+  },
+};
+
+/* ───────────── Homepage: hoogtepunten ───────────── */
+
+export const home = {
+  highlightsTitle: "Drie dingen",
+  highlightsAccent: "om te onthouden.",
+  highlights: [
+    { id: "vodafoneziggo", label: "Nu", text: "Verkoopadviseur bij VodafoneZiggo, sinds juli 2025." },
+    { id: "bol", label: "Sinds 2021", text: "Verkooppartner op bol, naast mijn baan." },
+    { id: "groene-energie", label: "2018 — 2020", text: "Eigen bedrijf in groene energie opgebouwd en met winst verkocht." },
+  ],
+  tracksTitle: "Twee sporen.",
+  tracksAccent: "Eén rode draad.",
+  tracksIntro: "Ik combineer ervaring in loondienst met ondernemerschap. Kies een spoor voor alle details.",
+};
+
 export const experienceIntro = {
   title: "Twee sporen.",
   titleAccent: "Eén rode draad.",
@@ -246,6 +313,19 @@ export const experienceIntro = {
   thread:
     "Op de winkelvloer, aan de deur, aan de telefoon of in mijn eigen webshop: ik begin bij de vraag, maak mogelijkheden begrijpelijk en werk toe naar een concrete volgende stap.",
   note: "Exacte periodes en functietitels staan alleen vermeld waar ze zijn bevestigd. Bedrijfslogo’s dienen uitsluitend ter herkenning; ik ben niet gelieerd aan de genoemde merken. Samenwerkingspartners en eigen ondernemingen zijn bewust anoniem.",
+  trackFilters: {
+    sales: [
+      { id: "alles", label: "Alles" },
+      { id: "sales", label: "Sales" },
+      { id: "retail", label: "Retail & operatie" },
+    ],
+    ondernemer: [
+      { id: "alles", label: "Alles" },
+      { id: "marketplace", label: "Marketplaces" },
+      { id: "webshops", label: "Webshops & samenwerkingen" },
+      { id: "eigen-bedrijf", label: "Eigen bedrijf" },
+    ],
+  } as Record<Track, { id: string; label: string }[]>,
   filters: [
     { id: "alles", label: "Alles" },
     { id: "sales", label: "Sales & retail" },
@@ -258,6 +338,7 @@ export const experience: Experience[] = [
   {
     id: "vodafoneziggo",
     track: "sales",
+    group: "sales",
     company: "VodafoneZiggo",
     role: "Verkoopadviseur",
     period: "Juli 2025 — heden",
@@ -279,6 +360,7 @@ export const experience: Experience[] = [
   {
     id: "high-ticket-closer",
     track: "sales",
+    group: "sales",
     company: "High-ticket closing",
     role: "Sales closer · coaching voor e-commerceondernemers",
     period: "Eerdere saleservaring",
@@ -300,6 +382,7 @@ export const experience: Experience[] = [
   {
     id: "deur-tot-deurverkoop",
     track: "sales",
+    group: "sales",
     company: "Deur-tot-deurverkoop",
     role: "Direct sales · telecom en energie",
     period: "Eerdere ervaring",
@@ -326,6 +409,7 @@ export const experience: Experience[] = [
   {
     id: "the-secret-skill",
     track: "sales",
+    group: "sales",
     company: "The Secret Skill",
     role: "Salesmedewerker · cursusverkoop",
     period: "2020",
@@ -345,6 +429,7 @@ export const experience: Experience[] = [
   {
     id: "oppo",
     track: "sales",
+    group: "sales",
     company: "OPPO",
     role: "Merkambassadeur",
     period: "Eerdere ervaring",
@@ -365,6 +450,7 @@ export const experience: Experience[] = [
   {
     id: "picnic",
     track: "sales",
+    group: "retail",
     company: "Picnic",
     role: "Orderpicker · magazijn",
     period: "Eerdere ervaring",
@@ -385,6 +471,7 @@ export const experience: Experience[] = [
   {
     id: "coop",
     track: "sales",
+    group: "retail",
     company: "Coop",
     role: "Winkelmedewerker",
     period: "Eerdere ervaring",
@@ -404,6 +491,7 @@ export const experience: Experience[] = [
   {
     id: "plus",
     track: "sales",
+    group: "retail",
     company: "PLUS",
     role: "Winkelmedewerker",
     period: "Eerdere ervaring",
@@ -425,6 +513,7 @@ export const experience: Experience[] = [
   {
     id: "bol",
     track: "ondernemer",
+    group: "marketplace",
     company: "bol",
     role: "Verkooppartner · marketplaceverkoper",
     period: "2021 — heden",
@@ -446,6 +535,7 @@ export const experience: Experience[] = [
   {
     id: "amazon",
     track: "ondernemer",
+    group: "marketplace",
     company: "Amazon",
     role: "Verkoper · Seller Central",
     period: "1 jaar",
@@ -467,6 +557,7 @@ export const experience: Experience[] = [
   {
     id: "webshops",
     track: "ondernemer",
+    group: "webshops",
     company: "Eigen webshops",
     role: "E-commerceondernemer",
     period: "Meerdere ondernemingen",
@@ -487,6 +578,7 @@ export const experience: Experience[] = [
   {
     id: "groene-energie",
     track: "ondernemer",
+    group: "eigen-bedrijf",
     company: "Groene energie",
     role: "Eigenaar · verkoop zonnepanelen en laadpalen",
     period: "2018 — 2020",
@@ -513,6 +605,7 @@ export const experience: Experience[] = [
   {
     id: "webshop-bemiddeling",
     track: "ondernemer",
+    group: "webshops",
     company: "Webshops kopen & verkopen",
     role: "Bemiddelaar bij webshopovernames",
     period: "Eerdere ervaring",
@@ -533,6 +626,7 @@ export const experience: Experience[] = [
   {
     id: "meubelverkoop",
     track: "ondernemer",
+    group: "webshops",
     company: "Meubelverkoop",
     role: "Online verkooppartner van een Nederlands meubelbedrijf",
     period: "Eerdere onderneming",
@@ -551,6 +645,7 @@ export const experience: Experience[] = [
   {
     id: "webdesign",
     track: "ondernemer",
+    group: "eigen-bedrijf",
     company: "Eigen onderneming",
     role: "Websiteontwikkeling & webdesign",
     period: "Heden",
@@ -811,6 +906,24 @@ export const ui = {
   lang: "nl",
   langName: "Nederlands",
   skip: "Direct naar inhoud",
+  nav2: {
+    search: "Zoeken",
+    searchHint: "Zoek een pagina of ervaring…",
+    searchLabel: "Snel navigeren",
+    empty: "Niets gevonden. Probeer een ander woord.",
+    groupPages: "Pagina’s",
+    groupExperience: "Ervaring & ondernemerschap",
+    home: "Home",
+    contact: "Contact",
+    close: "Sluiten",
+    navigate: "navigeren",
+    open: "openen",
+  },
+  toc: "Op deze pagina",
+  availability: { title: "Beschikbaarheid", text: "Open voor gesprekken over een nieuwe functie in sales, retail of e-commerce.", region: "Regio", email: "E-mail", phone: "Telefoon", languages: "Talen" },
+  homeUi: { highlights: "Hoogtepunten", tracks: "Ervaring", viewTrack: { sales: "Bekijk mijn ervaring", ondernemer: "Bekijk mijn ondernemerschap" }, items: "onderdelen" },
+  caseTitle: "Uitgelicht: groene energie",
+  footerCols: { pages: "Pagina’s", contact: "Contact", language: "Taal" },
   header: {
     navAria: "Hoofdnavigatie",
     homeAria: "naar de homepage",

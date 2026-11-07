@@ -7,7 +7,7 @@ export default function NotFound() {
       <div aria-hidden className="grid-lines absolute inset-0 -z-10" />
       <div className="container-x">
         <p className="eyebrow mb-6">404 · Pagina niet gevonden</p>
-        <h1 className="font-display text-[clamp(3.2rem,10vw,9rem)] leading-[0.92] font-light">
+        <h1 className="heading text-[clamp(3.2rem,10vw,9rem)]">
           Deze pagina
           <br />
           <em>is niet beschikbaar.</em>

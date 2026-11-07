@@ -141,25 +141,38 @@ a[data-cursor]:active {
 .font-display {
   font-family: var(--font-display);
   font-optical-sizing: auto;
-  font-variation-settings: "SOFT" 30, "WONK" 0;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.025em;
 }
 
-.font-display em,
-em.accent {
-  font-style: italic;
-  color: var(--gold);
-  font-variation-settings: "SOFT" 100, "WONK" 1;
-}
-
-/* Kleine typografische label-stijl (mono, uppercase) */
+/* Kleine typografische label-stijl */
 .eyebrow {
   font-family: var(--font-mono);
   font-size: 0.72rem;
   line-height: 1.6;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--muted);
+}
+
+/* Zakelijke koppen: strakke sans, tweekleurig (tweede regel gedempt) */
+.heading {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+  color: var(--ink);
+}
+.heading em {
+  font-style: normal;
+  color: var(--muted);
+}
+
+/* Subtiel stippenraster voor paginakoppen */
+.dot-grid {
+  background-image: radial-gradient(color-mix(in srgb, var(--ink) 14%, transparent) 1px, transparent 1px);
+  background-size: 22px 22px;
+  mask-image: radial-gradient(ellipse 80% 70% at 30% 0%, #000 20%, transparent 75%);
 }
 
 .container-x {
@@ -303,12 +316,12 @@ em.accent {
 
 /* Hero-entree in pure CSS: start direct bij de eerste paint, zonder op JavaScript te wachten */
 .enter {
-  animation: enter 1s var(--ease-out-expo) both;
+  animation: enter var(--dur-move) var(--ease-out-expo) both;
   animation-delay: var(--d, 0s);
 }
 /* Alleen schuiven, niet invagen: tekst is vanaf de eerste weergave leesbaar (snelle LCP) */
 @keyframes enter {
-  from { transform: translateY(18px); }
+  from { transform: translateY(12px); }
 }
 .line-mask {
   display: block;
@@ -318,11 +331,11 @@ em.accent {
 }
 .line-up {
   display: block;
-  animation: line-up 1.1s var(--ease-out-expo) both;
+  animation: line-up 0.8s var(--ease-out-expo) both;
   animation-delay: var(--d, 0s);
 }
 @keyframes line-up {
-  from { transform: translateY(110%) rotate(2deg); }
+  from { transform: translateY(105%); }
 }
 /* Portret: een gordijn schuift weg (de foto zelf is meteen geschilderd → snelle LCP) */
 .portrait-in {
@@ -348,23 +361,13 @@ em.accent {
 }
 
 /* Paginawissel */
+/* Alleen schuiven, niet invagen: de inhoud is vanaf de eerste weergave zichtbaar (snelle LCP).
+   Het zachte overvloeien tussen pagina’s doen de View Transitions hieronder. */
 .page-enter {
-  animation: page-enter 0.9s var(--ease-out-expo) both;
+  animation: page-enter var(--dur-base) var(--ease-out-expo) both;
 }
 @keyframes page-enter {
-  from { opacity: 0; transform: translateY(24px); }
-}
-
-/* Lenis smooth scroll */
-html.lenis,
-html.lenis body {
-  height: auto;
-}
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-.lenis.lenis-stopped {
-  overflow: clip;
+  from { transform: translateY(8px); }
 }
 
 /* Thema-wissel: cirkel die openvouwt vanaf de knop */
@@ -450,4 +453,11 @@ html.theme-vt::view-transition-new(root) {
   a {
     text-decoration: none;
   }
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }

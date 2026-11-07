@@ -7,8 +7,7 @@ import { alternates, getSite, routes, type Locale } from "@content";
 import { BrandMark } from "@/components/ui/BrandMark";
 import { ArrowLeft, ArrowRight } from "@/components/ui/Icons";
 import { Reveal } from "@/components/ui/Reveal";
-import { Spotlight } from "@/components/ui/Spotlight";
-import { TiltCard } from "@/components/ui/TiltCard";
+import { Toc } from "@/components/ui/Toc";
 import { CtaBand } from "@/components/sections/CtaBand";
 
 export function experienceParams(locale: Locale) {
@@ -26,205 +25,208 @@ export function experienceMetadata(locale: Locale, slug: string): Metadata {
 }
 
 export function ExperienceView({ locale, slug }: { locale: Locale; slug: string }) {
-  const { experience, experienceBySlug, person, tracks, ui } = getSite(locale);
+  const { experience, experienceBySlug, pages, person, tracks, ui } = getSite(locale);
   const d = ui.detail;
   const item = experienceBySlug(slug);
   if (!item) notFound();
 
-  const i = experience.indexOf(item);
-  const prev = experience[(i - 1 + experience.length) % experience.length];
-  const next = experience[(i + 1) % experience.length];
+  const same = experience.filter((e) => e.track === item.track);
+  const i = same.indexOf(item);
+  const prev = same[(i - 1 + same.length) % same.length];
+  const next = same[(i + 1) % same.length];
   const track = tracks[item.track];
+
+  const trackKey = item.track === "sales" ? "experience" : "ventures";
+  const toc = [
+    { id: "samenvatting", label: d.summary },
+    ...(item.brands ? [{ id: "merken", label: d.brands }] : []),
+    ...(item.story ? [{ id: "verhaal", label: d.story }] : []),
+    { id: "taken", label: d.did },
+    { id: "zegt", label: d.says },
+  ];
 
   return (
     <article aria-labelledby="exp-title">
       {/* Kop */}
-      <header className="relative overflow-hidden pt-32 pb-16 md:pt-40 md:pb-24">
-        <div aria-hidden className="grid-lines absolute inset-0 -z-10" />
-        <div aria-hidden className="absolute top-0 right-[-10%] -z-10 size-[36rem] rounded-full bg-gold/10 blur-[120px]" />
+      <header className="relative overflow-hidden border-b border-line pt-12 pb-14 md:pt-16 md:pb-20">
+        <div aria-hidden className="dot-grid absolute inset-0 -z-10" />
         <div className="container-x">
-          <Reveal y={12}>
-            <nav aria-label={d.crumbs} className="flex flex-wrap items-center gap-2 font-mono text-[0.7rem] tracking-[0.16em] text-muted uppercase">
-              <Link href={routes.home(locale)} className="hover:text-gold">
-                {d.home}
-              </Link>
-              <span aria-hidden>/</span>
-              <Link href={routes.anchor(locale, item.track)} className="hover:text-gold">
-                {track.title}
-              </Link>
-              <span aria-hidden>/</span>
-              <span className="text-gold">{item.company}</span>
-            </nav>
-          </Reveal>
+          <nav aria-label={d.crumbs}>
+            <ol className="flex flex-wrap items-center gap-1.5 text-sm text-muted">
+              <li>
+                <Link href={routes.home(locale)} className="transition-colors hover:text-ink">
+                  {d.home}
+                </Link>
+              </li>
+              <li aria-hidden className="text-line-strong">/</li>
+              <li>
+                <Link href={routes.track(locale, item.track)} className="transition-colors hover:text-ink">
+                  {pages[trackKey].eyebrow}
+                </Link>
+              </li>
+              <li aria-hidden className="text-line-strong">/</li>
+              <li>
+                <span aria-current="page" className="text-ink">
+                  {item.company}
+                </span>
+              </li>
+            </ol>
+          </nav>
 
-          <div className="mt-12 grid items-center gap-12 lg:grid-cols-12">
+          <div className="mt-10 grid items-center gap-10 lg:grid-cols-12">
             <div className="lg:col-span-8">
-              <Reveal y={16}>
-                <p className="eyebrow">
+              <Reveal y={8}>
+                <p className="eyebrow inline-flex items-center gap-2">
+                  <span aria-hidden className="size-1.5 rounded-full bg-gold" />
                   {track.label} · {item.sector}
                 </p>
               </Reveal>
-              <h1 id="exp-title" className="font-display mt-5 text-[clamp(3rem,8.5vw,7.5rem)] leading-[0.92] font-light">
+              <h1 id="exp-title" className="heading mt-5 text-[clamp(2.75rem,7vw,5.5rem)]">
                 <ViewTransition name={`title-${item.id}`} share="morph" default="none">
                   <span className="block">{item.company}</span>
                 </ViewTransition>
               </h1>
-              <Reveal delay={0.2}>
-                <p className="font-display mt-5 text-[clamp(1.4rem,2.6vw,2.2rem)] leading-snug font-light text-muted italic">
-                  {item.role}
-                </p>
+              <Reveal delay={0.1} y={8}>
+                <p className="mt-4 text-[clamp(1.15rem,2vw,1.5rem)] leading-snug text-muted">{item.role}</p>
               </Reveal>
-              <Reveal delay={0.3} className="mt-8 flex flex-wrap items-center gap-3">
-                <span className="rounded-full border border-line-strong px-4 py-1.5 font-mono text-xs tracking-[0.14em] uppercase">
+              <Reveal delay={0.15} y={8} className="mt-7 flex flex-wrap items-center gap-2">
+                <span className="rounded-full border border-line-strong px-3.5 py-1 font-mono text-xs tracking-[0.12em] uppercase">
                   {item.period}
                 </span>
                 {item.current && (
-                  <span className="inline-flex items-center gap-2 rounded-full bg-gold/15 px-4 py-1.5 font-mono text-xs tracking-[0.14em] text-gold uppercase">
+                  <span className="inline-flex items-center gap-2 rounded-full border border-line-strong px-3.5 py-1 font-mono text-xs tracking-[0.12em] uppercase">
                     <span className="pulse-dot size-1.5 rounded-full bg-gold text-gold" aria-hidden />
                     {ui.tracks.current}
                   </span>
                 )}
               </Reveal>
             </div>
-            <Reveal className="w-full max-w-[9rem] sm:max-w-[15rem] lg:col-span-4 lg:max-w-none" delay={0.15} y={40}>
+            <div className="w-full max-w-[8rem] sm:max-w-[12rem] lg:col-span-3 lg:col-start-10 lg:max-w-none">
               <ViewTransition name={`brand-${item.id}`} share="morph" default="none">
-              <TiltCard max={10} className="rounded-[2rem]">
-                <div className="relative grid aspect-square place-items-center overflow-hidden rounded-[2rem] border border-line-strong bg-surface [container-type:inline-size]">
-                  <div aria-hidden className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,var(--glow),transparent_60%)]" />
-                  <BrandMark item={item} size={item.logo ? 120 : 110} className="relative" />
+                <div className="relative grid aspect-square place-items-center overflow-hidden rounded-3xl border border-line bg-surface shadow-[0_30px_60px_-30px_rgb(0_0_0/0.35)]">
+                  <BrandMark item={item} size={item.logo ? 96 : 88} />
                 </div>
-              </TiltCard>
               </ViewTransition>
-            </Reveal>
+            </div>
           </div>
         </div>
       </header>
 
-      {/* Samenvatting */}
-      <section aria-label={d.summary} className="border-y border-line bg-bg-2 py-16 md:py-24">
-        <div className="container-x md:grid md:grid-cols-12">
-          <Reveal className="md:col-span-9 md:col-start-2">
-            <p className="font-display text-[clamp(1.5rem,2.8vw,2.4rem)] leading-[1.3] font-light">{item.summary}</p>
-          </Reveal>
-        </div>
-      </section>
+      <div className="container-x grid grid-cols-1 gap-10 py-14 md:py-20 lg:grid-cols-12 lg:gap-12">
+        <aside className="hidden min-w-0 lg:col-span-3 lg:block">
+          <Toc label={ui.toc} items={toc} />
+        </aside>
 
-      <div className="container-x py-20 md:py-28">
-        {/* Merken */}
-        {item.brands && (
-          <section aria-labelledby="merken-title" className="mb-20">
-            <Reveal>
-              <h2 id="merken-title" className="eyebrow mb-6">
+        <div className="min-w-0 space-y-16 md:space-y-20 lg:col-span-9">
+          <section id="samenvatting" aria-labelledby="samenvatting-title" className="scroll-mt-28">
+            <h2 id="samenvatting-title" className="eyebrow mb-5">
+              {d.summary}
+            </h2>
+            <p className="enter text-[clamp(1.25rem,2.2vw,1.65rem)] leading-[1.45] font-medium tracking-tight text-pretty">{item.summary}</p>
+          </section>
+
+          {item.brands && (
+            <section id="merken" aria-labelledby="merken-title" className="scroll-mt-28">
+              <h2 id="merken-title" className="eyebrow mb-5">
                 {d.brands}
               </h2>
-            </Reveal>
-            <ul className="grid gap-4 sm:grid-cols-3">
-              {item.brands.map((b, n) => (
-                <Reveal as="li" key={b.name} delay={n * 0.1}>
-                  <Spotlight className="flex h-full items-center gap-5 rounded-3xl border border-line bg-surface/60 p-6">
-                    <span className="grid h-16 w-24 place-items-center rounded-2xl bg-white p-3">
-                      <Image src={b.logo} alt="" width={80} height={48} className="h-10 w-auto object-contain" />
-                    </span>
-                    <span className="font-display text-2xl">{b.name}</span>
-                  </Spotlight>
-                </Reveal>
-              ))}
-            </ul>
-          </section>
-        )}
+              <ul className="grid gap-3 sm:grid-cols-3">
+                {item.brands.map((b, n) => (
+                  <Reveal as="li" key={b.name} delay={n * 0.05}>
+                    <div className="flex h-full items-center gap-4 rounded-2xl border border-line bg-surface p-5">
+                      <span className="grid h-14 w-20 place-items-center rounded-xl bg-white p-2.5">
+                        <Image src={b.logo} alt="" width={80} height={48} className="h-9 w-auto object-contain" />
+                      </span>
+                      <span className="text-xl font-semibold tracking-tight">{b.name}</span>
+                    </div>
+                  </Reveal>
+                ))}
+              </ul>
+            </section>
+          )}
 
-        {/* Verhaal in stappen */}
-        {item.story && (
-          <section aria-labelledby="verhaal-title" className="mb-24">
-            <Reveal>
-              <h2 id="verhaal-title" className="eyebrow mb-10">
+          {item.story && (
+            <section id="verhaal" aria-labelledby="verhaal-title" className="scroll-mt-28">
+              <h2 id="verhaal-title" className="eyebrow mb-8">
                 {d.story}
               </h2>
-            </Reveal>
-            <ol className="relative grid gap-10 md:grid-cols-4 md:gap-6">
-              <span aria-hidden className="absolute top-5 right-0 left-0 hidden h-px bg-line md:block" />
-              {item.story.map((s, n) => (
-                <Reveal as="li" key={s.title} delay={0.1 + n * 0.15} className="relative">
-                  <span
-                    className={`relative z-10 grid size-10 place-items-center rounded-full border font-mono text-xs ${
-                      n === item.story!.length - 1 ? "border-gold bg-gold text-on-gold" : "border-gold bg-bg text-gold"
-                    }`}
-                  >
-                    0{n + 1}
-                  </span>
-                  <h3 className="font-display mt-6 text-2xl">{s.title}</h3>
-                  <p className="mt-2 text-muted">{s.text}</p>
-                </Reveal>
-              ))}
-            </ol>
-          </section>
-        )}
+              <ol className="relative grid gap-8 md:grid-cols-4 md:gap-6">
+                <span aria-hidden className="absolute top-5 right-0 left-0 hidden h-px bg-line md:block" />
+                {item.story.map((st, n) => (
+                  <Reveal as="li" key={st.title} delay={n * 0.05} className="relative">
+                    <span
+                      className={`relative z-10 grid size-10 place-items-center rounded-full border font-mono text-xs ${
+                        n === item.story!.length - 1 ? "border-ink bg-ink text-bg" : "border-line-strong bg-bg"
+                      }`}
+                    >
+                      0{n + 1}
+                    </span>
+                    <h3 className="mt-5 text-lg font-semibold tracking-tight">{st.title}</h3>
+                    <p className="mt-2 text-muted">{st.text}</p>
+                  </Reveal>
+                ))}
+              </ol>
+            </section>
+          )}
 
-        {/* Wat ik deed + wat het zegt */}
-        <div className="grid gap-12 lg:grid-cols-12">
-          <section aria-labelledby="taken-title" className="lg:col-span-7">
-            <Reveal>
-              <h2 id="taken-title" className="eyebrow mb-8">
-                {d.did}
-              </h2>
-            </Reveal>
+          <section id="taken" aria-labelledby="taken-title" className="scroll-mt-28">
+            <h2 id="taken-title" className="eyebrow mb-5">
+              {d.did}
+            </h2>
             <ol className="divide-y divide-line border-y border-line">
               {item.tasks.map((t, n) => (
-                <Reveal as="li" key={t} delay={n * 0.08} className="flex gap-6 py-6">
-                  <span className="font-display w-10 shrink-0 text-3xl leading-none font-light text-gold">
-                    {String(n + 1).padStart(2, "0")}
-                  </span>
+                <Reveal as="li" key={t} delay={n * 0.04} className="flex gap-5 py-5">
+                  <span className="w-8 shrink-0 font-mono text-sm leading-7 text-muted">{String(n + 1).padStart(2, "0")}</span>
                   <p className="text-lg">{t}</p>
                 </Reveal>
               ))}
             </ol>
           </section>
-          <aside aria-labelledby="zegt-title" className="lg:col-span-4 lg:col-start-9">
-            <Reveal delay={0.15}>
-              <div className="rounded-[2rem] border border-gold/40 bg-gold/10 p-8 lg:sticky lg:top-28">
-                <h2 id="zegt-title" className="eyebrow">
-                  {d.says}
-                </h2>
-                <p className="font-display mt-5 text-2xl leading-snug font-light">{item.value}</p>
-                <ul className="mt-8 flex flex-wrap gap-2" aria-label={d.keywords}>
-                  {item.tags.map((t) => (
-                    <li key={t} className="rounded-full border border-gold/40 px-3 py-1 text-xs text-gold">
-                      {t}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </Reveal>
-          </aside>
-        </div>
 
-        {/* Vorige / volgende */}
-        <nav aria-label={d.other} className="mt-24 grid gap-4 md:grid-cols-2">
-          {[
-            { it: prev, label: d.prev, dir: "prev", Icon: ArrowLeft, align: "" },
-            { it: next, label: d.next, dir: "next", Icon: ArrowRight, align: "md:text-right md:items-end" },
-          ].map(({ it, label, dir, Icon, align }) => (
-            <Link
-              key={label}
-              href={routes.experience(locale, it.id)}
-              data-cursor={label}
-              className={`group flex flex-col gap-3 rounded-3xl border border-line p-7 transition-colors duration-500 hover:border-gold hover:bg-surface/60 ${align}`}
-            >
-              <span className="inline-flex items-center gap-2 font-mono text-[0.7rem] tracking-[0.16em] text-gold uppercase">
-                {dir === "prev" && <Icon className="size-4 transition-transform duration-500 group-hover:-translate-x-1" />}
-                {label}
-                {dir === "next" && <Icon className="size-4 transition-transform duration-500 group-hover:translate-x-1" />}
-              </span>
-              <span className="font-display text-3xl">{it.company}</span>
-              <span className="text-sm text-muted">{it.role}</span>
+          <section id="zegt" aria-labelledby="zegt-title" className="scroll-mt-28">
+            <div className="rounded-2xl border border-line bg-surface p-7 md:p-9">
+              <h2 id="zegt-title" className="eyebrow inline-flex items-center gap-2">
+                <span aria-hidden className="size-1.5 rounded-full bg-gold" />
+                {d.says}
+              </h2>
+              <p className="mt-4 font-display text-[clamp(1.4rem,2.4vw,1.9rem)] leading-snug font-light">{item.value}</p>
+              <ul className="mt-7 flex flex-wrap gap-2" aria-label={d.keywords}>
+                {item.tags.map((t) => (
+                  <li key={t} className="rounded-full border border-line-strong px-3 py-1 text-xs text-muted">
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+
+          {/* Vorige / volgende */}
+          <nav aria-label={d.other} className="grid gap-3 border-t border-line pt-10 md:grid-cols-2">
+            {[
+              { it: prev, label: d.prev, dir: "prev", Icon: ArrowLeft, align: "" },
+              { it: next, label: d.next, dir: "next", Icon: ArrowRight, align: "md:text-right md:items-end" },
+            ].map(({ it, label, dir, Icon, align }) => (
+              <Link
+                key={label}
+                href={routes.experience(locale, it.id)}
+                className={`group flex flex-col gap-2 rounded-2xl border border-line p-6 transition-colors duration-[var(--dur-base)] hover:border-ink hover:bg-surface ${align}`}
+              >
+                <span className="inline-flex items-center gap-2 font-mono text-[0.7rem] tracking-[0.14em] text-muted uppercase">
+                  {dir === "prev" && <Icon className="size-4 transition-transform duration-[var(--dur-base)] group-hover:-translate-x-1" />}
+                  {label}
+                  {dir === "next" && <Icon className="size-4 transition-transform duration-[var(--dur-base)] group-hover:translate-x-1" />}
+                </span>
+                <span className="text-2xl font-semibold tracking-tight">{it.company}</span>
+                <span className="text-sm text-muted">{it.role}</span>
+              </Link>
+            ))}
+          </nav>
+          <p>
+            <Link href={routes.track(locale, item.track)} className="text-sm text-muted underline-offset-4 hover:text-ink hover:underline">
+              ← {pages[trackKey].eyebrow} · {person.fullName}
             </Link>
-          ))}
-        </nav>
-        <p className="mt-10 text-center">
-          <Link href={routes.overview(locale)} className="text-sm text-muted underline-offset-4 hover:text-gold hover:underline">
-            {d.all} · {person.fullName}
-          </Link>
-        </p>
+          </p>
+        </div>
       </div>
       <CtaBand locale={locale} />
     </article>
