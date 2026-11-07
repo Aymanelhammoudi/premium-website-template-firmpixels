@@ -1,6 +1,6 @@
 # aymanzakelijk.nl — persoonlijke website van Ayman El Hammoudi
 
-Persoonlijke cv-site, gericht op toekomstige werkgevers en recruiters. Next.js (App Router) + TypeScript + Tailwind CSS 4 +
+Tweetalige (NL/EN) persoonlijke cv-site, gericht op toekomstige werkgevers en recruiters. Next.js (App Router) + TypeScript + Tailwind CSS 4 +
 Framer Motion + Lenis, volledig statisch geëxporteerd (`out/`).
 
 ## Snel starten
@@ -15,7 +15,7 @@ npm run lint
 
 ## Teksten, foto's en projecten aanpassen
 
-**Alle inhoud staat in één bestand: [`content/site.ts`](content/site.ts).** Je hoeft geen componenten aan te raken.
+**Alle inhoud staat in [`content/site.ts`](content/site.ts) (Nederlands) en [`content/site.en.ts`](content/site.en.ts) (Engels), met precies dezelfde opbouw.** Pas iets aan in allebei. Je hoeft geen componenten aan te raken.
 
 | Wat | Waar in `content/site.ts` |
 |---|---|

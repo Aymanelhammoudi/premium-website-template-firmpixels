@@ -675,3 +675,24 @@ Het juiste cv is direct op de website te lezen, volledig te openen en als PDF te
 [A werkervaring.html] Bekijk mijn ervaring
 [A motivatie.html] Lees mijn ambitie
 ```
+
+---
+
+# Update 7 november 2026 (avond) — verschillen live site ↔ content/site.ts
+
+Back-up: `backup-aymanzakelijk-2026-11-07-avond/` (wget-mirror + screenshots). Gewijzigd op de live site sinds de middag:
+
+| Onderdeel | Live site (leidend) | Verwerkt in site.ts |
+|---|---|---|
+| Groene energie — periode | 2018 — 2020, verkocht in 2020 | ✔ `period: "2018 — 2020"`, verhaal in 4 stappen met jaartallen |
+| Groene energie — partner | "Nederlandse leverancier" (was: groothandel) | ✔ tekst exact overgenomen |
+| Groene energie — oorzaken | tekort aan installateurs **en monteurs**, stijgende **product- en inkoopkosten** | ✔ exact |
+| Cv-profieltekst | "…telecomretail, deur-tot-deurverkoop, klantservice, marketplaces en zelfstandig ondernemerschap…" | ✔ exact (eerdere eigen formulering vervangen) |
+| Cv-vaardigheden | Adviesverkoop · Klantbehoefteanalyse · Deur-tot-deurverkoop · Closing · Marketplaceverkoop · E-commerce · Webdesign · WordPress · Shopify · Orderpicking | ✔ exact |
+| Cv-ondertitel | Verkoopadviseur · Retail & sales · Ondernemer en webdesigner | ✔ exact |
+| Cv-pdf | Origineel vormgegeven cv (NL, ongewijzigd) **+ nieuw Engels cv** | ✔ beide als download; daarnaast ATS-versies (tekst) |
+| Engelse versie | Volledige site onder `/en/` | ✔ `content/site.en.ts`, routes `/en/…`, taalknop NL/EN |
+
+Bewust behouden uit eerdere instructies van Ayman (staan niet letterlijk op de live site):
+Amazon met FBA én FBM, high-ticket closing met trajecten van enkele duizenden euro's en klanten die meer omzet haalden,
+bemiddeling bij webshopovernames op commissie, KPN/Odido/Budget Thuis als verkochte merken.
