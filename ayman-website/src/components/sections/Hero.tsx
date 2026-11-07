@@ -6,18 +6,16 @@ import {
   motion,
   useMotionTemplate,
   useMotionValue,
-  useReducedMotion,
   useScroll,
   useSpring,
   useTransform,
 } from "framer-motion";
-import { useEffect, useRef, useState, type PointerEvent } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type PointerEvent } from "react";
 import { hero, person } from "@content/site";
 import { Button } from "../ui/Button";
 import { ArrowDown, ArrowUpRight, Star } from "../ui/Icons";
-import { RevealLines } from "../ui/Reveal";
 import { TiltCard } from "../ui/TiltCard";
-import { EASE } from "../ui/motion";
+import { EASE, useReducedMotion } from "../ui/motion";
 
 function RotatingRole() {
   const reduce = useReducedMotion();
@@ -89,24 +87,20 @@ export function Hero() {
 
       <div className="container-x grid flex-1 items-center gap-12 lg:grid-cols-12 lg:gap-8">
         <motion.div style={reduce ? undefined : { y: textY, opacity: fade }} className="lg:col-span-7">
-          <motion.p
-            className="mb-8 inline-flex items-center gap-3 rounded-full border border-line-strong bg-surface/50 py-2 pr-4 pl-3 font-mono text-[0.7rem] tracking-[0.16em] uppercase backdrop-blur"
-            initial={reduce ? false : { opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: EASE, delay: 0.1 }}
+          <p
+            className="enter mb-8 inline-flex items-center gap-3 rounded-full border border-line-strong bg-surface/50 py-2 pr-4 pl-3 font-mono text-[0.7rem] tracking-[0.16em] uppercase backdrop-blur"
+            style={{ "--d": "0.1s" } as CSSProperties}
           >
             <span className="pulse-dot size-2 rounded-full bg-emerald-400 text-emerald-400" aria-hidden />
             {hero.status} · {person.region}
-          </motion.p>
+          </p>
 
-          <motion.p
-            className="font-display text-[clamp(1.4rem,2.6vw,2.1rem)] leading-snug font-light"
-            initial={reduce ? false : { opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: EASE, delay: 0.2 }}
+          <p
+            className="enter font-display text-[clamp(1.4rem,2.6vw,2.1rem)] leading-snug font-light"
+            style={{ "--d": "0.2s" } as CSSProperties}
           >
             Ik ben <strong className="font-normal">{person.fullName}</strong>, <RotatingRole />.
-          </motion.p>
+          </p>
 
           <h1
             id="hero-title"
@@ -115,46 +109,33 @@ export function Hero() {
             <span className="sr-only">
               {person.fullName}, {person.role}:{" "}
             </span>
-            <RevealLines
-              onMount
-              delay={0.3}
-              stagger={0.12}
-              lines={[hero.tagline[0], hero.tagline[1], <em key="v">{hero.tagline[2]}</em>]}
-            />
+            {[hero.tagline[0], hero.tagline[1], <em key="v">{hero.tagline[2]}</em>].map((line, i) => (
+              <span key={i} className="line-mask">
+                <span className="line-up" style={{ "--d": `${0.3 + i * 0.12}s` } as CSSProperties}>
+                  {line}
+                </span>
+              </span>
+            ))}
           </h1>
 
-          <motion.div
-            initial={reduce ? false : { opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: EASE, delay: 0.85 }}
-            className="mt-10 grid gap-8 md:grid-cols-[1fr_auto] md:items-end"
-          >
-            <p className="max-w-md text-lg text-muted">{hero.intro}</p>
-          </motion.div>
-          <motion.div
-            initial={reduce ? false : { opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: EASE, delay: 1 }}
-            className="mt-8 flex flex-wrap items-center gap-3"
-          >
+          <p className="enter mt-10 max-w-md text-lg text-muted" style={{ "--d": "0.7s" } as CSSProperties}>
+            {hero.intro}
+          </p>
+          <div className="enter mt-8 flex flex-wrap items-center gap-3" style={{ "--d": "0.85s" } as CSSProperties}>
             <Button href={hero.primaryCta.href} icon={<ArrowUpRight className="size-4" />}>
               {hero.primaryCta.label}
             </Button>
             <Button href={hero.secondaryCta.href} variant="ghost" icon={<ArrowDown className="size-4" />}>
               {hero.secondaryCta.label}
             </Button>
-          </motion.div>
+          </div>
         </motion.div>
 
         <motion.div
           style={reduce ? undefined : { y: portraitY }}
           className="relative mx-auto w-full max-w-[26rem] lg:col-span-5 lg:max-w-none lg:pl-8"
         >
-          <motion.div
-            initial={reduce ? false : { clipPath: "inset(100% 0% 0% 0%)", scale: 1.08 }}
-            animate={{ clipPath: "inset(0% 0% 0% 0%)", scale: 1 }}
-            transition={{ duration: 1.5, ease: EASE, delay: 0.35 }}
-          >
+          <div className="portrait-in">
             <TiltCard max={7} className="rounded-[2rem]">
               <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-line-strong bg-surface">
                 <Image
@@ -177,12 +158,12 @@ export function Hero() {
                 </div>
               </div>
             </TiltCard>
-          </motion.div>
+          </div>
           <div
             aria-hidden
             className="absolute -inset-3 -z-10 rounded-[2.4rem] border border-line-strong lg:left-5"
           />
-          <Star aria-hidden className="spin-slow absolute -bottom-8 -left-6 size-20 text-gold lg:left-0" />
+          <Star aria-hidden className="spin-slow absolute -top-8 -left-4 size-16 text-gold lg:left-2 lg:size-20" />
           <p
             aria-hidden
             className="absolute top-8 -right-8 hidden font-mono text-[0.62rem] tracking-[0.3em] text-muted uppercase [writing-mode:vertical-rl] xl:block"

@@ -22,7 +22,7 @@ export function Skills() {
   };
 
   return (
-    <section id="vaardigheden" aria-labelledby="skills-title" className="bg-bg-2 py-28 md:py-40">
+    <section id="vaardigheden" aria-labelledby="skills-title" className="bg-bg-2 py-24 md:py-32">
       <div className="container-x">
         <SectionHeading
           index="06"

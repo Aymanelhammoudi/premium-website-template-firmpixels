@@ -1,8 +1,8 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion} from "framer-motion";
 import type { ReactNode } from "react";
-import { EASE } from "./motion";
+import { EASE, useReducedMotion } from "./motion";
 
 type Props = {
   children: ReactNode;
@@ -35,8 +35,6 @@ type LinesProps = {
   lineClassName?: string;
   delay?: number;
   stagger?: number;
-  /** animeren bij laden i.p.v. bij in beeld komen */
-  onMount?: boolean;
 };
 
 /** Koppen die regel voor regel uit een masker omhoog schuiven. */
@@ -46,15 +44,14 @@ export function RevealLines({
   lineClassName,
   delay = 0,
   stagger = 0.09,
-  onMount = false,
 }: LinesProps) {
   const reduce = useReducedMotion();
-  const trigger = onMount ? { animate: "show" } : { whileInView: "show", viewport: { once: true, margin: "0px 0px -8% 0px" } };
   return (
     <motion.span
       className={className}
       initial={reduce ? false : "hidden"}
-      {...trigger}
+      whileInView="show"
+      viewport={{ once: true, margin: "0px 0px -8% 0px" }}
       transition={{ staggerChildren: stagger, delayChildren: delay }}
     >
       {lines.map((line, i) => (

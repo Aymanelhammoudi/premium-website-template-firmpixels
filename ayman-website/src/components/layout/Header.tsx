@@ -71,14 +71,16 @@ export function Header() {
             <Link
               href="/"
               className="group flex items-center gap-3"
-              aria-label={`${person.fullName} — naar de homepage`}
               onClick={() => setOpen(false)}
             >
-              <span className="font-display text-[2rem] leading-none italic transition-transform duration-500 group-hover:-rotate-6">
+              <span
+                aria-hidden
+                className="font-display text-[2rem] leading-none italic transition-transform duration-500 group-hover:-rotate-6"
+              >
                 {person.initials}
                 <span className="text-gold">.</span>
               </span>
-              <span className="hidden font-mono text-[0.68rem] leading-tight tracking-[0.18em] uppercase sm:block">
+              <span className="sr-only font-mono text-[0.68rem] leading-tight tracking-[0.18em] uppercase sm:not-sr-only sm:block">
                 {person.firstName}
                 <br />
                 <span className="text-muted">{person.lastName}</span>

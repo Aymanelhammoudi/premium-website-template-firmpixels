@@ -253,6 +253,51 @@ em.accent {
   to { transform: scale(2); opacity: 0; }
 }
 
+/* Hero-entree in pure CSS: start direct bij de eerste paint, zonder op JavaScript te wachten */
+.enter {
+  animation: enter 1s var(--ease-out-expo) both;
+  animation-delay: var(--d, 0s);
+}
+@keyframes enter {
+  from { opacity: 0; transform: translateY(18px); }
+}
+.line-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+.line-up {
+  display: block;
+  animation: line-up 1.1s var(--ease-out-expo) both;
+  animation-delay: var(--d, 0s);
+}
+@keyframes line-up {
+  from { transform: translateY(110%) rotate(2deg); }
+}
+/* Portret: een gordijn schuift weg (de foto zelf is meteen geschilderd → snelle LCP) */
+.portrait-in {
+  position: relative;
+  animation: portrait-zoom 1.6s var(--ease-out-expo) both 0.3s;
+}
+.portrait-in::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: 5;
+  border-radius: 2rem;
+  background: var(--bg);
+  transform-origin: top;
+  animation: curtain 1.3s var(--ease-out-expo) both 0.35s;
+  pointer-events: none;
+}
+@keyframes curtain {
+  to { transform: scaleY(0); }
+}
+@keyframes portrait-zoom {
+  from { transform: scale(1.06); }
+}
+
 /* Lenis smooth scroll */
 html.lenis,
 html.lenis body {

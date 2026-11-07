@@ -5,7 +5,6 @@ import {
   AnimatePresence,
   motion,
   useMotionValue,
-  useReducedMotion,
   useScroll,
   useSpring,
 } from "framer-motion";
@@ -14,7 +13,7 @@ import { experience, experienceIntro, type Experience as Exp } from "@content/si
 import { Plus } from "../ui/Icons";
 import { Reveal } from "../ui/Reveal";
 import { SectionHeading } from "../ui/SectionHeading";
-import { EASE } from "../ui/motion";
+import { EASE, useReducedMotion } from "../ui/motion";
 
 type Filter = (typeof experienceIntro.filters)[number]["id"];
 
@@ -58,12 +57,13 @@ function Row({
       onPointerLeave={() => onHover(null)}
     >
       {/* Knooppunt op de tijdlijn */}
-      <span
-        aria-hidden
-        className={`absolute top-9 left-[7px] size-[11px] rounded-full border-2 border-gold md:left-[23px] ${
-          item.current ? "pulse-dot bg-gold text-gold" : "bg-bg"
-        }`}
-      />
+      <span aria-hidden className="absolute top-9 left-[7px] md:left-[23px]">
+        <span
+          className={`block size-[11px] rounded-full border-2 border-gold ${
+            item.current ? "pulse-dot bg-gold text-gold" : "bg-bg"
+          }`}
+        />
+      </span>
       <div
         className={`rounded-3xl border transition-colors duration-500 ${
           open ? "border-line-strong bg-surface/70" : "border-transparent hover:bg-surface/40"
@@ -181,7 +181,7 @@ export function Experience() {
   const items = experience.filter((e) => filter === "alles" || e.category === filter);
 
   return (
-    <section id="ervaring" aria-labelledby="ervaring-title" className="py-28 md:py-40">
+    <section id="ervaring" aria-labelledby="ervaring-title" className="py-24 md:py-32">
       <div className="container-x">
         <SectionHeading
           index="04"

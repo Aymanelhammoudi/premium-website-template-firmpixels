@@ -1,10 +1,12 @@
 "use client";
 
-import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from "framer-motion";
+import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { useRef } from "react";
+import { useReducedMotion } from "./motion";
 
 function Word({ word, range, progress, accent }: { word: string; range: [number, number]; progress: MotionValue<number>; accent: boolean }) {
-  const opacity = useTransform(progress, range, [0.15, 1]);
+  // Ook "onverlicht" blijft de tekst leesbaar (≥ 3:1 contrast voor grote tekst).
+  const opacity = useTransform(progress, range, [accent ? 0.8 : 0.55, 1]);
   const y = useTransform(progress, range, [6, 0]);
   return (
     <motion.span style={{ opacity, y }} className={`inline-block ${accent ? "accent italic text-gold" : ""}`}>

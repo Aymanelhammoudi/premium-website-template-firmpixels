@@ -1,14 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion} from "framer-motion";
 import { useMemo, useState } from "react";
 import { projects, projectsIntro } from "@content/site";
 import { ArrowUpRight } from "../ui/Icons";
 import { Reveal } from "../ui/Reveal";
 import { SectionHeading } from "../ui/SectionHeading";
 import { TiltCard } from "../ui/TiltCard";
-import { EASE } from "../ui/motion";
+import { EASE, useReducedMotion } from "../ui/motion";
 
 export function Projects() {
   const reduce = useReducedMotion();
@@ -18,7 +18,7 @@ export function Projects() {
   const items = visible.filter((p) => cat === "Alles" || p.category === cat);
 
   return (
-    <section id="werk" aria-labelledby="werk-title" className="relative py-28 md:py-40">
+    <section id="werk" aria-labelledby="werk-title" className="relative py-24 md:py-32">
       <div className="container-x">
         <SectionHeading
           index="05"
@@ -101,7 +101,7 @@ export function Projects() {
                       </div>
                     </TiltCard>
                   </a>
-                  <div className="mt-6 flex items-start justify-between gap-6">
+                  <div className="mt-6 flex flex-col-reverse gap-3 xl:flex-row xl:items-start xl:justify-between xl:gap-6">
                     <div>
                       <p className="font-mono text-[0.7rem] tracking-[0.16em] text-gold uppercase">
                         0{i + 1} — {p.category}
@@ -114,7 +114,7 @@ export function Projects() {
                       </h3>
                       <p className="mt-3 max-w-md text-muted">{p.description}</p>
                     </div>
-                    <p className="shrink-0 pt-1 text-right font-mono text-[0.65rem] tracking-wider text-muted uppercase">
+                    <p className="pt-1 font-mono xl:shrink-0 xl:text-right text-[0.65rem] tracking-wider text-muted uppercase">
                       {p.checked}
                     </p>
                   </div>

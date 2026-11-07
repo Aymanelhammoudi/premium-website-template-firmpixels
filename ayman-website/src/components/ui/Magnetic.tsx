@@ -1,7 +1,8 @@
 "use client";
 
-import { motion, useMotionValue, useSpring, useReducedMotion } from "framer-motion";
+import { motion, useMotionValue, useSpring} from "framer-motion";
 import { useRef, type ReactNode, type PointerEvent } from "react";
+import { useReducedMotion } from "./motion";
 
 /** Element dat licht naar de muis toe getrokken wordt (alleen bij muis/trackpad). */
 export function Magnetic({

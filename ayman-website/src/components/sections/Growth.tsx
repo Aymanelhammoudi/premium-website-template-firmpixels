@@ -18,7 +18,7 @@ export function Growth() {
   const list = view === "bring" ? growth.bring : growth.goals;
 
   return (
-    <section id="ambitie" aria-labelledby="ambitie-title" className="py-28 md:py-40">
+    <section id="ambitie" aria-labelledby="ambitie-title" className="py-24 md:py-32">
       <div className="container-x">
         <SectionHeading
           index="07"

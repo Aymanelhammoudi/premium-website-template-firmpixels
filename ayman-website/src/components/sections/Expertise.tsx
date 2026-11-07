@@ -8,7 +8,7 @@ const icons = { chat: Chat, handshake: Handshake, browser: Browser };
 
 export function Expertise() {
   return (
-    <section id="expertise" aria-labelledby="expertise-title" className="py-28 md:py-40">
+    <section id="expertise" aria-labelledby="expertise-title" className="py-24 md:py-32">
       <div className="container-x">
         <SectionHeading
           index="03"

@@ -28,7 +28,7 @@ export function Footer() {
   const prefix = pathname === "/" ? "" : "/";
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end end"] });
-  const y = useTransform(scrollYProgress, [0, 1], ["40%", "0%"]);
+  const y = useTransform(scrollYProgress, [0, 1], ["60%", "0%"]);
   const year = new Date().getFullYear();
 
   return (
@@ -111,16 +111,22 @@ export function Footer() {
         </div>
       </div>
 
-      <div aria-hidden className="pointer-events-none select-none">
-        <motion.p
-          style={{ y }}
-          className="font-display text-center text-[19vw] leading-[0.8] font-light tracking-[-0.06em] whitespace-nowrap text-ink/[0.06]"
-        >
-          El Hammoudi<span className="text-gold/40">.</span>
-        </motion.p>
+      <div aria-hidden className="pointer-events-none h-[15vw] overflow-hidden select-none">
+        {/* Decoratief woordmerk als SVG (geen leestekst) */}
+        <motion.svg style={{ y }} viewBox="0 0 1000 170" className="block w-full" role="presentation">
+          <text
+            x="500"
+            y="150"
+            textAnchor="middle"
+            className="font-display"
+            style={{ fontSize: 196, fontWeight: 300, letterSpacing: "-0.06em", fill: "color-mix(in srgb, var(--ink) 7%, transparent)" }}
+          >
+            El Hammoudi<tspan style={{ fill: "color-mix(in srgb, var(--gold) 45%, transparent)" }}>.</tspan>
+          </text>
+        </motion.svg>
       </div>
 
-      <div className="container-x flex flex-col gap-2 border-t border-line py-6 font-mono text-[0.7rem] tracking-wider text-muted uppercase md:flex-row md:justify-between">
+      <div className="relative z-10 container-x flex flex-col gap-2 border-t border-line py-6 font-mono text-[0.7rem] tracking-wider text-muted uppercase md:flex-row md:justify-between">
         <span>
           © {year} {person.fullName}
         </span>

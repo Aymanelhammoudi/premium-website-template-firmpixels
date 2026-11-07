@@ -1,13 +1,15 @@
 "use client";
 
-import { animate, useInView, useReducedMotion } from "framer-motion";
+import { animate, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import { useReducedMotion } from "./motion";
 
+/** Telt op tot `value` zodra het getal in beeld komt. Zonder JS / bij minder beweging: direct de eindwaarde. */
 export function CountUp({ value, suffix = "" }: { value: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "0px 0px -15% 0px" });
   const reduce = useReducedMotion();
-  const [n, setN] = useState(reduce ? value : 0);
+  const [n, setN] = useState(value);
 
   useEffect(() => {
     if (!inView || reduce) return;

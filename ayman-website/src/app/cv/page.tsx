@@ -41,7 +41,7 @@ export default function CvPage() {
             <p className="mt-2 text-lg">Verkoopadviseur · Retail &amp; sales · Webdesigner</p>
             <p className="mt-4 text-muted">
               {person.region} · <a href={`mailto:${person.email}`} className="underline-offset-4 hover:underline">{person.email}</a> ·{" "}
-              <a href={`tel:${person.phoneHref}`} className="underline-offset-4 hover:underline">{person.phoneDisplay}</a>
+              <a href={`tel:${person.phoneHref}`} className="whitespace-nowrap underline-offset-4 hover:underline">{person.phoneDisplay}</a>
               {person.linkedin && (
                 <>
                   {" "}

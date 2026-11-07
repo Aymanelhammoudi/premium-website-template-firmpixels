@@ -4,7 +4,6 @@ import {
   motion,
   useAnimationFrame,
   useMotionValue,
-  useReducedMotion,
   useScroll,
   useSpring,
   useTransform,
@@ -12,6 +11,7 @@ import {
 } from "framer-motion";
 import { useRef } from "react";
 import { Star } from "../ui/Icons";
+import { useReducedMotion } from "../ui/motion";
 
 const wrap = (min: number, max: number, v: number) => {
   const r = max - min;

@@ -1,7 +1,8 @@
 "use client";
 
-import { motion, useMotionTemplate, useMotionValue, useReducedMotion, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionTemplate, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useRef, type ReactNode, type PointerEvent } from "react";
+import { useReducedMotion } from "./motion";
 
 /** 3D-kantelende kaart met glans-reflectie die de muis volgt. */
 export function TiltCard({

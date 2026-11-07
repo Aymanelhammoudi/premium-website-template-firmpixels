@@ -78,7 +78,7 @@ export function Contact() {
     "pointer-events-none absolute top-7 left-0 text-muted transition-all duration-300 peer-focus:top-0 peer-focus:text-xs peer-focus:text-gold peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs";
 
   return (
-    <section id="contact" aria-labelledby="contact-title" className="relative overflow-hidden py-28 md:py-40">
+    <section id="contact" aria-labelledby="contact-title" className="relative overflow-hidden py-24 md:py-32">
       <div aria-hidden className="grid-lines absolute inset-0 -z-10 opacity-60" />
       <div className="container-x">
         <p className="eyebrow mb-6">09 — {contact.eyebrow}</p>

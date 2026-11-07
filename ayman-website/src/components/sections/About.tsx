@@ -7,7 +7,7 @@ import { Spotlight } from "../ui/Spotlight";
 
 export function About() {
   return (
-    <section id="over" aria-labelledby="over-title" className="relative py-28 md:py-40">
+    <section id="over" aria-labelledby="over-title" className="relative py-24 md:py-32">
       <div className="container-x">
         <SectionHeading index="02" label="Over mij" id="over-title" title="Aangenaam." accent="Ik ben Ayman." />
 
