@@ -59,6 +59,16 @@
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* ───────────── Motion-tokens (overal hetzelfde ritme) ───────────── */
+:root {
+  --dur-fast: 200ms;
+  --dur-base: 400ms;
+  --dur-move: 600ms;
+  --dur-slow: 1000ms;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
 /* ───────────── Basis ───────────── */
 
 html {
@@ -319,14 +329,30 @@ html.lenis body {
 }
 
 /* Thema-wissel: cirkel die openvouwt vanaf de knop */
-::view-transition-old(root),
-::view-transition-new(root) {
+html.theme-vt::view-transition-old(root),
+html.theme-vt::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
 }
-::view-transition-new(root) {
+html.theme-vt::view-transition-new(root) {
   animation: theme-reveal 0.7s var(--ease-out-expo);
 }
+
+/* Paginawissel: logo en titel "vliegen" van tegel naar detailpagina */
+::view-transition-group(.morph) {
+  animation-duration: var(--dur-move);
+  animation-timing-function: var(--ease-out-expo);
+}
+::view-transition-image-pair(.morph) {
+  animation-name: via-blur;
+}
+@keyframes via-blur {
+  30% { filter: blur(2px); }
+}
+::view-transition-old(root) { animation: var(--dur-fast) var(--ease-out-expo) both vt-fade-out; }
+::view-transition-new(root) { animation: var(--dur-base) var(--ease-out-expo) both vt-fade-in; }
+@keyframes vt-fade-out { to { opacity: 0; } }
+@keyframes vt-fade-in { from { opacity: 0; } }
 @keyframes theme-reveal {
   from { clip-path: circle(0 at var(--vt-x, 50%) var(--vt-y, 0%)); }
   to { clip-path: circle(var(--vt-r, 150%) at var(--vt-x, 50%) var(--vt-y, 0%)); }

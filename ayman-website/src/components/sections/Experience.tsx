@@ -9,14 +9,14 @@ import {
   useSpring,
 } from "framer-motion";
 import { useRef, useState, type PointerEvent } from "react";
-import { experience, experienceIntro, type Experience as Exp } from "@content/site";
+import { getSite, routes, type Experience as Exp, type Locale, type Site, type Track } from "@content";
 import { ArrowRight, Plus } from "../ui/Icons";
 import { BrandMark } from "../ui/BrandMark";
 import { Reveal } from "../ui/Reveal";
 import { SectionHeading } from "../ui/SectionHeading";
 import { EASE, useReducedMotion } from "../ui/motion";
 
-type Filter = (typeof experienceIntro.filters)[number]["id"];
+type Filter = "alles" | Track;
 
 function Row({
   item,
@@ -24,7 +24,11 @@ function Row({
   open,
   onToggle,
   onHover,
+  locale,
+  ui,
 }: {
+  locale: Locale;
+  ui: Site["ui"];
   item: Exp;
   index: number;
   open: boolean;
@@ -62,7 +66,7 @@ function Row({
             aria-expanded={open}
             aria-controls={panelId}
             onClick={onToggle}
-            data-cursor={open ? "Sluit" : "Open"}
+            data-cursor={open ? ui.overview.close : ui.overview.open}
             className="grid w-full grid-cols-[1fr_auto] items-center gap-4 p-5 text-left md:grid-cols-[10rem_1fr_auto] md:gap-8 md:p-7"
           >
             <span className="col-span-2 flex items-center gap-3 font-mono text-[0.7rem] tracking-[0.16em] text-gold uppercase md:col-span-1">
@@ -99,7 +103,7 @@ function Row({
             <motion.div
               id={panelId}
               role="region"
-              aria-label={`${item.company} — details`}
+              aria-label={`${item.company} — ${ui.overview.details}`}
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
@@ -120,7 +124,7 @@ function Row({
                     </ul>
                   </div>
                   <div>
-                    <h3 className="eyebrow mb-3">Werkzaamheden</h3>
+                    <h3 className="eyebrow mb-3">{ui.overview.tasks}</h3>
                     <ul className="space-y-2 text-muted">
                       {item.tasks.map((t) => (
                         <li key={t} className="flex gap-3">
@@ -130,14 +134,14 @@ function Row({
                       ))}
                     </ul>
                     <div className="mt-6 rounded-2xl border-l-2 border-gold bg-gold/5 p-4">
-                      <h3 className="eyebrow mb-1">Wat dit zegt over mij</h3>
+                      <h3 className="eyebrow mb-1">{ui.overview.says}</h3>
                       <p className="text-sm">{item.value}</p>
                     </div>
                     <Link
-                      href={`/ervaring/${item.id}/`}
+                      href={routes.experience(locale, item.id)}
                       className="group mt-6 inline-flex items-center gap-2 text-sm text-gold"
                     >
-                      Open de volledige pagina
+                      {ui.overview.full}
                       <ArrowRight className="size-4 transition-transform duration-500 group-hover:translate-x-1" />
                     </Link>
                   </div>
@@ -151,7 +155,9 @@ function Row({
   );
 }
 
-export function Experience() {
+export function Experience({ locale }: { locale: Locale }) {
+  const { experience, experienceIntro, ui } = getSite(locale);
+  const o = ui.overview;
   const [filter, setFilter] = useState<Filter>("alles");
   const [openId, setOpenId] = useState<string | null>(experience[0].id);
   const [hovered, setHovered] = useState<Exp | null>(null);
@@ -179,23 +185,23 @@ export function Experience() {
       <div className="container-x">
         <SectionHeading
           index="—"
-          label="Alle ervaring op een rij"
+          label={o.label}
           id="tijdlijn-title"
-          title="Een loopbaan in contact."
-          accent="Een ondernemer in e-commerce."
-          intro="Alle ervaring in één tijdlijn. Filter op spoor, klap een onderdeel open of open de volledige pagina."
+          title={o.title}
+          accent={o.accent}
+          intro={o.intro}
           level="h1"
         />
 
         <Reveal className="mt-16 md:grid md:grid-cols-12">
           <blockquote className="border-l-2 border-gold pl-6 md:col-span-7 md:col-start-4">
-            <p className="eyebrow mb-3">De rode draad</p>
+            <p className="eyebrow mb-3">{o.thread}</p>
             <p className="font-display text-2xl leading-snug font-light md:text-3xl">{experienceIntro.thread}</p>
           </blockquote>
         </Reveal>
 
         <div className="mt-20 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div role="group" aria-label="Filter werkervaring" className="flex flex-wrap gap-1 rounded-full border border-line p-1">
+          <div role="group" aria-label={o.filterAria} className="flex flex-wrap gap-1 rounded-full border border-line p-1">
             {experienceIntro.filters.map((f) => {
               const active = filter === f.id;
               return (
@@ -221,7 +227,7 @@ export function Experience() {
             })}
           </div>
           <p className="font-mono text-xs tracking-[0.16em] text-muted uppercase" aria-live="polite">
-            {items.length} {items.length === 1 ? "ervaring" : "ervaringen"}
+            {items.length} {items.length === 1 ? o.one : o.many}
           </p>
         </div>
 
@@ -243,6 +249,8 @@ export function Experience() {
                   open={openId === item.id}
                   onToggle={() => setOpenId((o) => (o === item.id ? null : item.id))}
                   onHover={setHovered}
+                  locale={locale}
+                  ui={ui}
                 />
               ))}
             </AnimatePresence>

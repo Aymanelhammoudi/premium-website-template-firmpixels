@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { person } from "@content/site";
+import { getSite, type Locale } from "@content";
 import { Check, Copy } from "./Icons";
 
 /** Deelt het profiel (native deelmenu op mobiel) of kopieert de link. */
-export function ShareButton() {
+export function ShareButton({ locale }: { locale: Locale }) {
+  const { person, ui } = getSite(locale);
   const [done, setDone] = useState(false);
   const share = async () => {
     const data = { title: `${person.fullName} — ${person.role}`, url: person.siteUrl };
@@ -28,7 +29,7 @@ export function ShareButton() {
       className="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-gold"
     >
       {done ? <Check className="size-4 text-gold" /> : <Copy className="size-4" />}
-      <span aria-live="polite">{done ? "Link gekopieerd" : "Deel dit profiel met een collega"}</span>
+      <span aria-live="polite">{done ? ui.share.done : ui.share.idle}</span>
     </button>
   );
 }

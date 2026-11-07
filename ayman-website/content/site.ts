@@ -114,7 +114,7 @@ export const hero = {
   intro:
     "Een commerciële professional uit Noord-Holland met ervaring in klantadvies, retail, deur-tot-deurverkoop, high-ticket sales en e-commerce.",
   footnote: "Praktisch, leergierig en klantgericht.",
-  primaryCta: { label: "Download mijn cv", href: "/cv.pdf" },
+  primaryCta: { label: "Download mijn cv", href: "/cv/CV_Ayman_El_Hammoudi.pdf" },
   secondaryCta: { label: "Bekijk mijn ervaring", href: "#ervaring" },
 };
 
@@ -154,6 +154,8 @@ export const quickScan = {
 
 export const about = {
   statement: "Goed advies begint met écht luisteren.",
+  /** woorden in de statement die goud oplichten */
+  statementAccent: "écht luisteren.",
   lead: "Ik wil begrijpen wat iemand nodig heeft. Daar begint voor mij een goed gesprek.",
   story: [
     "Ik ben 23 jaar, woon in Noord-Holland en ontwikkel mij op het snijvlak van commercie, klantcontact en ondernemerschap.",
@@ -232,7 +234,7 @@ export const tracks: Record<Track, { label: string; title: string; titleAccent: 
     title: "Als ondernemer",
     titleAccent: "in e-commerce.",
     intro:
-      "Marketplaces, eigen webshops, samenwerkingen en een eigen bedrijf in groene energie. Hier leerde ik zelf beslissen, rekenen en op tijd bijsturen.",
+      "Marketplaces, eigen webshops, samenwerkingen en een eigen bedrijf in groene energie (2018 — 2020). Hier leerde ik zelf beslissen, rekenen en op tijd bijsturen.",
   },
 };
 
@@ -487,22 +489,22 @@ export const experience: Experience[] = [
     track: "ondernemer",
     company: "Groene energie",
     role: "Eigenaar · verkoop zonnepanelen en laadpalen",
-    period: "Eerdere onderneming",
+    period: "2018 — 2020",
     featured: true,
     sector: "Eigen bedrijf",
     icon: "sun",
     summary:
-      "Ik bouwde een eigen onderneming in groene energie op en werkte samen met een Nederlandse groothandel voor de verkoop van zonnepanelen en laadpalen. Toen corona, een tekort aan installateurs en sterk gestegen productiekosten de marge structureel onder druk zetten, heb ik het bedrijf met winst verkocht.",
+      "Van 2018 tot 2020 bouwde ik een eigen onderneming in groene energie op. Via een samenwerking met een Nederlandse leverancier verkocht ik zonnepanelen en laadpalen. Tijdens de coronaperiode zorgden een tekort aan installateurs en monteurs en stijgende product- en inkoopkosten voor een steeds lagere marge. Daarom heb ik het bedrijf in 2020 met winst verkocht.",
     story: [
-      { title: "Opgebouwd", text: "Een eigen bedrijf opgezet in zonnepanelen en laadpalen." },
-      { title: "Samengewerkt", text: "Een samenwerking met een Nederlandse groothandel voor de producten." },
-      { title: "Markt veranderde", text: "Corona, een tekort aan installateurs en stijgende productiekosten drukten de marge." },
-      { title: "Met winst verkocht", text: "Op tijd een zakelijk besluit genomen en het bedrijf winstgevend overgedragen." },
+      { title: "2018 · Opgebouwd", text: "Een eigen bedrijf opgezet in zonnepanelen en laadpalen." },
+      { title: "Samengewerkt", text: "Via een samenwerking met een Nederlandse leverancier zonnepanelen en laadpalen verkocht." },
+      { title: "Markt veranderde", text: "Tijdens corona: een tekort aan installateurs en monteurs en stijgende product- en inkoopkosten." },
+      { title: "2020 · Met winst verkocht", text: "Een zakelijk besluit genomen en het bedrijf met winst overgedragen." },
     ],
     tasks: [
-      "Zonnepanelen en laadpalen verkopen via een Nederlandse groothandelspartner.",
+      "Zonnepanelen en laadpalen verkopen via een Nederlandse leverancier.",
       "Een commerciële samenwerking opbouwen en de onderneming ontwikkelen.",
-      "Tijdig reageren op veranderde marktomstandigheden en het bedrijf winstgevend overdragen.",
+      "In 2020 zakelijk reageren op veranderde marktomstandigheden en het bedrijf met winst overdragen.",
     ],
     value:
       "Ik kan cijfers lezen, de markt realistisch beoordelen en een moeilijke beslissing op tijd en zakelijk nemen.",
@@ -760,18 +762,23 @@ export const testimonials: { quote: string; name: string; role: string }[] = [];
 /* ───────────── Cv ───────────── */
 
 export const cv = {
-  /** Gegenereerd uit de online cv-pagina (/cv) met alleen bevestigde gegevens — zie README. */
-  pdf: "/cv.pdf",
-  preview: "/images/cv-preview.jpg",
+  /** Origineel, vormgegeven cv — exact zoals op aymanzakelijk.nl */
+  pdf: "/cv/CV_Ayman_El_Hammoudi.pdf",
+  preview: "/images/cv-preview.webp",
+  previewSize: { width: 1200, height: 1697 },
   fileName: "CV_Ayman_El_Hammoudi.pdf",
+  /** ATS-versie: doorzoekbare tekst, gemaakt met `npm run cv:pdf` uit de online cv-pagina */
+  ats: "/cv/CV_Ayman_El_Hammoudi_ATS.pdf",
+  atsFileName: "CV_Ayman_El_Hammoudi_ATS.pdf",
+  subtitle: "Verkoopadviseur · Retail & sales · Ondernemer en webdesigner",
   profile:
-    "Commercieel ingestelde verkoopadviseur met ervaring in telecomretail, deur-tot-deurverkoop, high-ticket sales, klantservice, marketplaces en zelfstandig ondernemerschap. Sterk in luisteren, behoefteanalyse en het begrijpelijk presenteren van passende opties. Combineert persoonlijk klantcontact met resultaatgericht werken, eigenaarschap en een praktische digitale blik.",
+    "Commercieel ingestelde verkoopadviseur met ervaring in telecomretail, deur-tot-deurverkoop, klantservice, marketplaces en zelfstandig ondernemerschap. Sterk in luisteren, behoefteanalyse en het begrijpelijk presenteren van passende opties. Combineert persoonlijk klantcontact met resultaatgericht werken, eigenaarschap en een praktische digitale blik.",
   skills: [
     "Adviesverkoop",
     "Klantbehoefteanalyse",
     "Deur-tot-deurverkoop",
-    "High-ticket closing",
-    "Marketplaceverkoop (bol, Amazon FBA/FBM)",
+    "Closing",
+    "Marketplaceverkoop",
     "E-commerce",
     "Webdesign",
     "WordPress",
@@ -779,6 +786,7 @@ export const cv = {
     "Orderpicking",
   ],
 };
+
 
 /* ───────────── Contact ───────────── */
 
@@ -795,4 +803,171 @@ export const contact = {
 export const footer = {
   motto: ["Persoonlijk in contact.", "Ondernemend in mijn aanpak."],
   disclaimer: "Persoonlijk portfolio · Niet gelieerd aan genoemde werkgevers",
+};
+
+/* ───────────── Interfaceteksten (knoppen, labels, meldingen) ───────────── */
+
+export const ui = {
+  lang: "nl",
+  langName: "Nederlands",
+  skip: "Direct naar inhoud",
+  header: {
+    navAria: "Hoofdnavigatie",
+    homeAria: "naar de homepage",
+    cta: "Kennismaken",
+    menuOpen: "Menu openen",
+    menuClose: "Menu sluiten",
+    menu: "Menu",
+    mobileNavAria: "Mobiele navigatie",
+    toDark: "Schakel naar donkere modus",
+    toLight: "Schakel naar lichte modus",
+    langSwitch: "Taal",
+  },
+  footer: {
+    nav: "Navigatie",
+    allExperience: "Alle ervaring",
+    onlineCv: "Online cv",
+    localTime: "lokale tijd",
+    backToTop: "Terug naar boven",
+    emailAria: "Stuur een e-mail",
+  },
+  hero: {
+    iAm: "Ik ben",
+    scroll: "Scroll verder",
+    index: "01 / Profiel",
+    side: "Persoonlijk. Professioneel. Ondernemend.",
+    caption: "Sales · Retail · E-commerce",
+  },
+  marquee: "Ervaring opgebouwd bij · verkocht voor · verkocht via",
+  quick: {
+    label: "In 30 seconden",
+    act: "Direct regelen",
+    download: "Download mijn cv",
+    meet: "Plan een kennismaking",
+    meetSubject: "Uitnodiging kennismakingsgesprek",
+    at: "bij",
+    sectors: "Ervaring in",
+    strengths: "Sterk in",
+    education: "Opleiding",
+    langRegion: "Talen & regio",
+    years: "jaar",
+    seeking: "Wat ik zoek",
+  },
+  tracks: {
+    label: "Ervaring",
+    overview: "Alles op een rij (tijdlijn)",
+    parts: "onderdelen · klik om te openen",
+    current: "Huidig",
+    view: "Bekijk wat ik deed",
+    brands: "Verkochte merken",
+    cursor: "Bekijk",
+  },
+  about: { label: "Over mij", title: "Aangenaam.", accent: "Ik ben Ayman.", traits: "Zo ken je mij", way: "Mijn manier van werken" },
+  expertise: { label: "Mijn sterke punten" },
+  skills: {
+    label: "Vaardigheden",
+    tabsAria: "Vaardigheidsgroepen",
+    expertise: "Expertise",
+    practice: "In de praktijk",
+    education: "Opleiding",
+    languages: "Talen",
+    tools: "Tools",
+    certificates: "Certificaten",
+  },
+  growth: {
+    label: "Ontwikkeling & ambitie",
+    viewsAria: "Kies een weergave",
+    bring: "Wat ik meebreng",
+    goals: "Waar ik naartoe wil",
+    drive: "Wat mij drijft",
+    seeking: "Wat ik zoek",
+  },
+  projects: {
+    all: "Alles",
+    filterAria: "Filter projecten",
+    visit: "bekijk website (opent in nieuw tabblad)",
+    newTab: "(opent in nieuw tabblad)",
+    cursor: "Bekijk",
+    process: "Werkwijze",
+  },
+  cvSection: {
+    eyebrow: "Curriculum vitae",
+    title: "Mijn ervaring.",
+    accent: "Direct in beeld.",
+    intro: "Download mijn vormgegeven cv, of de ATS-versie met doorzoekbare tekst voor sollicitatiesystemen. Liever lezen op het scherm? Open de online versie.",
+    note: "Het vormgegeven cv is exact het cv van aymanzakelijk.nl. De ATS-versie en de online versie bevatten dezelfde ervaring als deze website.",
+    download: "Download cv (PDF)",
+    ats: "ATS-versie (tekst)",
+    online: "Bekijk de online versie",
+    openAria: "Open cv als PDF (nieuw tabblad)",
+    previewAlt: "Voorbeeld van het cv van Ayman El Hammoudi",
+    otherLang: { label: "English CV", href: "/cv/CV_Ayman_El_Hammoudi_EN.pdf" },
+  },
+  share: { idle: "Deel dit profiel met een collega", done: "Link gekopieerd" },
+  contact: {
+    topicLegend: "Waar gaat het over?",
+    name: "Je naam",
+    email: "Je e-mailadres",
+    message: "Je bericht",
+    errName: "Vul je naam in.",
+    errEmail: "Vul een geldig e-mailadres in.",
+    errMessage: "Schrijf een bericht van minimaal 10 tekens.",
+    send: "Verstuur bericht",
+    sendMail: "Verstuur via je e-mailapp",
+    sending: "Versturen…",
+    sent: "Bedankt! Je bericht is verstuurd. Ik reageer zo snel mogelijk.",
+    error: "Er ging iets mis. Mail me direct op",
+    copy: "Kopieer",
+    copied: "Gekopieerd",
+    copyAria: "Kopieer e-mailadres",
+    subject: "kennismaking via website",
+  },
+  cta: { title: "Past mijn ervaring", accent: "bij jouw team?", download: "Download mijn cv", meet: "Plan een kennismaking" },
+  overview: {
+    label: "Alle ervaring op een rij",
+    title: "Een loopbaan in contact.",
+    accent: "Een ondernemer in e-commerce.",
+    intro: "Alle ervaring in één tijdlijn. Filter op spoor, klap een onderdeel open of open de volledige pagina.",
+    thread: "De rode draad",
+    filterAria: "Filter werkervaring",
+    one: "ervaring",
+    many: "ervaringen",
+    tasks: "Werkzaamheden",
+    says: "Wat dit zegt over mij",
+    full: "Open de volledige pagina",
+    details: "details",
+    open: "Open",
+    close: "Sluit",
+    metaTitle: "Alle ervaring",
+    metaDescription: "De volledige loopbaan van Ayman El Hammoudi: sales en retail in loondienst, en ondernemerschap in e-commerce.",
+  },
+  detail: {
+    crumbs: "Kruimelpad",
+    home: "Home",
+    summary: "Samenvatting",
+    brands: "Merken die ik verkocht",
+    story: "Het verhaal in vier stappen",
+    did: "Wat ik deed",
+    says: "Wat dit zegt over mij",
+    keywords: "Kernwoorden",
+    other: "Andere ervaring",
+    prev: "Vorige",
+    next: "Volgende",
+    all: "Alle ervaring op een rij",
+  },
+  cvPage: {
+    back: "← Terug naar de homepage",
+    print: "Print / bewaar als PDF",
+    download: "Download vormgegeven cv",
+    ats: "Download ATS-versie",
+    eyebrow: "Curriculum vitae",
+    profile: "Profiel",
+    work: "Werkervaring & sales",
+    venture: "Ondernemerschap",
+    education: "Opleiding",
+    skills: "Vaardigheden",
+    languages: "Talen",
+    metaTitle: "Online cv",
+    metaDescription: "Doorzoekbaar, ATS-vriendelijk cv van Ayman El Hammoudi: verkoopadviseur en e-commerceondernemer uit Noord-Holland.",
+  },
 };

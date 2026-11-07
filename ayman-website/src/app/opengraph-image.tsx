@@ -1,7 +1,9 @@
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import { person } from "@content/site";
+import { getSite } from "@content";
+
+const { person } = getSite("nl");
 
 export const dynamic = "force-static";
 export const alt = `${person.fullName} — ${person.role}`;

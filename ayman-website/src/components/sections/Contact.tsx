@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useState, type FormEvent } from "react";
-import { contact, person } from "@content/site";
+import { getSite, type Locale } from "@content";
 import { Check, Copy, Linkedin, Mail, Phone, Pin } from "../ui/Icons";
 import { Magnetic } from "../ui/Magnetic";
 import { Reveal, RevealLines } from "../ui/Reveal";
@@ -17,7 +17,9 @@ const ENDPOINT = process.env.NEXT_PUBLIC_FORM_ENDPOINT ?? "";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
-export function Contact() {
+export function Contact({ locale }: { locale: Locale }) {
+  const { contact, person, ui } = getSite(locale);
+  const t = ui.contact;
   const [topic, setTopic] = useState(contact.topics[0]);
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -29,7 +31,7 @@ export function Contact() {
       setCopied(true);
       setTimeout(() => setCopied(false), 2200);
     } catch {
-      window.location.href = `mailto:${person.email}`;
+      window.location.assign(`mailto:${person.email}`);
     }
   };
 
@@ -41,9 +43,9 @@ export function Contact() {
     const email = String(data.get("email") ?? "").trim();
     const message = String(data.get("message") ?? "").trim();
     const next: Record<string, string> = {};
-    if (name.length < 2) next.name = "Vul je naam in.";
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) next.email = "Vul een geldig e-mailadres in.";
-    if (message.length < 10) next.message = "Schrijf een bericht van minimaal 10 tekens.";
+    if (name.length < 2) next.name = t.errName;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) next.email = t.errEmail;
+    if (message.length < 10) next.message = t.errMessage;
     setErrors(next);
     if (Object.keys(next).length) {
       form.querySelector<HTMLElement>(`[name="${Object.keys(next)[0]}"]`)?.focus();
@@ -51,9 +53,9 @@ export function Contact() {
     }
 
     if (!ENDPOINT) {
-      const subject = encodeURIComponent(`${topic} — kennismaking via website`);
+      const subject = encodeURIComponent(`${topic} — ${t.subject}`);
       const body = encodeURIComponent(`${message}\n\n${name}\n${email}`);
-      window.location.href = `mailto:${person.email}?subject=${subject}&body=${body}`;
+      window.location.assign(`mailto:${person.email}?subject=${subject}&body=${body}`);
       return;
     }
 
@@ -102,10 +104,10 @@ export function Contact() {
                     type="button"
                     onClick={copy}
                     className="relative inline-flex shrink-0 items-center gap-2 rounded-full border border-line-strong px-3 py-1.5 text-xs text-muted transition-colors hover:border-gold hover:text-gold"
-                    aria-label="Kopieer e-mailadres"
+                    aria-label={t.copyAria}
                   >
                     {copied ? <Check className="size-4 text-gold" /> : <Copy className="size-4" />}
-                    {copied ? "Gekopieerd" : "Kopieer"}
+                    {copied ? t.copied : t.copy}
                   </button>
                 </li>
                 <li className="py-5">
@@ -134,7 +136,7 @@ export function Contact() {
           <Reveal className="lg:col-span-6 lg:col-start-7" delay={0.15}>
             <form onSubmit={submit} noValidate className="rounded-[2rem] border border-line bg-surface/70 p-6 backdrop-blur md:p-10">
               <fieldset>
-                <legend className="eyebrow mb-4">Waar gaat het over?</legend>
+                <legend className="eyebrow mb-4">{t.topicLegend}</legend>
                 <div className="flex flex-wrap gap-2">
                   {contact.topics.map((t) => (
                     <label
@@ -160,8 +162,8 @@ export function Contact() {
               <div className="mt-8 grid gap-6 md:grid-cols-2">
                 {(
                   [
-                    ["name", "Je naam", "text", "name"],
-                    ["email", "Je e-mailadres", "email", "email"],
+                    ["name", t.name, "text", "name"],
+                    ["email", t.email, "email", "email"],
                   ] as const
                 ).map(([n, l, type, ac]) => (
                   <div key={n} className="relative">
@@ -191,13 +193,13 @@ export function Contact() {
                   id="f-message"
                   name="message"
                   rows={4}
-                  placeholder="Je bericht"
+                  placeholder={t.message}
                   aria-invalid={!!errors.message}
                   aria-describedby={errors.message ? "e-message" : undefined}
                   className={`${field} resize-none`}
                 />
                 <label htmlFor="f-message" className={label}>
-                  Je bericht
+                  {t.message}
                 </label>
                 {errors.message && (
                   <p id="e-message" className="mt-2 text-sm text-red-400">
@@ -213,7 +215,7 @@ export function Contact() {
                     disabled={status === "sending"}
                     className="group relative inline-flex h-14 items-center gap-3 overflow-hidden rounded-full bg-gold px-8 font-medium text-on-gold transition-colors hover:bg-gold-2 disabled:opacity-60"
                   >
-                    {status === "sending" ? "Versturen…" : ENDPOINT ? "Verstuur bericht" : "Verstuur via je e-mailapp"}
+                    {status === "sending" ? t.sending : ENDPOINT ? t.send : t.sendMail}
                     <Mail className="size-5 transition-transform duration-500 group-hover:-rotate-12" />
                   </button>
                 </Magnetic>
@@ -228,8 +230,8 @@ export function Contact() {
                       className={`text-sm ${status === "sent" ? "text-gold" : "text-red-400"}`}
                     >
                       {status === "sent"
-                        ? "Bedankt! Je bericht is verstuurd. Ik reageer zo snel mogelijk."
-                        : `Er ging iets mis. Mail me direct op ${person.email}.`}
+                        ? t.sent
+                        : `${t.error} ${person.email}.`}
                     </motion.p>
                   )}
                 </AnimatePresence>

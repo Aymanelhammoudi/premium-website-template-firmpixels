@@ -1,21 +1,23 @@
-import { about } from "@content/site";
+import { getSite, type Locale } from "@content";
 import { CountUp } from "../ui/CountUp";
 import { Reveal } from "../ui/Reveal";
 import { ScrollText } from "../ui/ScrollText";
 import { SectionHeading } from "../ui/SectionHeading";
 import { Spotlight } from "../ui/Spotlight";
 
-export function About() {
+export function About({ locale }: { locale: Locale }) {
+  const { about, ui } = getSite(locale);
+  const accentMarked = about.statementAccent.split(" ").map((w) => "*" + w).join(" ");
   return (
     <section id="over" aria-labelledby="over-title" className="relative py-24 md:py-32">
       <div className="container-x">
-        <SectionHeading index="04" label="Over mij" id="over-title" title="Aangenaam." accent="Ik ben Ayman." />
+        <SectionHeading index="04" label={ui.about.label} id="over-title" title={ui.about.title} accent={ui.about.accent} />
 
         {/* Statement dat oplicht tijdens het scrollen */}
         <div className="mt-20 md:mt-28 md:grid md:grid-cols-12">
           <ScrollText
             className="font-display text-[clamp(2rem,4.6vw,4.2rem)] leading-[1.08] font-light md:col-span-10 md:col-start-3"
-            text={`${about.statement.replace("écht luisteren.", "*écht *luisteren.")} ${about.lead}`}
+            text={`${about.statement.replace(about.statementAccent, accentMarked)} ${about.lead}`}
           />
         </div>
 
@@ -28,7 +30,7 @@ export function About() {
             ))}
           </div>
           <Reveal className="md:col-span-3 md:col-start-10" delay={0.1}>
-            <p className="eyebrow mb-4">Zo ken je mij</p>
+            <p className="eyebrow mb-4">{ui.about.traits}</p>
             <ul className="flex flex-wrap gap-2">
               {about.traits.map((t) => (
                 <li
@@ -59,7 +61,7 @@ export function About() {
         {/* Principes */}
         <div className="mt-28">
           <Reveal>
-            <p className="eyebrow mb-10">Mijn manier van werken — {about.principlesTitle}</p>
+            <p className="eyebrow mb-10">{ui.about.way} — {about.principlesTitle}</p>
           </Reveal>
           <ol className="grid gap-px overflow-hidden rounded-3xl border border-line bg-line md:grid-cols-3">
             {about.principles.map((p, i) => (

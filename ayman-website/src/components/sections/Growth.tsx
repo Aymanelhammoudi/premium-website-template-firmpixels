@@ -2,19 +2,20 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import { growth } from "@content/site";
+import { getSite, type Locale } from "@content";
 import { Reveal } from "../ui/Reveal";
 import { SectionHeading } from "../ui/SectionHeading";
 import { Spotlight } from "../ui/Spotlight";
 import { EASE } from "../ui/motion";
 
-const views = [
-  { id: "bring", label: "Wat ik meebreng" },
-  { id: "goals", label: "Waar ik naartoe wil" },
-] as const;
 
-export function Growth() {
-  const [view, setView] = useState<(typeof views)[number]["id"]>("bring");
+export function Growth({ locale }: { locale: Locale }) {
+  const { growth, ui } = getSite(locale);
+  const views = [
+    { id: "bring", label: ui.growth.bring },
+    { id: "goals", label: ui.growth.goals },
+  ] as const;
+  const [view, setView] = useState<"bring" | "goals">("bring");
   const list = view === "bring" ? growth.bring : growth.goals;
 
   return (
@@ -22,13 +23,13 @@ export function Growth() {
       <div className="container-x">
         <SectionHeading
           index="07"
-          label="Ontwikkeling & ambitie"
+          label={ui.growth.label}
           id="ambitie-title"
           title={growth.title}
           accent={growth.titleAccent}
           intro={growth.intro}
           aside={
-            <div role="group" aria-label="Kies een weergave" className="relative inline-flex rounded-full border border-line-strong p-1">
+            <div role="group" aria-label={ui.growth.viewsAria} className="relative inline-flex rounded-full border border-line-strong p-1">
               {views.map((v) => (
                 <button
                   key={v.id}
@@ -85,11 +86,11 @@ export function Growth() {
 
         <div className="mt-20 grid gap-10 md:grid-cols-12">
           <Reveal className="md:col-span-6">
-            <p className="eyebrow mb-4">Wat mij drijft</p>
+            <p className="eyebrow mb-4">{ui.growth.drive}</p>
             <p className="font-display text-2xl leading-snug font-light md:text-3xl">{growth.drive}</p>
           </Reveal>
           <Reveal className="md:col-span-5 md:col-start-8" delay={0.1}>
-            <p className="eyebrow mb-4">Wat ik zoek</p>
+            <p className="eyebrow mb-4">{ui.growth.seeking}</p>
             <p className="text-muted">{growth.seeking}</p>
             <ul className="mt-6 flex flex-wrap gap-2">
               {growth.seekingTags.map((t) => (

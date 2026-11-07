@@ -1,7 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Geist, Geist_Mono } from "next/font/google";
 import { MotionConfig } from "framer-motion";
-import { person, seo, cv, experience } from "@content/site";
+import { alternates, getSite } from "@content";
+import { LocaleSync } from "@/components/layout/LocaleSync";
+
+const { person, seo, cv, experience } = getSite("nl");
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
@@ -25,7 +28,7 @@ export const metadata: Metadata = {
   description: seo.description,
   applicationName: person.fullName,
   authors: [{ name: person.fullName, url: person.siteUrl }],
-  alternates: { canonical: "/" },
+  alternates: alternates("/", "/en/", "nl"),
   openGraph: {
     type: "profile",
     locale: "nl_NL",
@@ -82,12 +85,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body className="grain">
-        <a
-          href="#main"
-          className="sr-only-focusable fixed top-3 left-3 z-[80] rounded-full bg-gold px-5 py-3 text-on-gold"
-        >
-          Direct naar inhoud
-        </a>
+        <LocaleSync />
         <MotionConfig reducedMotion="user">
           <SmoothScroll />
           <ScrollProgress />

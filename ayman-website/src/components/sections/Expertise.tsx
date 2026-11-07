@@ -1,4 +1,4 @@
-import { expertise } from "@content/site";
+import { getSite, type Locale } from "@content";
 import { ArrowUpRight, Browser, Chat, Handshake } from "../ui/Icons";
 import { Reveal } from "../ui/Reveal";
 import { SectionHeading } from "../ui/SectionHeading";
@@ -6,13 +6,14 @@ import { Spotlight } from "../ui/Spotlight";
 
 const icons = { chat: Chat, handshake: Handshake, browser: Browser };
 
-export function Expertise() {
+export function Expertise({ locale }: { locale: Locale }) {
+  const { expertise, ui } = getSite(locale);
   return (
     <section id="expertise" aria-labelledby="expertise-title" className="py-24 md:py-32">
       <div className="container-x">
         <SectionHeading
           index="05"
-          label="Mijn sterke punten"
+          label={ui.expertise.label}
           id="expertise-title"
           title={expertise.title}
           accent={expertise.titleAccent}

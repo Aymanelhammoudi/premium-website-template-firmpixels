@@ -1,12 +1,13 @@
 import Image from "next/image";
-import { employers } from "@content/site";
+import { getSite, type Locale } from "@content";
 
-export function LogoMarquee() {
+export function LogoMarquee({ locale }: { locale: Locale }) {
+  const { employers, ui } = getSite(locale);
   const items = [...employers, ...employers, ...employers, ...employers];
   return (
-    <section aria-label="Ervaring opgebouwd bij" className="border-y border-line bg-bg-2/60 py-8">
+    <section aria-label={ui.marquee} className="border-y border-line bg-bg-2/60 py-8">
       <div className="container-x mb-5">
-        <p className="eyebrow">Ervaring opgebouwd bij · verkocht voor · verkocht via</p>
+        <p className="eyebrow">{ui.marquee}</p>
       </div>
       <div className="marquee overflow-hidden">
         <ul aria-hidden className="marquee-track flex w-max items-center gap-16 pr-16">

@@ -2,12 +2,14 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useRef, useState, type KeyboardEvent } from "react";
-import { certificates, education, person, skillGroups, skillsIntro } from "@content/site";
+import { getSite, type Locale } from "@content";
 import { Reveal } from "../ui/Reveal";
 import { SectionHeading } from "../ui/SectionHeading";
 import { EASE } from "../ui/motion";
 
-export function Skills() {
+export function Skills({ locale }: { locale: Locale }) {
+  const { certificates, education, person, skillGroups, skillsIntro, ui } = getSite(locale);
+  const t = ui.skills;
   const [active, setActive] = useState(0);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
   const group = skillGroups[active];
@@ -26,7 +28,7 @@ export function Skills() {
       <div className="container-x">
         <SectionHeading
           index="06"
-          label="Vaardigheden"
+          label={t.label}
           id="skills-title"
           title={skillsIntro.title}
           accent={skillsIntro.titleAccent}
@@ -34,7 +36,7 @@ export function Skills() {
         />
 
         <div className="mt-20 grid gap-10 lg:grid-cols-12">
-          <div role="tablist" aria-label="Vaardigheidsgroepen" aria-orientation="vertical" className="flex flex-col gap-2 lg:col-span-4">
+          <div role="tablist" aria-label={t.tabsAria} aria-orientation="vertical" className="flex flex-col gap-2 lg:col-span-4">
             {skillGroups.map((g, i) => {
               const sel = i === active;
               return (
@@ -63,7 +65,7 @@ export function Skills() {
                   )}
                   <span className="relative">
                     <span className={`block font-mono text-[0.68rem] tracking-[0.16em] uppercase ${sel ? "" : "text-gold"}`}>
-                      0{i + 1} / Expertise
+                      0{i + 1} / {t.expertise}
                     </span>
                     <span className="font-display mt-1 block text-2xl">{g.title}</span>
                   </span>
@@ -104,7 +106,7 @@ export function Skills() {
                   ))}
                 </ul>
                 <p className="mt-10 border-t border-line pt-6 text-sm text-muted">
-                  <span className="eyebrow mr-3">In de praktijk</span>
+                  <span className="eyebrow mr-3">{t.practice}</span>
                   {group.practice}
                 </p>
               </motion.div>
@@ -115,7 +117,7 @@ export function Skills() {
         {/* Opleiding, talen, certificaten */}
         <div className="mt-20 grid gap-5 md:grid-cols-3">
           <Reveal className="rounded-3xl border border-line p-8">
-            <h3 className="eyebrow mb-6">Opleiding</h3>
+            <h3 className="eyebrow mb-6">{t.education}</h3>
             <ul className="space-y-4">
               {education.map((e) => (
                 <li key={e.title}>
@@ -129,7 +131,7 @@ export function Skills() {
             </ul>
           </Reveal>
           <Reveal className="rounded-3xl border border-line p-8" delay={0.1}>
-            <h3 className="eyebrow mb-6">Talen</h3>
+            <h3 className="eyebrow mb-6">{t.languages}</h3>
             <ul className="space-y-2">
               {person.languages.map((l) => (
                 <li key={l} className="font-display text-2xl">
@@ -139,7 +141,7 @@ export function Skills() {
             </ul>
           </Reveal>
           <Reveal className="rounded-3xl border border-line p-8" delay={0.2}>
-            <h3 className="eyebrow mb-6">Tools</h3>
+            <h3 className="eyebrow mb-6">{t.tools}</h3>
             <ul className="flex flex-wrap gap-2">
               {["bol-partnerplatform", "Amazon Seller Central", "Shopify", "WordPress"].map((t) => (
                 <li key={t} className="rounded-full bg-gold/10 px-4 py-1.5 text-gold">
@@ -150,7 +152,7 @@ export function Skills() {
           </Reveal>
           {certificates.length > 0 && (
             <Reveal className="rounded-3xl border border-line p-8 md:col-span-3">
-              <h3 className="eyebrow mb-6">Certificaten</h3>
+              <h3 className="eyebrow mb-6">{t.certificates}</h3>
               <ul className="grid gap-4 md:grid-cols-3">
                 {certificates.map((c) => (
                   <li key={c.title}>

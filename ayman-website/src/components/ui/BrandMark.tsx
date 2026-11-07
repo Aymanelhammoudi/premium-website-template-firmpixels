@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { Experience } from "@content/site";
+import type { Experience } from "@content";
 import { Bag, Browser, Door, Key, PhoneBig, Sofa, SunBig, Swap } from "./Icons";
 
 const icons = {

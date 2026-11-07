@@ -16,7 +16,15 @@ function subscribe(cb: () => void) {
 }
 
 /** Wisselt licht/donker met een cirkel-onthulling vanaf de knop (View Transitions API). */
-export function ThemeToggle({ className }: { className?: string }) {
+export function ThemeToggle({
+  className,
+  toDark = "Schakel naar donkere modus",
+  toLight = "Schakel naar lichte modus",
+}: {
+  className?: string;
+  toDark?: string;
+  toLight?: string;
+}) {
   const theme = useSyncExternalStore(subscribe, readTheme, () => null);
 
   const toggle = (e: MouseEvent<HTMLButtonElement>) => {
@@ -38,10 +46,14 @@ export function ThemeToggle({ className }: { className?: string }) {
     root.setProperty("--vt-x", `${cx}px`);
     root.setProperty("--vt-y", `${cy}px`);
     root.setProperty("--vt-r", `${radius}px`);
-    doc.startViewTransition(apply);
+    document.documentElement.classList.add("theme-vt");
+    const vt = doc.startViewTransition(apply) as { finished?: Promise<void> } | undefined;
+    const done = () => document.documentElement.classList.remove("theme-vt");
+    if (vt?.finished) vt.finished.then(done, done);
+    else setTimeout(done, 900);
   };
 
-  const label = theme === "light" ? "Schakel naar donkere modus" : "Schakel naar lichte modus";
+  const label = theme === "light" ? toDark : toLight;
 
   return (
     <button

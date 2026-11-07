@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { useEffect, useState } from "react";
-import { nav, person } from "@content/site";
+import { base, getSite, localeFromPath, locales, switchPath } from "@content";
 import { ThemeToggle } from "./ThemeToggle";
 import { ArrowUpRight } from "../ui/Icons";
 import { Magnetic } from "../ui/Magnetic";
@@ -12,10 +12,13 @@ import { EASE } from "../ui/motion";
 
 export function Header() {
   const pathname = usePathname();
-  const onHome = pathname === "/";
-  const prefix = onHome ? "" : "/";
+  const locale = localeFromPath(pathname);
+  const { nav, person, ui } = getSite(locale);
+  const home = base(locale);
+  const onHome = pathname === home || pathname === home.slice(0, -1);
+  const prefix = onHome ? "" : home;
   const [active, setActive] = useState<string>("");
-  const routeActive = pathname.startsWith("/ervaring") ? "ervaring" : pathname.startsWith("/cv") ? "cv" : "";
+  const routeActive = /^\/(en\/experience|ervaring)/.test(pathname) ? "ervaring" : /^\/(en\/)?cv/.test(pathname) ? "cv" : "";
   const current = onHome ? active : routeActive;
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -41,7 +44,7 @@ export function Header() {
     );
     els.forEach((el) => io.observe(el));
     return () => io.disconnect();
-  }, [onHome]);
+  }, [onHome, nav]);
 
   // Menu: Escape sluit, scroll blokkeren.
   useEffect(() => {
@@ -60,6 +63,7 @@ export function Header() {
   return (
     <>
       <motion.header
+        lang={locale}
         className="fixed inset-x-0 top-0 z-50 no-print"
         animate={{ y: hidden ? "-110%" : "0%" }}
         transition={{ duration: 0.5, ease: EASE }}
@@ -71,7 +75,7 @@ export function Header() {
         >
           <div className="container-x flex h-20 items-center justify-between gap-6">
             <Link
-              href="/"
+              href={home}
               className="group flex items-center gap-3"
               onClick={() => setOpen(false)}
             >
@@ -89,7 +93,7 @@ export function Header() {
               </span>
             </Link>
 
-            <nav aria-label="Hoofdnavigatie" className="hidden lg:block">
+            <nav aria-label={ui.header.navAria} className="hidden lg:block">
               <ul className="flex items-center gap-1 rounded-full border border-line bg-surface/40 p-1 backdrop-blur">
                 {nav.map((n) => {
                   const isActive = current === n.id;
@@ -118,14 +122,34 @@ export function Header() {
             </nav>
 
             <div className="flex items-center gap-3">
-              <ThemeToggle />
+              <div
+                role="group"
+                aria-label={ui.header.langSwitch}
+                className="hidden items-center rounded-full border border-line-strong p-1 font-mono text-[0.68rem] tracking-[0.14em] uppercase sm:flex"
+              >
+                {locales.map((l) => (
+                  <Link
+                    key={l}
+                    href={switchPath(pathname, l)}
+                    hrefLang={l}
+                    lang={l}
+                    aria-current={l === locale ? "true" : undefined}
+                    className={`grid h-8 min-w-9 place-items-center rounded-full px-2 transition-colors duration-300 ${
+                      l === locale ? "bg-ink text-bg" : "text-muted hover:text-ink"
+                    }`}
+                  >
+                    {l}
+                  </Link>
+                ))}
+              </div>
+              <ThemeToggle toDark={ui.header.toDark} toLight={ui.header.toLight} />
               <Magnetic className="hidden md:inline-block">
                 <a
                   href={`${prefix}#contact`}
                   data-cursor="hover"
                   className="group inline-flex h-11 items-center gap-2 rounded-full bg-ink px-5 text-sm font-medium text-bg transition-colors hover:bg-gold hover:text-on-gold"
                 >
-                  Kennismaken
+                  {ui.header.cta}
                   <ArrowUpRight className="size-4 transition-transform duration-500 group-hover:rotate-45" />
                 </a>
               </Magnetic>
@@ -134,7 +158,7 @@ export function Header() {
                 className="relative grid size-11 place-items-center rounded-full border border-line-strong lg:hidden"
                 aria-expanded={open}
                 aria-controls="mobile-menu"
-                aria-label={open ? "Menu sluiten" : "Menu openen"}
+                aria-label={open ? ui.header.menuClose : ui.header.menuOpen}
                 onClick={() => setOpen((o) => !o)}
               >
                 <span
@@ -155,14 +179,14 @@ export function Header() {
             id="mobile-menu"
             role="dialog"
             aria-modal="true"
-            aria-label="Menu"
+            aria-label={ui.header.menu}
             className="fixed inset-0 z-40 flex flex-col bg-bg pt-24 lg:hidden"
             initial={{ clipPath: "circle(0% at calc(100% - 3rem) 2.5rem)" }}
             animate={{ clipPath: "circle(150% at calc(100% - 3rem) 2.5rem)" }}
             exit={{ clipPath: "circle(0% at calc(100% - 3rem) 2.5rem)" }}
             transition={{ duration: 0.7, ease: EASE }}
           >
-            <nav aria-label="Mobiele navigatie" className="container-x flex-1">
+            <nav aria-label={ui.header.mobileNavAria} className="container-x flex-1">
               <ul className="flex flex-col">
                 {nav.map((n, i) => (
                   <li key={n.id} className="overflow-hidden border-b border-line">
@@ -192,6 +216,21 @@ export function Header() {
               </a>
               <a href={`tel:${person.phoneHref}`}>{person.phoneDisplay}</a>
               <span>{person.region}</span>
+              <span className="mt-4 flex gap-2">
+                {locales.map((l) => (
+                  <Link
+                    key={l}
+                    href={switchPath(pathname, l)}
+                    hrefLang={l}
+                    onClick={() => setOpen(false)}
+                    className={`grid h-11 place-items-center rounded-full border px-4 font-mono text-xs tracking-[0.14em] uppercase ${
+                      l === locale ? "border-ink bg-ink text-bg" : "border-line-strong text-ink"
+                    }`}
+                  >
+                    {l === "nl" ? "Nederlands" : "English"}
+                  </Link>
+                ))}
+              </span>
             </motion.div>
           </motion.div>
         )}

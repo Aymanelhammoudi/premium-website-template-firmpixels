@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { footer, nav, person } from "@content/site";
+import { base, getSite, localeFromPath, routes } from "@content";
 import { ArrowUp, Instagram, Linkedin, Mail } from "../ui/Icons";
 
 function LocalTime() {
@@ -25,14 +25,17 @@ function LocalTime() {
 
 export function Footer() {
   const pathname = usePathname();
-  const prefix = pathname === "/" ? "" : "/";
+  const locale = localeFromPath(pathname);
+  const { footer, nav, person, ui } = getSite(locale);
+  const home = base(locale);
+  const prefix = pathname === home ? "" : home;
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end end"] });
   const y = useTransform(scrollYProgress, [0, 1], ["60%", "0%"]);
   const year = new Date().getFullYear();
 
   return (
-    <footer ref={ref} className="relative overflow-hidden border-t border-line bg-bg-2 no-print">
+    <footer ref={ref} lang={locale} className="relative overflow-hidden border-t border-line bg-bg-2 no-print">
       <div className="container-x grid gap-12 pt-20 pb-10 md:grid-cols-12">
         <div className="md:col-span-5">
           <p className="font-display text-3xl leading-tight">
@@ -43,7 +46,7 @@ export function Footer() {
           <div className="mt-8 flex items-center gap-3">
             <a
               href={`mailto:${person.email}`}
-              aria-label="Stuur een e-mail"
+              aria-label={ui.footer.emailAria}
               className="grid size-11 place-items-center rounded-full border border-line-strong transition-colors hover:border-gold hover:text-gold"
             >
               <Mail className="size-5" />
@@ -72,8 +75,8 @@ export function Footer() {
             )}
           </div>
         </div>
-        <nav aria-label="Footernavigatie" className="md:col-span-4">
-          <p className="eyebrow mb-4">Navigatie</p>
+        <nav aria-label={ui.footer.nav} className="md:col-span-4">
+          <p className="eyebrow mb-4">{ui.footer.nav}</p>
           <ul className="grid grid-cols-2 gap-x-6 gap-y-2">
             {nav.map((n) => (
               <li key={n.id}>
@@ -83,13 +86,13 @@ export function Footer() {
               </li>
             ))}
             <li>
-              <Link href="/ervaring/" className="text-muted transition-colors hover:text-gold">
-                Alle ervaring
+              <Link href={routes.overview(locale)} className="text-muted transition-colors hover:text-gold">
+                {ui.footer.allExperience}
               </Link>
             </li>
             <li>
-              <Link href="/cv/" className="text-muted transition-colors hover:text-gold">
-                Online cv
+              <Link href={routes.cv(locale)} className="text-muted transition-colors hover:text-gold">
+                {ui.footer.onlineCv}
               </Link>
             </li>
           </ul>
@@ -101,14 +104,14 @@ export function Footer() {
             <span className="text-ink">
               <LocalTime />
             </span>{" "}
-            lokale tijd
+            {ui.footer.localTime}
           </p>
           <button
             type="button"
             onClick={() => (window.__lenis ? window.__lenis.scrollTo(0) : window.scrollTo({ top: 0, behavior: "smooth" }))}
             className="group inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-gold"
           >
-            Terug naar boven
+            {ui.footer.backToTop}
             <span className="grid size-9 place-items-center rounded-full border border-line-strong transition-transform duration-500 group-hover:-translate-y-1">
               <ArrowUp className="size-4" />
             </span>

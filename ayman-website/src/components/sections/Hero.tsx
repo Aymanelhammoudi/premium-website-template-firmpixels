@@ -11,15 +11,14 @@ import {
   useTransform,
 } from "framer-motion";
 import { useEffect, useRef, useState, type CSSProperties, type PointerEvent } from "react";
-import { cv, hero, person } from "@content/site";
+import { getSite, type Locale } from "@content";
 import { Button } from "../ui/Button";
 import { ArrowDown, Download, Star } from "../ui/Icons";
 import { TiltCard } from "../ui/TiltCard";
 import { EASE, useReducedMotion } from "../ui/motion";
 
-function RotatingRole() {
+function RotatingRole({ roles }: { roles: string[] }) {
   const reduce = useReducedMotion();
-  const roles = person.roleShort;
   const [i, setI] = useState(0);
   useEffect(() => {
     if (reduce) return;
@@ -43,12 +42,13 @@ function RotatingRole() {
           {roles[i].toLowerCase()}
         </motion.em>
       </AnimatePresence>
-      <span className="sr-only">{roles.join(" en ")}</span>
+      <span className="sr-only">{roles.join(" & ")}</span>
     </span>
   );
 }
 
-export function Hero() {
+export function Hero({ locale }: { locale: Locale }) {
+  const { cv, hero, person, ui } = getSite(locale);
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
   const mx = useMotionValue(-1000);
@@ -99,7 +99,7 @@ export function Hero() {
             className="enter font-display text-[clamp(1.4rem,2.6vw,2.1rem)] leading-snug font-light"
             style={{ "--d": "0.2s" } as CSSProperties}
           >
-            Ik ben <strong className="font-normal">{person.fullName}</strong>, <RotatingRole />.
+            {ui.hero.iAm} <strong className="font-normal">{person.fullName}</strong>, <RotatingRole roles={person.roleShort} />.
           </p>
 
           <h1
@@ -153,7 +153,7 @@ export function Hero() {
                 <div className="absolute inset-x-0 bottom-0 p-6 text-[#f5f1e8]" style={{ transform: "translateZ(40px)" }}>
                   <p className="font-display text-3xl">{person.fullName}</p>
                   <p className="mt-1 font-mono text-[0.68rem] tracking-[0.2em] text-[#d5b579] uppercase">
-                    Sales · Retail · E-commerce
+                    {ui.hero.caption}
                   </p>
                 </div>
               </div>
@@ -168,7 +168,7 @@ export function Hero() {
             aria-hidden
             className="absolute top-8 -right-8 hidden font-mono text-[0.62rem] tracking-[0.3em] text-muted uppercase [writing-mode:vertical-rl] xl:block"
           >
-            Persoonlijk. Professioneel. Ondernemend.
+            {ui.hero.side}
           </p>
         </motion.div>
       </div>
@@ -179,9 +179,9 @@ export function Hero() {
           <span className="relative h-10 w-px overflow-hidden bg-line-strong">
             <span className="absolute inset-x-0 top-0 h-1/2 animate-[scrollcue_2s_ease-in-out_infinite] bg-gold" />
           </span>
-          Scroll verder
+          {ui.hero.scroll}
         </a>
-        <span>01 / Profiel</span>
+        <span>{ui.hero.index}</span>
       </div>
       <style>{`@keyframes scrollcue{0%{transform:translateY(-100%)}100%{transform:translateY(200%)}}`}</style>
     </section>

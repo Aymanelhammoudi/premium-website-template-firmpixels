@@ -2,20 +2,22 @@
 
 import Image from "next/image";
 import { AnimatePresence, motion} from "framer-motion";
-import { useMemo, useState } from "react";
-import { projects, projectsIntro } from "@content/site";
+import { useState } from "react";
+import { getSite, type Locale } from "@content";
 import { ArrowUpRight } from "../ui/Icons";
 import { Reveal } from "../ui/Reveal";
 import { SectionHeading } from "../ui/SectionHeading";
 import { TiltCard } from "../ui/TiltCard";
 import { EASE, useReducedMotion } from "../ui/motion";
 
-export function Projects() {
+export function Projects({ locale }: { locale: Locale }) {
+  const { projects, projectsIntro, ui } = getSite(locale);
+  const ALL = ui.projects.all;
   const reduce = useReducedMotion();
   const visible = projects.filter((p) => p.published);
-  const categories = useMemo(() => ["Alles", ...Array.from(new Set(visible.map((p) => p.category)))], [visible]);
-  const [cat, setCat] = useState("Alles");
-  const items = visible.filter((p) => cat === "Alles" || p.category === cat);
+  const categories = [ALL, ...Array.from(new Set(visible.map((p) => p.category)))];
+  const [cat, setCat] = useState(ALL);
+  const items = visible.filter((p) => cat === ALL || p.category === cat);
 
   return (
     <section id="werk" aria-labelledby="werk-title" className="relative py-24 md:py-32">
@@ -28,7 +30,7 @@ export function Projects() {
           accent={projectsIntro.titleAccent}
           intro={projectsIntro.intro}
           aside={
-            <div role="group" aria-label="Filter projecten" className="flex flex-wrap gap-2">
+            <div role="group" aria-label={ui.projects.filterAria} className="flex flex-wrap gap-2">
               {categories.map((c) => (
                 <button
                   key={c}
@@ -66,8 +68,8 @@ export function Projects() {
                     href={p.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    data-cursor="Bekijk"
-                    aria-label={`${p.name} — bekijk website (opent in nieuw tabblad)`}
+                    data-cursor={ui.projects.cursor}
+                    aria-label={`${p.name} — ${ui.projects.visit}`}
                     className="block"
                   >
                     <TiltCard max={5} className="rounded-3xl">
@@ -109,7 +111,7 @@ export function Projects() {
                       <h3 className="font-display mt-2 text-4xl">
                         <a href={p.url} target="_blank" rel="noopener noreferrer" className="bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-700 hover:bg-[length:100%_1px]">
                           {p.name}
-                          <span className="sr-only"> (opent in nieuw tabblad)</span>
+                          <span className="sr-only"> {ui.projects.newTab}</span>
                         </a>
                       </h3>
                       <p className="mt-3 max-w-md text-muted">{p.description}</p>
@@ -130,7 +132,7 @@ export function Projects() {
         <div className="mt-28 rounded-[2rem] border border-line bg-surface/50 p-8 md:p-14">
           <div className="grid gap-6 md:grid-cols-12">
             <Reveal className="md:col-span-5">
-              <p className="eyebrow mb-4">Werkwijze</p>
+              <p className="eyebrow mb-4">{ui.projects.process}</p>
               <h3 className="font-display text-[clamp(2rem,3.6vw,3.2rem)] leading-tight font-light">
                 {projectsIntro.processTitle}
               </h3>
