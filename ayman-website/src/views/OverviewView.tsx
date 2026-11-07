@@ -13,9 +13,15 @@ export function overviewMetadata(locale: Locale): Metadata {
 }
 
 export function OverviewView({ locale }: { locale: Locale }) {
+  const { experience, experienceIntro, ui } = getSite(locale);
   return (
     <>
-      <Experience locale={locale} />
+      <Experience
+        locale={locale}
+        experience={experience}
+        experienceIntro={experienceIntro}
+        ui={{ overview: ui.overview, tracks: ui.tracks }}
+      />
       <CtaBand locale={locale} />
     </>
   );

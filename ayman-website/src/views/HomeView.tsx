@@ -16,23 +16,35 @@ import { Contact } from "@/components/sections/Contact";
 const strip = (s: string) => s.replace(/\.$/, "");
 
 export function HomeView({ locale }: { locale: Locale }) {
-  const { about, hero, testimonials } = getSite(locale);
+  const site = getSite(locale);
+  const { about, hero, testimonials, ui } = site;
   const band = [...about.principles.map((p) => strip(p.title)), ...hero.tagline.map(strip)];
   return (
     <>
-      <Hero locale={locale} />
+      <Hero cv={site.cv} hero={hero} person={site.person} ui={{ hero: ui.hero }} />
       <LogoMarquee locale={locale} />
       <QuickScan locale={locale} />
       <Tracks locale={locale} />
       <About locale={locale} />
       <VelocityBand words={band} />
       <Expertise locale={locale} />
-      <Skills locale={locale} />
-      <Growth locale={locale} />
-      <Projects locale={locale} />
+      <Skills
+        certificates={site.certificates}
+        education={site.education}
+        person={site.person}
+        skillGroups={site.skillGroups}
+        skillsIntro={site.skillsIntro}
+        ui={{ skills: ui.skills }}
+      />
+      <Growth growth={site.growth} ui={{ growth: ui.growth }} />
+      <Projects
+        projects={site.projects.filter((p) => p.published)}
+        projectsIntro={site.projectsIntro}
+        ui={{ projects: ui.projects }}
+      />
       {testimonials.length > 0 && <Testimonials locale={locale} />}
       <CvSection locale={locale} />
-      <Contact locale={locale} />
+      <Contact contact={site.contact} person={site.person} ui={{ contact: ui.contact }} />
     </>
   );
 }

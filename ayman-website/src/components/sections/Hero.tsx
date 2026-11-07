@@ -11,7 +11,7 @@ import {
   useTransform,
 } from "framer-motion";
 import { useEffect, useRef, useState, type CSSProperties, type PointerEvent } from "react";
-import { getSite, type Locale } from "@content";
+import type { Site } from "@content";
 import { Button } from "../ui/Button";
 import { ArrowDown, Download, Star } from "../ui/Icons";
 import { TiltCard } from "../ui/TiltCard";
@@ -30,6 +30,10 @@ function RotatingRole({ roles }: { roles: string[] }) {
 
   return (
     <span className="relative inline-grid overflow-hidden align-bottom">
+      {/* Onzichtbare "maatvoerder": reserveert de breedte van de langste titel, zodat er niets verspringt */}
+      <em aria-hidden className="accent invisible col-start-1 row-start-1 whitespace-nowrap">
+        {roles.reduce((a, b) => (b.length > a.length ? b : a), "").toLowerCase()}
+      </em>
       <AnimatePresence mode="popLayout" initial={false}>
         <motion.em
           key={roles[i]}
@@ -47,8 +51,7 @@ function RotatingRole({ roles }: { roles: string[] }) {
   );
 }
 
-export function Hero({ locale }: { locale: Locale }) {
-  const { cv, hero, person, ui } = getSite(locale);
+export function Hero({ cv, hero, person, ui }: { cv: Site["cv"]; hero: Site["hero"]; person: Site["person"]; ui: Pick<Site["ui"], "hero"> }) {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
   const mx = useMotionValue(-1000);
@@ -92,14 +95,15 @@ export function Hero({ locale }: { locale: Locale }) {
             style={{ "--d": "0.1s" } as CSSProperties}
           >
             <span className="pulse-dot size-2 rounded-full bg-emerald-400 text-emerald-400" aria-hidden />
-            {hero.status} · {person.region}
+            {hero.status}
+            <span className="hidden xl:inline">· {person.region}</span>
           </p>
 
           <p
             className="enter font-display text-[clamp(1.4rem,2.6vw,2.1rem)] leading-snug font-light"
             style={{ "--d": "0.2s" } as CSSProperties}
           >
-            {ui.hero.iAm} <strong className="font-normal">{person.fullName}</strong>, <RotatingRole roles={person.roleShort} />.
+            {ui.hero.iAm} <strong className="font-normal">{person.fullName}</strong>, <RotatingRole roles={person.roleShort} />
           </p>
 
           <h1

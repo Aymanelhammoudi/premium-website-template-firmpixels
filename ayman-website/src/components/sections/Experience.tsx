@@ -9,7 +9,8 @@ import {
   useSpring,
 } from "framer-motion";
 import { useRef, useState, type PointerEvent } from "react";
-import { getSite, routes, type Experience as Exp, type Locale, type Site, type Track } from "@content";
+import { routes, type Locale } from "@content/routes";
+import type { Experience as Exp, Site, Track } from "@content";
 import { ArrowRight, Plus } from "../ui/Icons";
 import { BrandMark } from "../ui/BrandMark";
 import { Reveal } from "../ui/Reveal";
@@ -28,7 +29,7 @@ function Row({
   ui,
 }: {
   locale: Locale;
-  ui: Site["ui"];
+  ui: Pick<Site["ui"], "overview" | "tracks">;
   item: Exp;
   index: number;
   open: boolean;
@@ -72,7 +73,7 @@ function Row({
             <span className="col-span-2 flex items-center gap-3 font-mono text-[0.7rem] tracking-[0.16em] text-gold uppercase md:col-span-1">
               {item.period}
               {item.current && (
-                <span className="rounded-full bg-gold/15 px-2 py-0.5 text-[0.6rem] text-gold">Huidig</span>
+                <span className="rounded-full bg-gold/15 px-2 py-0.5 text-[0.6rem] text-gold">{ui.tracks.current}</span>
               )}
             </span>
             <span className="flex items-center gap-4">
@@ -155,8 +156,7 @@ function Row({
   );
 }
 
-export function Experience({ locale }: { locale: Locale }) {
-  const { experience, experienceIntro, ui } = getSite(locale);
+export function Experience({ locale, experience, experienceIntro, ui }: { locale: Locale; experience: Site["experience"]; experienceIntro: Site["experienceIntro"]; ui: Pick<Site["ui"], "overview" | "tracks"> }) {
   const o = ui.overview;
   const [filter, setFilter] = useState<Filter>("alles");
   const [openId, setOpenId] = useState<string | null>(experience[0].id);

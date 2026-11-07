@@ -1,12 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { getSite, type Locale } from "@content";
+import type { Site } from "@content";
 import { Check, Copy } from "./Icons";
 
 /** Deelt het profiel (native deelmenu op mobiel) of kopieert de link. */
-export function ShareButton({ locale }: { locale: Locale }) {
-  const { person, ui } = getSite(locale);
+export function ShareButton({ person, ui }: { person: Site["person"]; ui: Pick<Site["ui"], "share"> }) {
   const [done, setDone] = useState(false);
   const share = async () => {
     const data = { title: `${person.fullName} — ${person.role}`, url: person.siteUrl };

@@ -3,15 +3,14 @@
 import Image from "next/image";
 import { AnimatePresence, motion} from "framer-motion";
 import { useState } from "react";
-import { getSite, type Locale } from "@content";
+import type { Site } from "@content";
 import { ArrowUpRight } from "../ui/Icons";
 import { Reveal } from "../ui/Reveal";
 import { SectionHeading } from "../ui/SectionHeading";
 import { TiltCard } from "../ui/TiltCard";
 import { EASE, useReducedMotion } from "../ui/motion";
 
-export function Projects({ locale }: { locale: Locale }) {
-  const { projects, projectsIntro, ui } = getSite(locale);
+export function Projects({ projects, projectsIntro, ui }: { projects: Site["projects"]; projectsIntro: Site["projectsIntro"]; ui: Pick<Site["ui"], "projects"> }) {
   const ALL = ui.projects.all;
   const reduce = useReducedMotion();
   const visible = projects.filter((p) => p.published);

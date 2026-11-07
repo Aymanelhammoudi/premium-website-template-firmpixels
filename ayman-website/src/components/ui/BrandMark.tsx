@@ -37,7 +37,9 @@ export function BrandMark({ item, size = 44, className }: { item: Mark; size?: n
       <span
         aria-hidden
         className={`font-sans leading-none font-bold tracking-[-0.06em] text-ink ${className ?? ""}`}
-        style={{ fontSize: size * (item.wordmark.length > 4 ? 0.42 : 0.62) }}
+        style={{
+          fontSize: `min(${size * (item.wordmark.length > 4 ? 0.34 : 0.58)}px, ${item.wordmark.length > 4 ? 20 : 30}cqw)`,
+        }}
       >
         {item.wordmark}
         <span className="text-gold">.</span>

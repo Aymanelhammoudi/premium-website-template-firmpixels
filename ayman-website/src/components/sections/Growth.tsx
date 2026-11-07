@@ -2,15 +2,14 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import { getSite, type Locale } from "@content";
+import type { Site } from "@content";
 import { Reveal } from "../ui/Reveal";
 import { SectionHeading } from "../ui/SectionHeading";
 import { Spotlight } from "../ui/Spotlight";
 import { EASE } from "../ui/motion";
 
 
-export function Growth({ locale }: { locale: Locale }) {
-  const { growth, ui } = getSite(locale);
+export function Growth({ growth, ui }: { growth: Site["growth"]; ui: Pick<Site["ui"], "growth"> }) {
   const views = [
     { id: "bring", label: ui.growth.bring },
     { id: "goals", label: ui.growth.goals },

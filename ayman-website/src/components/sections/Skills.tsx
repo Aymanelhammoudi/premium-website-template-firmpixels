@@ -2,13 +2,12 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useRef, useState, type KeyboardEvent } from "react";
-import { getSite, type Locale } from "@content";
+import type { Site } from "@content";
 import { Reveal } from "../ui/Reveal";
 import { SectionHeading } from "../ui/SectionHeading";
 import { EASE } from "../ui/motion";
 
-export function Skills({ locale }: { locale: Locale }) {
-  const { certificates, education, person, skillGroups, skillsIntro, ui } = getSite(locale);
+export function Skills({ certificates, education, person, skillGroups, skillsIntro, ui }: { certificates: Site["certificates"]; education: Site["education"]; person: Site["person"]; skillGroups: Site["skillGroups"]; skillsIntro: Site["skillsIntro"]; ui: Pick<Site["ui"], "skills"> }) {
   const t = ui.skills;
   const [active, setActive] = useState(0);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);

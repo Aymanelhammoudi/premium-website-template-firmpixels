@@ -1,58 +1,30 @@
 import * as nl from "./site";
 import * as en from "./site.en";
+import type { Locale } from "./routes";
 
-export type Locale = "nl" | "en";
+export * from "./routes";
+
 export type Site = typeof nl;
 export type { Experience, Track, Project, SkillGroup, BrandIcon } from "./site";
 
 const sites: Record<Locale, Site> = { nl, en };
 
-export const locales: Locale[] = ["nl", "en"];
 
 export function getSite(locale: Locale = "nl"): Site {
   return sites[locale];
 }
 
-/** Basispad per taal. */
-export const base = (l: Locale) => (l === "en" ? "/en/" : "/");
 
-/** Alle interne routes op één plek, per taal. */
-export const routes = {
-  home: (l: Locale) => base(l),
-  anchor: (l: Locale, id: string) => `${base(l)}#${id}`,
-  cv: (l: Locale) => (l === "en" ? "/en/cv/" : "/cv/"),
-  overview: (l: Locale) => (l === "en" ? "/en/experience/" : "/ervaring/"),
-  experience: (l: Locale, id: string) => (l === "en" ? `/en/experience/${id}/` : `/ervaring/${id}/`),
-};
+/** Kleine set teksten voor header, footer en skiplink, voor beide talen. */
+export type Chrome = Record<
+  Locale,
+  { nav: Site["nav"]; person: Site["person"]; footer: Site["footer"]; ui: Pick<Site["ui"], "header" | "footer" | "skip"> }
+>;
 
-/** Taal afleiden uit een pad (voor client components). */
-export const localeFromPath = (path: string): Locale => (path === "/en" || path.startsWith("/en/") ? "en" : "nl");
-
-/** Hetzelfde adres in de andere taal (voor de taalknop). */
-export function switchPath(path: string, to: Locale): string {
-  const from = localeFromPath(path);
-  if (from === to) return path;
-  const p = path.endsWith("/") ? path : path + "/";
-  if (to === "en") {
-    if (p === "/") return "/en/";
-    if (p === "/cv/") return "/en/cv/";
-    if (p === "/ervaring/") return "/en/experience/";
-    const m = p.match(/^\/ervaring\/([^/]+)\/$/);
-    if (m) return `/en/experience/${m[1]}/`;
-    return "/en/";
-  }
-  if (p === "/en/") return "/";
-  if (p === "/en/cv/") return "/cv/";
-  if (p === "/en/experience/") return "/ervaring/";
-  const m = p.match(/^\/en\/experience\/([^/]+)\/$/);
-  if (m) return `/ervaring/${m[1]}/`;
-  return "/";
-}
-
-/** hreflang-alternatieven voor metadata. */
-export function alternates(nlPath: string, enPath: string, current: Locale) {
-  return {
-    canonical: current === "en" ? enPath : nlPath,
-    languages: { "nl-NL": nlPath, "en-GB": enPath, "x-default": nlPath },
+export function getChrome(): Chrome {
+  const one = (l: Locale) => {
+    const s = sites[l];
+    return { nav: s.nav, person: s.person, footer: s.footer, ui: { header: s.ui.header, footer: s.ui.footer, skip: s.ui.skip } };
   };
+  return { nl: one("nl"), en: one("en") };
 }

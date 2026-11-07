@@ -3,6 +3,7 @@
 import {
   motion,
   useAnimationFrame,
+  useInView,
   useMotionValue,
   useScroll,
   useSpring,
@@ -29,9 +30,12 @@ export function VelocityBand({ words, baseVelocity = -2 }: { words: string[]; ba
   const skew = useTransform(smooth, [-1500, 0, 1500], [-8, 0, 8]);
   const x = useTransform(base, (v) => `${wrap(-25, 0, v)}%`);
   const dir = useRef(1);
+  const box = useRef<HTMLDivElement>(null);
+  // Alleen animeren als de band in beeld is: scheelt veel rekenwerk op telefoons.
+  const inView = useInView(box, { margin: "200px 0px" });
 
   useAnimationFrame((_, delta) => {
-    if (reduce) return;
+    if (reduce || !inView) return;
     let move = dir.current * baseVelocity * (delta / 1000);
     const f = factor.get();
     if (f < 0) dir.current = -1;
@@ -52,7 +56,7 @@ export function VelocityBand({ words, baseVelocity = -2 }: { words: string[]; ba
   );
 
   return (
-    <div aria-hidden className="overflow-hidden border-y border-line py-6 select-none md:py-10">
+    <div ref={box} aria-hidden className="overflow-hidden border-y border-line py-6 select-none md:py-10">
       <motion.div
         style={reduce ? undefined : { x, skewX: skew }}
         className="font-display flex w-max text-[clamp(3rem,9vw,8rem)] leading-none font-light whitespace-nowrap"

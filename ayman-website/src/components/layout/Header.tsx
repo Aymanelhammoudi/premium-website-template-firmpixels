@@ -4,16 +4,17 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { useEffect, useState } from "react";
-import { base, getSite, localeFromPath, locales, switchPath } from "@content";
+import { base, localeFromPath, locales, switchPath } from "@content/routes";
+import type { Chrome } from "@content";
 import { ThemeToggle } from "./ThemeToggle";
 import { ArrowUpRight } from "../ui/Icons";
 import { Magnetic } from "../ui/Magnetic";
 import { EASE } from "../ui/motion";
 
-export function Header() {
+export function Header({ chrome }: { chrome: Chrome }) {
   const pathname = usePathname();
   const locale = localeFromPath(pathname);
-  const { nav, person, ui } = getSite(locale);
+  const { nav, person, ui } = chrome[locale];
   const home = base(locale);
   const onHome = pathname === home || pathname === home.slice(0, -1);
   const prefix = onHome ? "" : home;
@@ -86,14 +87,14 @@ export function Header() {
                 {person.initials}
                 <span className="text-gold">.</span>
               </span>
-              <span className="sr-only font-mono text-[0.68rem] leading-tight tracking-[0.18em] uppercase sm:not-sr-only sm:block">
+              <span className="sr-only font-mono text-[0.68rem] leading-tight tracking-[0.18em] whitespace-nowrap uppercase sm:not-sr-only sm:block">
                 {person.firstName}
                 <br />
                 <span className="text-muted">{person.lastName}</span>
               </span>
             </Link>
 
-            <nav aria-label={ui.header.navAria} className="hidden lg:block">
+            <nav aria-label={ui.header.navAria} className="hidden xl:block">
               <ul className="flex items-center gap-1 rounded-full border border-line bg-surface/40 p-1 backdrop-blur">
                 {nav.map((n) => {
                   const isActive = current === n.id;
@@ -102,7 +103,7 @@ export function Header() {
                       <a
                         href={`${prefix}#${n.id}`}
                         aria-current={isActive ? "true" : undefined}
-                        className={`relative block rounded-full px-4 py-2 text-sm transition-colors ${
+                        className={`relative block rounded-full px-4 py-2 text-sm whitespace-nowrap transition-colors ${
                           isActive ? "text-on-gold" : "text-muted hover:text-ink"
                         }`}
                       >
@@ -155,7 +156,7 @@ export function Header() {
               </Magnetic>
               <button
                 type="button"
-                className="relative grid size-11 place-items-center rounded-full border border-line-strong lg:hidden"
+                className="relative grid size-11 place-items-center rounded-full border border-line-strong xl:hidden"
                 aria-expanded={open}
                 aria-controls="mobile-menu"
                 aria-label={open ? ui.header.menuClose : ui.header.menuOpen}
@@ -180,7 +181,7 @@ export function Header() {
             role="dialog"
             aria-modal="true"
             aria-label={ui.header.menu}
-            className="fixed inset-0 z-40 flex flex-col bg-bg pt-24 lg:hidden"
+            className="fixed inset-0 z-40 flex flex-col bg-bg pt-24 xl:hidden"
             initial={{ clipPath: "circle(0% at calc(100% - 3rem) 2.5rem)" }}
             animate={{ clipPath: "circle(150% at calc(100% - 3rem) 2.5rem)" }}
             exit={{ clipPath: "circle(0% at calc(100% - 3rem) 2.5rem)" }}

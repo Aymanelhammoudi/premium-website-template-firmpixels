@@ -1,23 +1,29 @@
 /**
- * Maakt public/cv.pdf en public/images/cv-preview.jpg uit de online cv-pagina.
+ * Maakt de ATS-versies van het cv (doorzoekbare tekst) uit de online cv-pagina's:
+ *   public/cv/CV_Ayman_El_Hammoudi_ATS.pdf     ← /cv/
+ *   public/cv/CV_Ayman_El_Hammoudi_EN_ATS.pdf  ← /en/cv/
+ * Het vormgegeven cv (exact van aymanzakelijk.nl) staat ernaast en wordt niet aangepast.
  *
  * Gebruik (na `npm run build`):
- *   npx serve out -l 4321            (in een tweede terminal)
+ *   npx serve out -l 4321                  (tweede terminal)
  *   npx -y playwright@1 install chromium   (eenmalig)
- *   npm run cv:pdf
- *   npm run build                    (zodat de nieuwe pdf in out/ komt)
+ *   npm run cv:pdf && npm run build
  */
 import { chromium } from "playwright";
 
-const url = process.argv[2] ?? "http://localhost:4321/cv/";
+const base = process.argv[2] ?? "http://localhost:4321";
+const jobs = [
+  { url: `${base}/cv/`, out: "public/cv/CV_Ayman_El_Hammoudi_ATS.pdf" },
+  { url: `${base}/en/cv/`, out: "public/cv/CV_Ayman_El_Hammoudi_EN_ATS.pdf" },
+];
 const browser = await chromium.launch();
-const page = await browser.newPage({ viewport: { width: 794, height: 1123 }, deviceScaleFactor: 1.15 });
-await page.goto(url, { waitUntil: "networkidle" });
-await page.emulateMedia({ media: "print", colorScheme: "light" });
-await page.evaluate(() => document.fonts.ready);
-
-await page.pdf({ path: "public/cv.pdf", format: "A4", printBackground: true, preferCSSPageSize: true });
-await page.screenshot({ path: "public/images/cv-preview.jpg", type: "jpeg", quality: 82, clip: { x: 0, y: 0, width: 794, height: 1123 } });
-
+for (const job of jobs) {
+  const page = await browser.newPage({ viewport: { width: 794, height: 1123 } });
+  await page.goto(job.url, { waitUntil: "networkidle" });
+  await page.emulateMedia({ media: "print", colorScheme: "light" });
+  await page.evaluate(() => document.fonts.ready);
+  await page.pdf({ path: job.out, format: "A4", printBackground: true, preferCSSPageSize: true });
+  await page.close();
+  console.log("✓", job.out);
+}
 await browser.close();
-console.log("✓ public/cv.pdf en public/images/cv-preview.jpg bijgewerkt");

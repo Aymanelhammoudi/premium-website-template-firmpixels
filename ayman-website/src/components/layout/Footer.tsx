@@ -4,7 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { base, getSite, localeFromPath, routes } from "@content";
+import { base, localeFromPath, routes } from "@content/routes";
+import type { Chrome } from "@content";
 import { ArrowUp, Instagram, Linkedin, Mail } from "../ui/Icons";
 
 function LocalTime() {
@@ -23,10 +24,10 @@ function LocalTime() {
   return <span suppressHydrationWarning>{time || "--:--"}</span>;
 }
 
-export function Footer() {
+export function Footer({ chrome }: { chrome: Chrome }) {
   const pathname = usePathname();
   const locale = localeFromPath(pathname);
-  const { footer, nav, person, ui } = getSite(locale);
+  const { footer, nav, person, ui } = chrome[locale];
   const home = base(locale);
   const prefix = pathname === home ? "" : home;
   const ref = useRef<HTMLElement>(null);

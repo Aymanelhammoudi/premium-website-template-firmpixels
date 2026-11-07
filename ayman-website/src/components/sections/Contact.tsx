@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useState, type FormEvent } from "react";
-import { getSite, type Locale } from "@content";
+import type { Site } from "@content";
 import { Check, Copy, Linkedin, Mail, Phone, Pin } from "../ui/Icons";
 import { Magnetic } from "../ui/Magnetic";
 import { Reveal, RevealLines } from "../ui/Reveal";
@@ -17,8 +17,7 @@ const ENDPOINT = process.env.NEXT_PUBLIC_FORM_ENDPOINT ?? "";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
-export function Contact({ locale }: { locale: Locale }) {
-  const { contact, person, ui } = getSite(locale);
+export function Contact({ contact, person, ui }: { contact: Site["contact"]; person: Site["person"]; ui: Pick<Site["ui"], "contact"> }) {
   const t = ui.contact;
   const [topic, setTopic] = useState(contact.topics[0]);
   const [status, setStatus] = useState<Status>("idle");

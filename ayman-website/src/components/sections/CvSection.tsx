@@ -9,7 +9,7 @@ import { TiltCard } from "../ui/TiltCard";
 
 /** Cv-blok: origineel vormgegeven cv, ATS-versie, andere taal en online versie. */
 export function CvSection({ locale }: { locale: Locale }) {
-  const { cv, ui } = getSite(locale);
+  const { cv, person, ui } = getSite(locale);
   const t = ui.cvSection;
   return (
     <section id="cv" data-theme="dark" aria-labelledby="cv-title" className="relative overflow-hidden bg-bg py-24 text-ink md:py-32">
@@ -51,7 +51,7 @@ export function CvSection({ locale }: { locale: Locale }) {
           <Reveal delay={0.4}>
             <p className="mt-8 max-w-lg text-xs text-pretty text-muted">{t.note}</p>
             <div className="mt-5">
-              <ShareButton locale={locale} />
+              <ShareButton person={person} ui={{ share: ui.share }} />
             </div>
           </Reveal>
         </div>

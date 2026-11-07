@@ -86,10 +86,10 @@ export function ExperienceView({ locale, slug }: { locale: Locale; slug: string 
                 )}
               </Reveal>
             </div>
-            <Reveal className="w-full max-w-[11rem] sm:max-w-[16rem] lg:col-span-4 lg:max-w-none" delay={0.15} y={40}>
+            <Reveal className="w-full max-w-[9rem] sm:max-w-[15rem] lg:col-span-4 lg:max-w-none" delay={0.15} y={40}>
               <ViewTransition name={`brand-${item.id}`} share="morph" default="none">
               <TiltCard max={10} className="rounded-[2rem]">
-                <div className="relative grid aspect-square place-items-center overflow-hidden rounded-[2rem] border border-line-strong bg-surface">
+                <div className="relative grid aspect-square place-items-center overflow-hidden rounded-[2rem] border border-line-strong bg-surface [container-type:inline-size]">
                   <div aria-hidden className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,var(--glow),transparent_60%)]" />
                   <BrandMark item={item} size={item.logo ? 120 : 110} className="relative" />
                 </div>

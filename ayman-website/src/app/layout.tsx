@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Geist, Geist_Mono } from "next/font/google";
 import { MotionConfig } from "framer-motion";
-import { alternates, getSite } from "@content";
+import { alternates, getChrome, getSite } from "@content";
 import { LocaleSync } from "@/components/layout/LocaleSync";
 
 const { person, seo, cv, experience } = getSite("nl");
+const chrome = getChrome();
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
@@ -85,16 +86,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body className="grain">
-        <LocaleSync />
+        <LocaleSync skip={{ nl: chrome.nl.ui.skip, en: chrome.en.ui.skip }} />
         <MotionConfig reducedMotion="user">
           <SmoothScroll />
           <ScrollProgress />
           <Cursor />
-          <Header />
+          <Header chrome={chrome} />
           <main id="main" tabIndex={-1} className="outline-none">
             {children}
           </main>
-          <Footer />
+          <Footer chrome={chrome} />
         </MotionConfig>
       </body>
     </html>
