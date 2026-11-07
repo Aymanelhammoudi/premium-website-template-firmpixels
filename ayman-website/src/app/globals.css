@@ -1,26 +1,319 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ─────────────────────────────────────────────────────────────
+   Design tokens — "Midnight editorial"
+   Navy, warm goud en ivoor (huisstijl van Ayman), met één accent.
+   Alle tekstcombinaties halen WCAG 2.1 AA.
+   ───────────────────────────────────────────────────────────── */
+
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #071426;
+  --bg-2: #0a1a2e;
+  --surface: #0f2238;
+  --surface-2: #142a44;
+  --ink: #f5f1e8;
+  --muted: #a9b5c3;
+  --line: rgb(213 181 121 / 0.16);
+  --line-strong: rgb(213 181 121 / 0.32);
+  --gold: #d5b579;
+  --gold-2: #e8cea0;
+  --on-gold: #071426;
+  --glow: rgb(213 181 121 / 0.14);
+  --grain-opacity: 0.07;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f5f1e8;
+  --bg-2: #eee8db;
+  --surface: #fffdf8;
+  --surface-2: #f8f3e9;
+  --ink: #071426;
+  --muted: #4a5563;
+  --line: rgb(7 20 38 / 0.1);
+  --line-strong: rgb(7 20 38 / 0.22);
+  --gold: #7a5a22;
+  --gold-2: #8a6526;
+  --on-gold: #fffdf8;
+  --glow: rgb(176 138 71 / 0.18);
+  --grain-opacity: 0.05;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-gold: var(--gold);
+  --color-gold-2: var(--gold-2);
+  --color-on-gold: var(--on-gold);
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-geist), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ───────────── Basis ───────────── */
+
+html {
+  scroll-padding-top: 6rem;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+  transition: background-color 0.5s var(--ease-out-expo), color 0.5s var(--ease-out-expo);
+}
+
+::selection {
+  background: var(--gold);
+  color: var(--on-gold);
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-variation-settings: "SOFT" 30, "WONK" 0;
+  letter-spacing: -0.035em;
+}
+
+.font-display em,
+em.accent {
+  font-style: italic;
+  color: var(--gold);
+  font-variation-settings: "SOFT" 100, "WONK" 1;
+}
+
+/* Kleine typografische label-stijl (mono, uppercase) */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.6;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.container-x {
+  width: min(1320px, 100% - 2.5rem);
+  margin-inline: auto;
+}
+
+@media (min-width: 768px) {
+  .container-x {
+    width: min(1320px, 100% - 5rem);
+  }
+}
+
+.sr-only-focusable:not(:focus) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ───────────── Visuele effecten ───────────── */
+
+/* Filmkorrel over de hele pagina — geeft diepte, voorkomt "platte" vlakken */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  z-index: 60;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 8s steps(10) infinite;
+}
+
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-5%, -10%); }
+  30% { transform: translate(3%, -15%); }
+  50% { transform: translate(12%, 9%); }
+  70% { transform: translate(9%, 4%); }
+  90% { transform: translate(-1%, 7%); }
+}
+
+/* Fijn raster op de achtergrond van de hero */
+.grid-lines {
+  background-image:
+    linear-gradient(to right, var(--line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+  background-size: 88px 88px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+}
+
+/* Kaart met lichtvlek die de muis volgt (zet --mx / --my via JS) */
+.spotlight {
+  position: relative;
+  isolation: isolate;
+}
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.4s;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), var(--glow), transparent 45%);
+}
+.spotlight::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s;
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), var(--gold), transparent 60%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+.spotlight:hover::before,
+.spotlight:hover::after,
+.spotlight:focus-within::before,
+.spotlight:focus-within::after {
+  opacity: 1;
+}
+
+/* Oneindige logoband */
+.marquee {
+  mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+}
+.marquee-track {
+  animation: marquee 32s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+/* Gouden tekst met glanzend verloop */
+.text-shine {
+  background: linear-gradient(110deg, var(--gold) 20%, var(--gold-2) 40%, var(--ink) 50%, var(--gold-2) 60%, var(--gold) 80%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shine 6s ease-in-out infinite;
+}
+@keyframes shine {
+  0%, 100% { background-position: 100% 0; }
+  50% { background-position: 0% 0; }
+}
+
+.spin-slow {
+  animation: spin 24s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.pulse-dot {
+  position: relative;
+}
+.pulse-dot::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 9999px;
+  border: 1px solid currentColor;
+  animation: pulse 2s var(--ease-out-expo) infinite;
+}
+@keyframes pulse {
+  from { transform: scale(0.6); opacity: 1; }
+  to { transform: scale(2); opacity: 0; }
+}
+
+/* Lenis smooth scroll */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+/* Thema-wissel: cirkel die openvouwt vanaf de knop */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-new(root) {
+  animation: theme-reveal 0.7s var(--ease-out-expo);
+}
+@keyframes theme-reveal {
+  from { clip-path: circle(0 at var(--vt-x, 50%) var(--vt-y, 0%)); }
+  to { clip-path: circle(var(--vt-r, 150%) at var(--vt-x, 50%) var(--vt-y, 0%)); }
+}
+
+/* ───────────── Toegankelijkheid: minder beweging ───────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .marquee-track {
+    animation: none;
+  }
+}
+
+/* ───────────── Print (o.a. de cv-pagina) ───────────── */
+
+@media print {
+  :root {
+    --bg: #fff;
+    --ink: #000;
+    --muted: #333;
+    --gold: #000;
+    --line: #ccc;
+  }
+  .no-print,
+  .grain::after {
+    display: none !important;
+  }
+  body {
+    font-size: 11pt;
+    line-height: 1.45;
+  }
+  a {
+    text-decoration: none;
+  }
 }
