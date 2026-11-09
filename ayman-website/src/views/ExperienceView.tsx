@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ViewTransition } from "react";
-import { alternates, getSite, routes, type Locale } from "@content";
+import { alternates, getSite, routes, withBase, type Locale } from "@content";
 import { BrandMark } from "@/components/ui/BrandMark";
 import { ArrowLeft, ArrowRight } from "@/components/ui/Icons";
 import { Reveal } from "@/components/ui/Reveal";
@@ -28,9 +28,9 @@ export function experienceMetadata(locale: Locale, slug: string): Metadata {
       url: routes.experience(locale, item.id),
       title: `${item.company} — ${item.role}`,
       description: item.summary.slice(0, 155),
-      images: [{ url: `/og/exp-${item.id}-${locale}.png`, width: 1200, height: 630, alt: `${item.company} — ${item.role}` }],
+      images: [{ url: withBase(`/og/exp-${item.id}-${locale}.png`), width: 1200, height: 630, alt: `${item.company} — ${item.role}` }],
     },
-    twitter: { card: "summary_large_image", images: [`/og/exp-${item.id}-${locale}.png`] },
+    twitter: { card: "summary_large_image", images: [withBase(`/og/exp-${item.id}-${locale}.png`)] },
   };
 }
 

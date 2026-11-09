@@ -7,7 +7,27 @@ export * from "./routes";
 export type Site = typeof nl;
 export type { Experience, Track, Project, SkillGroup, BrandIcon } from "./site";
 
-const sites: Record<Locale, Site> = { nl, en };
+/** Zet het submap-voorvoegsel voor afbeeldingen en pdf's als de site niet op een eigen domein staat. */
+function withAssets(site: Site): Site {
+  const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+  if (!base && !siteUrl) return site;
+  const map = (v: unknown): unknown => {
+    if (typeof v === "string") return base && /^\/(images|cv)\//.test(v) ? base + v : v;
+    if (Array.isArray(v)) return v.map(map);
+    if (v && typeof v === "object") return Object.fromEntries(Object.entries(v).map(([k, x]) => [k, map(x)]));
+    return v;
+  };
+  const out = Object.fromEntries(Object.entries(site).map(([k, v]) => [k, typeof v === "function" ? v : map(v)])) as Site;
+  const experience = out.experience;
+  return {
+    ...out,
+    person: { ...out.person, ...(siteUrl ? { siteUrl } : {}) },
+    experienceBySlug: (slug: string) => experience.find((e) => e.id === slug),
+  };
+}
+
+const sites: Record<Locale, Site> = { nl: withAssets(nl), en: withAssets(en) };
 
 
 export function getSite(locale: Locale = "nl"): Site {

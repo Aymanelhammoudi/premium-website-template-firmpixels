@@ -58,10 +58,19 @@ export function switchPath(path: string, to: Locale): string {
 }
 
 /** hreflang-alternatieven voor metadata. */
+/**
+ * Optioneel voorvoegsel als de site in een submap staat (bijv. GitHub Pages: /premium-website-template-firmpixels).
+ * Leeg bij hosting op een eigen domein.
+ */
+export const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+export const withBase = (p: string) => (BASE_PATH && p.startsWith("/") && !p.startsWith(BASE_PATH + "/") ? BASE_PATH + p : p);
+
 export function alternates(nlPath: string, enPath: string, current: Locale) {
+  const nlUrl = withBase(nlPath);
+  const enUrl = withBase(enPath);
   return {
-    canonical: current === "en" ? enPath : nlPath,
-    languages: { "nl-NL": nlPath, "en-GB": enPath, "x-default": nlPath },
+    canonical: current === "en" ? enUrl : nlUrl,
+    languages: { "nl-NL": nlUrl, "en-GB": enUrl, "x-default": nlUrl },
   };
 }
 

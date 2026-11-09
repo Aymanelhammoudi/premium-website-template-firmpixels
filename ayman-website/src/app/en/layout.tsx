@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { alternates, getSite } from "@content";
+import { alternates, getSite, withBase } from "@content";
 
 const { seo, person } = getSite("en");
 
@@ -14,9 +14,9 @@ export const metadata: Metadata = {
     siteName: person.fullName,
     title: seo.title,
     description: seo.description,
-    images: [{ url: "/og/home-en.png", width: 1200, height: 630, alt: seo.title }],
+    images: [{ url: withBase("/og/home-en.png"), width: 1200, height: 630, alt: seo.title }],
   },
-  twitter: { card: "summary_large_image", title: seo.title, description: seo.description, images: ["/og/home-en.png"] },
+  twitter: { card: "summary_large_image", title: seo.title, description: seo.description, images: [withBase("/og/home-en.png")] },
 };
 
 export default function EnglishLayout({ children }: LayoutProps<"/en">) {

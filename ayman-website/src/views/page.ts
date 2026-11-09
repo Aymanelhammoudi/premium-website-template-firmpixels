@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { PAGES, alternates, getSite, routes, type Locale, type PageKey } from "@content";
+import { PAGES, alternates, getSite, routes, withBase, type Locale, type PageKey } from "@content";
 import type { Crumb } from "@/components/ui/PageHeader";
 
 /** Pad van de vooraf gegenereerde deelafbeelding (zie app/og/[file]/route.tsx). */
-export const ogImage = (name: string) => `/og/${name}.png`;
+export const ogImage = (name: string) => withBase(`/og/${name}.png`);
 
 export type SubPage = Exclude<PageKey, "home">;
 

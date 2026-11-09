@@ -1,11 +1,12 @@
 import type { CSSProperties, ReactNode } from "react";
 import Link from "next/link";
+import { getSite, withBase } from "@content";
 
 const d = (s: number) => ({ "--d": `${s}s` }) as CSSProperties;
 
 export type Crumb = { label: string; href?: string; url?: string };
 
-const SITE = "https://www.aymanzakelijk.nl";
+const SITE = new URL(getSite("nl").person.siteUrl).origin;
 
 /** Kruimelpad als gestructureerde gegevens (BreadcrumbList) voor zoekmachines. */
 export function breadcrumbJsonLd(crumbs: Crumb[]) {
@@ -16,7 +17,7 @@ export function breadcrumbJsonLd(crumbs: Crumb[]) {
       "@type": "ListItem",
       position: i + 1,
       name: c.label,
-      ...(c.href || c.url ? { item: SITE + (c.href ?? c.url) } : {}),
+      ...(c.href || c.url ? { item: SITE + withBase((c.href ?? c.url) as string) } : {}),
     })),
   };
 }

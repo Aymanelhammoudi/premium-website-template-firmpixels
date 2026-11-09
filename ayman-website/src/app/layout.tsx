@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Geist, Geist_Mono } from "next/font/google";
 import { MotionConfig } from "framer-motion";
-import { alternates, getChrome, getSite } from "@content";
+import { alternates, getChrome, getSite, withBase } from "@content";
 import { LocaleSync } from "@/components/layout/LocaleSync";
 
 const { person, seo, cv, experience } = getSite("nl");
@@ -25,7 +25,7 @@ const geist = Geist({ variable: "--font-geist", subsets: ["latin"], display: "sw
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"], display: "swap", preload: false });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(person.siteUrl),
+  metadataBase: new URL(new URL(person.siteUrl).origin),
   title: { default: seo.title, template: `%s | ${person.fullName}` },
   description: seo.description,
   applicationName: person.fullName,
@@ -40,9 +40,9 @@ export const metadata: Metadata = {
     description: seo.description,
     firstName: person.firstName,
     lastName: person.lastName,
-    images: [{ url: "/og/home-nl.png", width: 1200, height: 630, alt: seo.title }],
+    images: [{ url: withBase("/og/home-nl.png"), width: 1200, height: 630, alt: seo.title }],
   },
-  twitter: { card: "summary_large_image", title: seo.title, description: seo.description, images: ["/og/home-nl.png"] },
+  twitter: { card: "summary_large_image", title: seo.title, description: seo.description, images: [withBase("/og/home-nl.png")] },
   robots: { index: true, follow: true },
 };
 
@@ -64,7 +64,7 @@ const jsonLd = {
   familyName: person.lastName,
   jobTitle: person.role,
   url: person.siteUrl,
-  image: `${person.siteUrl}${person.portrait}`,
+  image: `${new URL(person.siteUrl).origin}${person.portrait}`,
   email: `mailto:${person.email}`,
   telephone: person.phoneHref,
   address: { "@type": "PostalAddress", addressRegion: person.region, addressCountry: "NL" },
