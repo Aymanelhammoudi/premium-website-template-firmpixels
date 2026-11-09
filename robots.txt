@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+
+Sitemap: https://aymanelhammoudi.github.io/premium-website-template-firmpixels/sitemap.xml

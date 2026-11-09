@@ -1,0 +1,7 @@
+:HL["/premium-website-template-firmpixels/_next/static/chunks/21-jj84vf5ub8.css","style"]
+:HL["/premium-website-template-firmpixels/_next/static/media/605ce01b664af129-s.p.0wgildi0cnwt9.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/premium-website-template-firmpixels/_next/static/media/7015758c94fe7945-s.p.0ggqn9ig56u4s.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+3:[["children",{"s":"__PAGE__","h":160}]]
+2:[["children",{"s":{"n":"slug","t":"d","k":"meubelverkoop","s":[]},"h":96,"c":"$Q3"}]]
+1:[["children",{"s":"ervaring","h":64,"c":"$Q2"}]]
+0:{"b":"W3sFofml2mY4djm9IuOq6","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
