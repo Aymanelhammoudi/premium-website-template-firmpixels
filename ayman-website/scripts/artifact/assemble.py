@@ -105,6 +105,15 @@ def tidy_cv(soup):
         if a.get('href') in ('#cv', '#en-cv') and re.search(r'Bekijk|View', a.get_text()): a.decompose()
     return soup
 
+def tidy_roles(soup):
+    """De wisselende functietitel kan midden in een overgang zijn vastgelegd: houd er één over."""
+    seen = set()
+    for em in soup.select('em[data-role]'):
+        parent = id(em.parent)
+        if parent in seen: em.decompose()
+        else: seen.add(parent)
+    return soup
+
 def tidy_contact(soup, lang):
     for b in soup.select('form button[type=submit]'):
         for s in b.find_all(string=True):
@@ -141,7 +150,7 @@ search = {'nl': [], 'en': []}
 for name in cap['order']:
     v = VIEWS[name]
     lang = v['lang']
-    soup = tidy_contact(tidy_pdf(process(v['html'], lang, prefix=name)), lang)
+    soup = tidy_roles(tidy_contact(tidy_pdf(process(v['html'], lang, prefix=name)), lang))
     if name in CV_VIEW.values(): soup = tidy_cv(soup)
     if re.fullmatch(r'(en-experience|ervaring)-.+', name):
         h1 = soup.find('h1'); role = h1.find_next('p') if h1 else None

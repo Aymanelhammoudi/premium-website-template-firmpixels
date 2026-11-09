@@ -107,6 +107,7 @@ export const nav = [
   { key: "ventures", label: "Ondernemerschap" },
   { key: "about", label: "Over mij" },
   { key: "skills", label: "Vaardigheden" },
+  { key: "ambition", label: "Ambitie" },
   { key: "websites", label: "Websites" },
   { key: "cv", label: "Cv" },
 ] as { key: PageKey; label: string }[];
@@ -287,6 +288,12 @@ export const pages = {
     title: "Een mogelijkheid bespreken?",
     accent: "Neem direct contact op.",
     intro: "Voor een functie in sales of retail, een commerciële samenwerking of een websiteproject ben ik rechtstreeks bereikbaar.",
+  },
+  ambition: {
+    eyebrow: "Ambitie & toekomst",
+    title: "Blijven leren.",
+    accent: "Steeds verder bouwen.",
+    intro: "Waar ik naartoe wil, wat ik onderweg wil ontwikkelen en welke werkomgeving daarbij past.",
   },
 };
 
@@ -859,8 +866,8 @@ export const testimonials: { quote: string; name: string; role: string }[] = [];
 export const cv = {
   /** Origineel, vormgegeven cv — exact zoals op aymanzakelijk.nl */
   pdf: "/cv/CV_Ayman_El_Hammoudi.pdf",
-  preview: "/images/cv-preview.webp",
-  previewSize: { width: 1200, height: 1697 },
+  preview: "/images/cv-preview-720.webp",
+  previewSize: { width: 720, height: 1018 },
   fileName: "CV_Ayman_El_Hammoudi.pdf",
   /** ATS-versie: doorzoekbare tekst, gemaakt met `npm run cv:pdf` uit de online cv-pagina */
   ats: "/cv/CV_Ayman_El_Hammoudi_ATS.pdf",
@@ -901,6 +908,154 @@ export const footer = {
 };
 
 /* ───────────── Interfaceteksten (knoppen, labels, meldingen) ───────────── */
+
+/* ───────────── Extra secties (letterlijk van aymanzakelijk.nl) ───────────── */
+
+/** Sfeerbeelden van aymanzakelijk.nl: geen werkplek of werkgever. */
+export const atmosphere = {
+  sales: { src: "/images/sfeer/sales-adviesruimte.webp", alt: "Sfeerbeeld van een verzorgde adviesruimte in navy en goud", caption: "Sfeerbeeld · geen foto van een werkgever" },
+  office: { src: "/images/sfeer/premium-kantoor.webp", alt: "Sfeerbeeld van een rustig kantoor in navy en goud", caption: "Sfeerbeeld · geen foto van mijn kantoor" },
+  web: { src: "/images/sfeer/webdesign-werkplek.webp", alt: "Sfeerbeeld van een werkplek met een laptop en een monitor", caption: "Sfeerbeeld · geen foto van mijn werkplek" },
+  growth: { src: "/images/sfeer/ambitie-ontwikkeling.webp", alt: "Sfeerbeeld van een bureau met een notitieboek en een laptop bij zonsondergang", caption: "Sfeerbeeld · gemaakt voor deze website" },
+};
+
+export const sections = {
+  homePerson: {
+    label: "De persoon achter het werk",
+    title: "Goed advies begint met",
+    accent: "écht luisteren.",
+    text: [
+      "Ik wil begrijpen wat iemand nodig heeft. Daar begint voor mij een goed gesprek.",
+      "Die overtuiging neem ik mee in mijn werk bij VodafoneZiggo, mijn eerdere verkoopervaring en de websites die ik voor ondernemers maak.",
+    ],
+    cta: "Meer over mij",
+  },
+  homeWork: {
+    label: "Geselecteerd werk",
+    title: "Van een idee naar",
+    accent: "een online visitekaartje.",
+    intro: "Een selectie uit mijn werk als zelfstandig webdesigner.",
+    cta: "Alle projecten",
+  },
+  next: {
+    label: "De volgende stap",
+    title: "Een goed gesprek.",
+    accent: "Een nieuw begin.",
+    text: "Over sales, een nieuwe uitdaging of een website voor jouw onderneming. Ik maak graag kennis.",
+    cta: "Laten we kennismaken",
+  },
+  aboutOnline: {
+    label: "Ondernemerschap",
+    title: "Ook online gaat het om",
+    accent: "mensen.",
+    text: [
+      "Naast mijn werk ontwikkel ik websites voor ondernemers. Dat vraagt om initiatief, goed luisteren, structuur aanbrengen en verantwoordelijkheid nemen tot de oplevering.",
+      "Een website is vaak het eerste contact met een bedrijf. Daarom combineer ik mijn commerciële ervaring met aandacht voor tekst, uitstraling en gebruiksgemak.",
+    ],
+    cta: "Bekijk mijn webprojecten",
+  },
+  aboutVentures: {
+    label: "Ondernemende ervaring",
+    title: "Meer dan alleen",
+    accent: "websiteontwikkeling.",
+    intro: "Mijn ondernemerschap omvat marketplaces, eigen webshops, commerciële samenwerkingen, high-ticket sales en een bedrijf in groene energie.",
+    items: [
+      { title: "bol & Amazon", text: "Ervaring met productverkoop via Nederlandse en internationale marketplaces." },
+      { title: "Eigen webshops", text: "Online verkoop in meerdere productcategorieën en samenwerking met een meubelbedrijf." },
+      { title: "Groene energie", text: "Een bedrijf in zonnepanelen en laadpalen opgebouwd en met winst overgedragen." },
+      { title: "Sales", text: "High-ticket closing en cursusverkoop voor ondernemers en salesprofessionals." },
+    ],
+    cta: "Bekijk mijn ondernemerschap",
+  },
+  expProfile: {
+    label: "Profiel in één oogopslag",
+    title: "Wat een recruiter",
+    accent: "direct mag onthouden.",
+    intro: "Mijn ervaring loopt uiteen, maar de rode draad is duidelijk: contact leggen, luisteren, helder uitleggen en verantwoordelijkheid nemen voor een goed resultaat.",
+    items: [
+      { title: "Commercieel", text: "Ervaring met adviesverkoop, directe acquisitie, productdemonstraties en het behandelen van vragen en bezwaren." },
+      { title: "Klantgericht", text: "Gewend om verschillende klantvragen te vertalen naar begrijpelijke opties en een passende vervolgstap." },
+      { title: "Ondernemend", text: "Zelf websites opzetten voor ondernemers, van intake en structuur tot oplevering en ondersteuning." },
+      { title: "Breed inzetbaar", text: "Ervaring in telecom, supermarktretail, e-commerceprocessen en zelfstandig digitaal werk." },
+    ],
+  },
+  expThread: {
+    label: "De rode draad",
+    lines: ["Luisteren.", "Uitleggen.", "Verantwoordelijkheid nemen."],
+    text: [
+      "Op de winkelvloer, aan de deur, bij een productdemonstratie of in een webproject: ik begin bij de vraag, maak mogelijkheden begrijpelijk en werk toe naar een concrete volgende stap.",
+      "Daardoor zijn mijn ervaringen uit verschillende sectoren goed met elkaar te verbinden.",
+    ],
+    career: "Mijn loopbaan",
+    careerIntro: "Open iedere functie voor werkzaamheden, kerncompetenties en de waarde die ik uit die ervaring meeneem.",
+    cv: "Bekijk mijn volledige cv",
+  },
+  ventGlance: {
+    label: "In één oogopslag",
+    title: "Van productidee naar",
+    accent: "praktijkervaring.",
+    intro: "Mijn ondernemerschap loopt van online marketplaces en eigen webshops tot sales voor coaching en een onderneming in groene energie. Iedere stap heeft mij geleerd om kansen te beoordelen, verantwoordelijkheid te nemen en mij aan veranderende omstandigheden aan te passen.",
+    items: [
+      { title: "Marketplaces", text: "Verkoopervaring via bol sinds 2021 en één jaar via Amazon." },
+      { title: "Webshops", text: "Productverkoop in onder meer kleding, wonen, keuken, babyspeelgoed en elektronica." },
+      { title: "Eigen bedrijf", text: "Een onderneming in zonnepanelen en laadpalen opgebouwd en later met winst verkocht." },
+      { title: "Sales", text: "High-ticket gesprekken en cursusverkoop binnen e-commerce en salesontwikkeling." },
+    ],
+    pick: "Kies wat je wilt bekijken",
+    pickTitle: "Elke ervaring. Een eigen plek.",
+    note: "Deze beschrijvingen zijn gebaseerd op mijn eigen praktijkervaring. Er worden bewust geen onbevestigde omzetcijfers, klantresultaten of merknamen van niet-publieke samenwerkingspartners genoemd.",
+  },
+  ventTake: {
+    label: "Wat ik meeneem",
+    lines: ["Commercieel denken.", "Zelf handelen.", "Op tijd bijsturen."],
+    text: "Ondernemen heeft mij geleerd om zelf keuzes te maken, klanten en markten te begrijpen en ook moeilijke beslissingen zakelijk te beoordelen. Die ervaring neem ik mee naar iedere commerciële functie en samenwerking.",
+    cta: "Lees mijn ambitie",
+  },
+  skillsFlow: {
+    label: "Van gesprek naar uitvoering",
+    lines: ["Meedenken.", "Uitwerken.", "Opleveren."],
+    text: "Mijn commerciële en digitale werk sluiten op elkaar aan. Ik begin met de vraag van de klant en werk toe naar een bruikbare oplossing.",
+    cta: "Bekijk de projecten",
+  },
+  contactQuick: {
+    label: "Snel naar de juiste informatie",
+    title: "Alles wat een werkgever",
+    accent: "nodig heeft.",
+    items: [
+      { key: "experience", title: "Ervaring", text: "Alle rollen met werkzaamheden, vaardigheden en de waarde die ik uit iedere omgeving meeneem." },
+      { key: "skills", title: "Sterke punten", text: "Een praktisch overzicht van verkoop, communicatie, samenwerking en digitale uitvoering." },
+      { key: "ambition", title: "Ambitie", text: "Mijn doelen voor verdere ontwikkeling in commercie, verantwoordelijkheid en ondernemerschap." },
+      { key: "cv", title: "Curriculum vitae", text: "Het juiste cv is direct op de website te lezen, volledig te openen en als PDF te downloaden." },
+    ] as { key: PageKey; title: string; text: string }[],
+    note: "De knoppen openen je eigen e-mail- of telefoonapp. Deze website gebruikt geen tracking of cookies.",
+  },
+  ambition: {
+    drive: {
+      label: "Wat mij drijft",
+      title: "Groeien door",
+      accent: "praktijkervaring.",
+      text: [
+        "Ik wil mij ontwikkelen tot een veelzijdige commerciële professional die klanten goed begrijpt, verantwoordelijkheid pakt en ideeën zelfstandig kan uitvoeren.",
+        "Voor mij ontstaat groei door te doen: gesprekken voeren, feedback vragen, productkennis opbouwen, samenwerken met ervaren collega’s en achteraf beoordelen wat beter kan.",
+        "Ik zoek daarom geen snelle titel, maar een omgeving waarin prestaties, ontwikkeling en betrouwbaarheid samenkomen.",
+      ],
+    },
+    direction: {
+      label: "Mijn richting",
+      title: "Drie doelen voor",
+      accent: "de komende jaren.",
+      intro: "Ambitie betekent voor mij concreet blijven leren en de kwaliteit van mijn werk stap voor stap verhogen.",
+    },
+    bring: { label: "Wat ik al meebreng" },
+    seek: {
+      label: "Wat ik zoek",
+      title: "Een plek om bij te dragen",
+      accent: "én door te groeien.",
+      cv: "Bekijk mijn cv",
+      contact: "Neem contact op",
+    },
+  },
+};
 
 export const ui = {
   lang: "nl",

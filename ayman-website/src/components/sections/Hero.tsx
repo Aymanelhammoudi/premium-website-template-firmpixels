@@ -50,7 +50,9 @@ export function Hero({
   person,
   ui,
   secondaryHref,
+  chips = [],
 }: {
+  chips?: { label: string; text: string; logo?: string }[];
   cv: Site["cv"];
   hero: Site["hero"];
   person: Site["person"];
@@ -61,7 +63,9 @@ export function Hero({
   return (
     <section id="top" aria-labelledby="hero-title" className="relative isolate overflow-hidden border-b border-line">
       <div aria-hidden className="dot-grid absolute inset-0 -z-10" />
-      <div aria-hidden className="absolute -top-48 right-[-12%] -z-10 size-[40rem] rounded-full bg-gold/8 blur-[120px]" />
+      <div aria-hidden className="grid-fade absolute inset-0 -z-10 opacity-60" />
+      <div aria-hidden className="aurora -top-40 right-[-10%] -z-10 size-[36rem] bg-gold/12" />
+      <div aria-hidden className="aurora bottom-[-30%] left-[-15%] -z-10 size-[32rem] bg-[#3b5b8c]/15" style={{ animationDelay: "-8s" }} />
 
       <div className="container-x grid items-center gap-12 py-14 md:py-20 lg:grid-cols-12 lg:gap-10 lg:py-24">
         <div className="lg:col-span-7">
@@ -109,7 +113,7 @@ export function Hero({
         <div className="relative mx-auto w-full max-w-[24rem] lg:col-span-5 lg:max-w-[28rem] lg:justify-self-end">
           <div className="portrait-in">
             <TiltCard className="rounded-3xl">
-              <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-line bg-surface shadow-[0_30px_80px_-40px_rgb(7_20_38/0.55)]">
+              <div className="beam relative aspect-[4/5] overflow-hidden rounded-3xl border border-line bg-surface shadow-[0_30px_80px_-40px_rgb(7_20_38/0.55)]">
                 <Image
                   src={person.portrait}
                   alt={person.portraitAlt}
@@ -129,6 +133,34 @@ export function Hero({
               </div>
             </TiltCard>
           </div>
+          {chips.map((c, i) => (
+            <div
+              key={c.text}
+              aria-hidden
+              className={`enter absolute z-10 hidden lg:block ${i === 0 ? "top-12 -left-14" : "-right-8 bottom-28"}`}
+              style={d(0.6 + i * 0.15)}
+            >
+              <div
+                className="float-y flex items-center gap-3 rounded-2xl border border-line bg-surface/90 py-2.5 pr-4 pl-2.5 shadow-[0_20px_50px_-25px_rgb(7_20_38/0.5)] backdrop-blur-md"
+                style={d(i * 1.5)}
+              >
+                <span className="grid size-9 place-items-center rounded-xl border border-line bg-bg">
+                  {c.logo ? (
+                    <Image src={c.logo} alt="" width={20} height={20} className="size-5 object-contain" />
+                  ) : (
+                    <span className="text-[0.8rem] font-bold tracking-[-0.06em]">
+                      {c.text.slice(0, 3)}
+                      <span className="text-gold">.</span>
+                    </span>
+                  )}
+                </span>
+                <span className="leading-tight">
+                  <span className="block font-mono text-[0.62rem] tracking-[0.14em] text-muted uppercase">{c.label}</span>
+                  <span className="block text-sm font-semibold tracking-tight">{c.text}</span>
+                </span>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

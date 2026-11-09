@@ -7,7 +7,7 @@ export const locales: Locale[] = ["nl", "en"];
 export const base = (l: Locale) => (l === "en" ? "/en/" : "/");
 
 /** Pagina's van de site, per taal. */
-export type PageKey = "home" | "about" | "experience" | "ventures" | "skills" | "websites" | "cv" | "contact";
+export type PageKey = "home" | "about" | "experience" | "ventures" | "skills" | "ambition" | "websites" | "cv" | "contact";
 
 export const PAGES: Record<PageKey, Record<Locale, string>> = {
   home: { nl: "/", en: "/en/" },
@@ -15,6 +15,7 @@ export const PAGES: Record<PageKey, Record<Locale, string>> = {
   experience: { nl: "/ervaring/", en: "/en/experience/" },
   ventures: { nl: "/ondernemerschap/", en: "/en/entrepreneurship/" },
   skills: { nl: "/vaardigheden/", en: "/en/skills/" },
+  ambition: { nl: "/ambitie/", en: "/en/ambition/" },
   websites: { nl: "/websites/", en: "/en/websites/" },
   cv: { nl: "/cv/", en: "/en/cv/" },
   contact: { nl: "/contact/", en: "/en/contact/" },

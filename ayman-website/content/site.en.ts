@@ -38,6 +38,7 @@ export const nav = [
   { key: "ventures", label: "Entrepreneurship" },
   { key: "about", label: "About" },
   { key: "skills", label: "Skills" },
+  { key: "ambition", label: "Ambition" },
   { key: "websites", label: "Websites" },
   { key: "cv", label: "CV" },
 ] as { key: PageKey; label: string }[];
@@ -194,6 +195,12 @@ export const pages = {
     title: "Discuss an opportunity?",
     accent: "Contact me directly.",
     intro: "I am available to discuss sales or retail roles, commercial partnerships and website projects.",
+  },
+  ambition: {
+    eyebrow: "Ambition and future",
+    title: "Keep learning.",
+    accent: "Keep building.",
+    intro: "Where I want to go, what I want to develop and the type of working environment in which I can contribute.",
   },
 };
 
@@ -667,8 +674,8 @@ export const testimonials: { quote: string; name: string; role: string }[] = [];
 
 export const cv = {
   pdf: "/cv/CV_Ayman_El_Hammoudi_EN.pdf",
-  preview: "/images/cv-preview-en.webp",
-  previewSize: { width: 1200, height: 1696 },
+  preview: "/images/cv-preview-en-720.webp",
+  previewSize: { width: 720, height: 1018 },
   fileName: "CV_Ayman_El_Hammoudi_EN.pdf",
   ats: "/cv/CV_Ayman_El_Hammoudi_EN_ATS.pdf",
   atsFileName: "CV_Ayman_El_Hammoudi_EN_ATS.pdf",
@@ -702,6 +709,154 @@ export const contact = {
 export const footer = {
   motto: ["Personal in conversation.", "Entrepreneurial in my approach."],
   disclaimer: "Personal portfolio · Not affiliated with the employers mentioned",
+};
+
+/* ───────────── Extra sections (verbatim from aymanzakelijk.nl/en) ───────────── */
+
+/** Atmospheric images from aymanzakelijk.nl: not a workplace or employer. */
+export const atmosphere = {
+  sales: { src: "/images/sfeer/sales-adviesruimte.webp", alt: "Atmospheric image of a refined consultation room in navy and gold", caption: "Atmospheric image · not an employer location" },
+  office: { src: "/images/sfeer/premium-kantoor.webp", alt: "Atmospheric image of a calm office in navy and gold", caption: "Atmospheric image · not my office" },
+  web: { src: "/images/sfeer/webdesign-werkplek.webp", alt: "Atmospheric image of a desk with a laptop and a monitor", caption: "Atmospheric image · not my workplace" },
+  growth: { src: "/images/sfeer/ambitie-ontwikkeling.webp", alt: "Atmospheric image of a desk with a notebook and a laptop at sunset", caption: "Atmospheric image created for this website" },
+};
+
+export const sections = {
+  homePerson: {
+    label: "The person behind the work",
+    title: "Good advice starts with",
+    accent: "genuine listening.",
+    text: [
+      "I want to understand what someone needs. That is where a good conversation begins.",
+      "I bring that principle to my work at VodafoneZiggo, my previous sales roles and the websites I develop for business owners.",
+    ],
+    cta: "More about me",
+  },
+  homeWork: {
+    label: "Selected work",
+    title: "From an idea to",
+    accent: "an effective online presence.",
+    intro: "A selection of my work as an independent web designer.",
+    cta: "All projects",
+  },
+  next: {
+    label: "Next step",
+    title: "A good conversation.",
+    accent: "A fresh beginning.",
+    text: "Whether you would like to discuss a sales role, a new opportunity or a website for your business, I would be pleased to meet you.",
+    cta: "Start a conversation",
+  },
+  aboutOnline: {
+    label: "Entrepreneurship",
+    title: "Online work is also about",
+    accent: "people.",
+    text: [
+      "Alongside my job, I develop websites for business owners. That requires initiative, careful listening, clear structure and responsibility through to delivery.",
+      "A website is often a customer's first interaction with a business. I therefore combine commercial experience with careful attention to language, presentation and usability.",
+    ],
+    cta: "View my web projects",
+  },
+  aboutVentures: {
+    label: "Entrepreneurial experience",
+    title: "Beyond",
+    accent: "website development.",
+    intro: "My entrepreneurial background includes marketplaces, independent online stores, commercial partnerships, high-ticket sales and a renewable-energy business.",
+    items: [
+      { title: "bol and Amazon", text: "Product-sales experience across Dutch and international marketplaces." },
+      { title: "Online stores", text: "Online sales across several product categories and a partnership with a furniture company." },
+      { title: "Renewable energy", text: "Built a solar-panel and EV-charger business and subsequently completed a profitable sale." },
+      { title: "Sales", text: "High-ticket closing and course sales for entrepreneurs and sales professionals." },
+    ],
+    cta: "Explore my ventures",
+  },
+  expProfile: {
+    label: "Profile at a glance",
+    title: "What a recruiter",
+    accent: "should remember.",
+    intro: "My experience covers several sectors, with a consistent focus on making contact, listening, explaining clearly and taking responsibility for a good outcome.",
+    items: [
+      { title: "Commercial", text: "Experience in consultative selling, direct acquisition, product demonstrations and objection handling." },
+      { title: "Customer-focused", text: "Able to translate different customer needs into clear options and an appropriate next step." },
+      { title: "Entrepreneurial", text: "Experience developing websites and online ventures, from initial idea to delivery and operation." },
+      { title: "Adaptable", text: "Experience across telecommunications, grocery retail, e-commerce logistics and independent digital work." },
+    ],
+  },
+  expThread: {
+    label: "The common thread",
+    lines: ["Listen.", "Explain.", "Take responsibility."],
+    text: [
+      "Whether on the shop floor, at a customer's door, during a product demonstration or in a web project, I begin with the question, make the options clear and work towards a concrete next step.",
+      "This approach connects my experience across different sectors.",
+    ],
+    career: "My career",
+    careerIntro: "Open each role to view responsibilities, core skills and the value I gained from the experience.",
+    cv: "View my full CV",
+  },
+  ventGlance: {
+    label: "At a glance",
+    title: "From product idea to",
+    accent: "practical experience.",
+    intro: "My entrepreneurial experience ranges from online marketplaces and independent stores to coaching sales and a renewable-energy company. Each step taught me to evaluate opportunities, take responsibility and adapt to changing circumstances.",
+    items: [
+      { title: "Marketplaces", text: "Selling through bol since 2021 and one year of experience on Amazon." },
+      { title: "Online stores", text: "Products in clothing, home, kitchen, baby-toy and electronics categories." },
+      { title: "Own business", text: "Built a solar-panel and EV-charger business and completed a profitable sale." },
+      { title: "Sales", text: "High-ticket conversations and course sales in e-commerce and sales development." },
+    ],
+    pick: "Choose what to explore",
+    pickTitle: "Every experience. Its own place.",
+    note: "These descriptions are based on my own practical experience. Unconfirmed revenue figures, client results and the brand names of private business partners are deliberately not mentioned.",
+  },
+  ventTake: {
+    label: "What I bring",
+    lines: ["Think commercially.", "Act independently.", "Adjust at the right time."],
+    text: "Entrepreneurship taught me to make decisions, understand customers and markets, and evaluate difficult choices commercially. I bring that experience to every role and partnership.",
+    cta: "Read about my ambition",
+  },
+  skillsFlow: {
+    label: "From conversation to delivery",
+    lines: ["Think.", "Develop.", "Deliver."],
+    text: "My commercial and digital work reinforce one another. I begin with the customer's question and work towards a practical solution.",
+    cta: "View the projects",
+  },
+  contactQuick: {
+    label: "Find the right information quickly",
+    title: "Everything an employer",
+    accent: "needs to know.",
+    items: [
+      { key: "experience", title: "Experience", text: "Every role with responsibilities, skills and the value I gained from each environment." },
+      { key: "skills", title: "Strengths", text: "A practical overview of sales, communication, teamwork and digital delivery." },
+      { key: "ambition", title: "Ambition", text: "My goals for further development in commerce, responsibility and entrepreneurship." },
+      { key: "cv", title: "Curriculum vitae", text: "Read the full CV online, open it at full size or download the English PDF." },
+    ] as { key: PageKey; title: string; text: string }[],
+    note: "These buttons open your own email or phone application. This website uses no tracking or cookies.",
+  },
+  ambition: {
+    drive: {
+      label: "What drives me",
+      title: "Growing through",
+      accent: "practical experience.",
+      text: [
+        "I want to develop into a versatile commercial professional who understands customers, takes responsibility and can turn ideas into action.",
+        "I grow by doing: holding conversations, asking for feedback, building product knowledge, working with experienced colleagues and reviewing what could be improved.",
+        "I am looking for an environment where performance, development and reliability reinforce one another.",
+      ],
+    },
+    direction: {
+      label: "My direction",
+      title: "Three goals for",
+      accent: "the coming years.",
+      intro: "For me, ambition means continuing to learn and improving the quality of my work step by step.",
+    },
+    bring: { label: "What I already bring" },
+    seek: {
+      label: "What I am looking for",
+      title: "A place to contribute",
+      accent: "and continue growing.",
+      cv: "View my CV",
+      contact: "Contact me",
+    },
+  },
 };
 
 export const ui = {

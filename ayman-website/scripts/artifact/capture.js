@@ -11,6 +11,7 @@ const PAGES = {
   experience: { nl: '/ervaring/', en: '/en/experience/' },
   ventures: { nl: '/ondernemerschap/', en: '/en/entrepreneurship/' },
   skills: { nl: '/vaardigheden/', en: '/en/skills/' },
+  ambition: { nl: '/ambitie/', en: '/en/ambition/' },
   websites: { nl: '/websites/', en: '/en/websites/' },
   cv: { nl: '/cv/', en: '/en/cv/' },
   contact: { nl: '/contact/', en: '/en/contact/' },
@@ -83,7 +84,7 @@ async function settle(p) {
       }
 
       // Toestanden van tabs en schakelaars
-      const STATE = { skills: ['#vaardigheden', '[role=tab]'], about: ['#ambitie', '[role=group] button'], websites: ['#werk', '[role=group] button'] };
+      const STATE = { skills: ['#vaardigheden', '[role=tab]'], websites: ['#werk', '[role=group] button'] };
       if (STATE[key]) {
         const [id, btn] = STATE[key];
         const sel = `${id} ${btn}`;

@@ -3,6 +3,7 @@ import { Reveal, RevealLines } from "./Reveal";
 
 /** Sectiekop: label, tweekleurige titel (inkt + gedempt) en intro. */
 export function SectionHeading({
+  index,
   label,
   title,
   accent,
@@ -28,7 +29,14 @@ export function SectionHeading({
       <div className={align === "split" ? "md:col-span-7" : ""}>
         <Reveal y={8}>
           <p className="eyebrow mb-5 inline-flex items-center gap-2">
-            <span aria-hidden className="size-1.5 rounded-full bg-gold" />
+            {index ? (
+              <span aria-hidden className="text-gold">
+                {index}
+                <span className="ml-2 text-line-strong">/</span>
+              </span>
+            ) : (
+              <span aria-hidden className="size-1.5 rounded-full bg-gold" />
+            )}
             {label}
           </p>
         </Reveal>

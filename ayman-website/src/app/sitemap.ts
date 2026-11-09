@@ -12,6 +12,7 @@ const PRIORITY: Record<PageKey, number> = {
   cv: 0.9,
   about: 0.8,
   skills: 0.7,
+  ambition: 0.7,
   websites: 0.6,
   contact: 0.7,
 };

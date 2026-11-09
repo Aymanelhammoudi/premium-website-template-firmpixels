@@ -10,7 +10,7 @@ type Props = AnchorHTMLAttributes<HTMLAnchorElement> & {
 export function Button({ children, variant = "primary", icon, className, ...rest }: Props) {
   const styles =
     variant === "primary"
-      ? "bg-ink text-bg hover:bg-gold hover:text-on-gold"
+      ? "btn-shine bg-ink text-bg shadow-[0_10px_30px_-12px_rgb(7_20_38/0.6)] hover:bg-gold hover:text-on-gold"
       : "border border-line-strong text-ink hover:border-ink";
   return (
     <a

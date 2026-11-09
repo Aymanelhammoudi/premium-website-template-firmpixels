@@ -461,3 +461,108 @@ html.theme-vt::view-transition-new(root) {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+/* ───────────── Premium effecten (eigen ontwerp, geïnspireerd op moderne landingspagina’s) ───────────── */
+
+/* Border beam: een gouden lichtstreep die langs de rand van een kaart draait */
+@property --beam-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+.beam {
+  position: relative;
+  isolation: isolate;
+}
+.beam::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: 2;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  background: conic-gradient(
+    from var(--beam-angle),
+    transparent 0deg 250deg,
+    color-mix(in srgb, var(--gold) 30%, transparent) 290deg,
+    var(--gold) 335deg,
+    transparent 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: beam-spin 7s linear infinite;
+}
+@keyframes beam-spin {
+  to { --beam-angle: 360deg; }
+}
+
+/* Glans die over een primaire knop schuift */
+.btn-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(110deg, transparent 30%, rgb(255 255 255 / 0.28) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 0.7s var(--ease-out-expo);
+}
+.btn-shine:hover::after {
+  transform: translateX(120%);
+}
+
+/* Rustige aurora achter de hero en de afsluitende band */
+.aurora {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(80px);
+  pointer-events: none;
+  animation: aurora-drift 22s ease-in-out infinite alternate;
+}
+@keyframes aurora-drift {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(6%, 4%, 0) scale(1.08); }
+  100% { transform: translate3d(-4%, 6%, 0) scale(0.96); }
+}
+
+/* Zwevende feitenlabels */
+.float-y {
+  animation: float-y 6s ease-in-out infinite;
+  animation-delay: var(--d, 0s);
+}
+@keyframes float-y {
+  50% { transform: translateY(-8px); }
+}
+
+/* Sfeerbeeld met lichte parallax tijdens het scrollen (alleen waar de browser het ondersteunt) */
+@supports (animation-timeline: view()) {
+  .parallax-img {
+    animation: parallax linear both;
+    animation-timeline: view();
+    animation-range: cover;
+  }
+  @keyframes parallax {
+    from { transform: scale(1.12) translateY(-4%); }
+    to { transform: scale(1.12) translateY(4%); }
+  }
+}
+
+/* Lijnenraster dat naar de randen vervaagt */
+.grid-fade {
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--ink) 7%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 7%, transparent) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beam::before,
+  .aurora,
+  .float-y,
+  .parallax-img {
+    animation: none !important;
+  }
+  .btn-shine::after { display: none; }
+}

@@ -726,3 +726,22 @@ tijdlijn met scrollvoortgang · schuivende filter-pill · tabs met schuivende on
 optellende cijfers (alleen bevestigde gegevens) · sticky inhoudsopgave · accordion · CTA-band · sitemap-footer.
 
 **Geschrapt (te speels)**: gouden cursor, filmkorrel, kinetische tekstband, draaiende ster, sterk kantelende kaarten, cursief-gouden koppen.
+
+## Back-up 9 november 2026 (v5)
+
+Back-up: `backup-aymanzakelijk-2026-11-09/` (wget-mirror). Tekstvergelijking met v4: **geen inhoudelijke verschillen**.
+De vormgegeven cv’s (NL + EN) zijn byte-gelijk aan de live bestanden.
+
+Live onderdelen die nog niet op de nieuwe site stonden en nu (letterlijk) zijn toegevoegd:
+
+- **Ambitie & toekomst** als eigen pagina (`/ambitie/`, `/en/ambition/`): wat mij drijft, drie doelen, wat ik zoek.
+- **Home**: “De persoon achter het werk”, “Geselecteerd werk”, “De volgende stap” (afsluitende band op alle pagina’s).
+- **Over mij**: “Ook online gaat het om mensen” en “Meer dan alleen websiteontwikkeling” (4 kaarten).
+- **Ervaring**: “Profiel in één oogopslag” (4 kaarten), “De rode draad”, “Mijn loopbaan”.
+- **Ondernemerschap**: “In één oogopslag” (4 kaarten), “Kies wat je wilt bekijken”, “Wat ik meeneem”, toelichting zonder omzetcijfers.
+- **Vaardigheden**: “Van gesprek naar uitvoering”.
+- **Contact**: “Snel naar de juiste informatie” (4 snelkoppelingen).
+- **Sfeerbeelden** van de live site (navy/goud) met dezelfde eerlijke bijschriften (“Sfeerbeeld · geen foto van een werkgever”).
+
+Bewust aangepast: “Zeven rollen” → “Alle rollen” (de site toont meer rollen dan de live site), en
+“geen contactformulier” vervalt omdat deze site een formulier heeft dat je eigen e-mailapp opent.

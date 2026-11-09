@@ -107,8 +107,8 @@ export function Header({ chrome }: { chrome: Chrome }) {
               className="group inline-flex h-10 items-center gap-2 rounded-full border border-line-strong px-3 text-sm text-muted transition-colors hover:border-ink hover:text-ink"
             >
               <Search className="size-4" />
-              <span className="hidden lg:inline">{ui.nav2.search}</span>
-              <kbd className="hidden rounded border border-line px-1.5 font-mono text-[0.65rem] lg:inline" suppressHydrationWarning>
+              <span className="hidden 2xl:inline">{ui.nav2.search}</span>
+              <kbd className="hidden rounded border border-line px-1.5 font-mono text-[0.65rem] 2xl:inline" suppressHydrationWarning>
                 {isMac ? "⌘K" : "Ctrl K"}
               </kbd>
             </button>
