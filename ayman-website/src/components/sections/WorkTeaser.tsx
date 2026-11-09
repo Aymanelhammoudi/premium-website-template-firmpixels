@@ -37,7 +37,7 @@ export function WorkTeaser({ locale, index }: { locale: Locale; index?: string }
                 <span className="sr-only">
                   {p.name} — {ui.projects.visit}
                 </span>
-                <div className="overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_40px_80px_-50px_rgb(7_20_38/0.6)] transition-[transform,border-color] duration-500 group-hover:-translate-y-1 group-hover:border-line-strong">
+                <div data-tilt className="overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_40px_80px_-50px_rgb(7_20_38/0.6)] transition-[transform,border-color] duration-500 group-hover:-translate-y-1 group-hover:border-line-strong">
                   <div aria-hidden className="flex items-center gap-3 border-b border-line px-4 py-2.5">
                     <span className="flex gap-1.5">
                       <span className="size-2.5 rounded-full bg-[#ff5f57]" />

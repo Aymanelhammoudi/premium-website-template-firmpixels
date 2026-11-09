@@ -5,6 +5,7 @@
  *   [data-dotfield]  canvas met een puntenveld dat wegduwt van de cursor en zacht golft
  *   [data-depth]     laag die met de muis meebeweegt (diepte), binnen [data-depth-root]
  *   [data-magnetic]  knop die licht naar de cursor trekt
+ *   [data-tilt]      kaart die in 3D meekantelt met de cursor
  *   [data-velocity]  element dat meeschuift met de scrollsnelheid (via --vel)
  *   [data-rail]      vastgezette sectie waarin [data-rail-track] horizontaal schuift tijdens het scrollen
  *
@@ -170,6 +171,36 @@ function magnetic(scope) {
   return () => { document.removeEventListener("pointermove", onMove); if (active) reset(active); };
 }
 
+/* ---------- 3D-kanteling van kaarten ---------- */
+function tilt(scope) {
+  if (reduceMotion() || !finePointer()) return () => {};
+  let active = null;
+  const reset = (el) => {
+    el.classList.remove("is-tilting");
+    el.style.removeProperty("--rx");
+    el.style.removeProperty("--ry");
+  };
+  const onMove = (e) => {
+    const el = e.target.closest?.("[data-tilt]");
+    if (active && active !== el) { reset(active); active = null; }
+    if (!el || !scope.contains(el)) return;
+    active = el;
+    const r = el.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+    el.classList.add("is-tilting");
+    el.style.setProperty("--rx", `${((0.5 - py) * 7).toFixed(2)}deg`);
+    el.style.setProperty("--ry", `${((px - 0.5) * 9).toFixed(2)}deg`);
+  };
+  const onOut = (e) => { if (active && !active.contains(e.relatedTarget)) { reset(active); active = null; } };
+  document.addEventListener("pointermove", onMove, { passive: true });
+  document.addEventListener("pointerout", onOut, { passive: true });
+  return () => {
+    document.removeEventListener("pointermove", onMove);
+    document.removeEventListener("pointerout", onOut);
+    if (active) reset(active);
+  };
+}
+
 /* ---------- Scrollsnelheid ---------- */
 function velocity(scope) {
   const els = Array.from(scope.querySelectorAll("[data-velocity]"));
@@ -259,6 +290,7 @@ export function initLiving(root = document) {
   root.querySelectorAll("[data-depth-root]").forEach((r) => visibleOnly(r) && cleanups.push(depth(r)));
   root.querySelectorAll("[data-rail]").forEach((s) => visibleOnly(s) && cleanups.push(rail(s)));
   cleanups.push(magnetic(scope));
+  cleanups.push(tilt(scope));
   cleanups.push(velocity(scope));
   return () => cleanups.forEach((fn) => fn());
 }

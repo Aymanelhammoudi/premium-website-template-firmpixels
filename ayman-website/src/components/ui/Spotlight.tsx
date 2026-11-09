@@ -7,7 +7,9 @@ export function Spotlight({
   children,
   className,
   as: Tag = "div",
+  tilt = false,
 }: {
+  tilt?: boolean;
   children: ReactNode;
   className?: string;
   as?: ElementType;
@@ -18,7 +20,7 @@ export function Spotlight({
     e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`);
   };
   return (
-    <Tag onPointerMove={onMove} className={`spotlight ${className ?? ""}`}>
+    <Tag onPointerMove={onMove} {...(tilt ? { "data-tilt": "" } : {})} className={`spotlight ${className ?? ""}`}>
       {children}
     </Tag>
   );

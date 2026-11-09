@@ -8,6 +8,7 @@ import { BrandMark } from "@/components/ui/BrandMark";
 import { ArrowLeft, ArrowRight } from "@/components/ui/Icons";
 import { Reveal } from "@/components/ui/Reveal";
 import { Toc } from "@/components/ui/Toc";
+import { breadcrumbJsonLd } from "@/components/ui/PageHeader";
 import { CtaBand } from "@/components/sections/CtaBand";
 
 export function experienceParams(locale: Locale) {
@@ -21,6 +22,15 @@ export function experienceMetadata(locale: Locale, slug: string): Metadata {
     title: `${item.company} — ${item.role}`,
     description: item.summary.slice(0, 155),
     alternates: alternates(routes.experience("nl", item.id), routes.experience("en", item.id), locale),
+    openGraph: {
+      type: "article",
+      locale: locale === "en" ? "en_GB" : "nl_NL",
+      url: routes.experience(locale, item.id),
+      title: `${item.company} — ${item.role}`,
+      description: item.summary.slice(0, 155),
+      images: [{ url: `/og/exp-${item.id}-${locale}.png`, width: 1200, height: 630, alt: `${item.company} — ${item.role}` }],
+    },
+    twitter: { card: "summary_large_image", images: [`/og/exp-${item.id}-${locale}.png`] },
   };
 }
 
@@ -49,6 +59,18 @@ export function ExperienceView({ locale, slug }: { locale: Locale; slug: string 
     <article aria-labelledby="exp-title">
       {/* Kop */}
       <header className="relative overflow-hidden border-b border-line pt-12 pb-14 md:pt-16 md:pb-20">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(
+              breadcrumbJsonLd([
+                { label: d.home, href: routes.home(locale) },
+                { label: pages[trackKey].eyebrow, href: routes.track(locale, item.track) },
+                { label: item.company, url: routes.experience(locale, item.id) },
+              ]),
+            ),
+          }}
+        />
         <div aria-hidden className="dot-grid absolute inset-0 -z-10" />
         <div className="container-x">
           <nav aria-label={d.crumbs}>

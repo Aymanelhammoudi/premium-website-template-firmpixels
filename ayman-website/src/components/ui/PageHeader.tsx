@@ -3,7 +3,23 @@ import Link from "next/link";
 
 const d = (s: number) => ({ "--d": `${s}s` }) as CSSProperties;
 
-export type Crumb = { label: string; href?: string };
+export type Crumb = { label: string; href?: string; url?: string };
+
+const SITE = "https://www.aymanzakelijk.nl";
+
+/** Kruimelpad als gestructureerde gegevens (BreadcrumbList) voor zoekmachines. */
+export function breadcrumbJsonLd(crumbs: Crumb[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: crumbs.map((c, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: c.label,
+      ...(c.href || c.url ? { item: SITE + (c.href ?? c.url) } : {}),
+    })),
+  };
+}
 
 /** Kop van een subpagina: kruimelpad, label, tweekleurige h1 en intro. */
 export function PageHeader({
@@ -27,6 +43,7 @@ export function PageHeader({
 }) {
   return (
     <header className="relative overflow-hidden border-b border-line pt-12 pb-16 md:pt-16 md:pb-20">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd(crumbs)) }} />
       <div aria-hidden className="dot-grid absolute inset-0 -z-10" />
       <div className="container-x">
         <nav aria-label={crumbsLabel}>

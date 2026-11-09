@@ -641,3 +641,11 @@ canvas[data-dotfield].is-live { opacity: 1; }
   .sw, .reveal-clip, .stack-card > *, .wordmark span { animation: none !important; opacity: 1 !important; clip-path: none !important; }
   .marquee[data-velocity] { transform: none; }
 }
+
+/* 3D-kanteling van kaarten (gestuurd door src/lib/living.js) */
+[data-tilt] {
+  transform: perspective(1100px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.6s var(--ease-out-expo), border-color 0.3s, translate 0.3s;
+}
+[data-tilt].is-tilting { transition: transform 0.12s linear, border-color 0.3s, translate 0.3s; }
+@media (prefers-reduced-motion: reduce) { [data-tilt] { transform: none !important; } }

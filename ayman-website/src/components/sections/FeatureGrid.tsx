@@ -37,7 +37,7 @@ export function FeatureGrid({
         <ol className={`mt-12 grid grid-cols-1 gap-4 ${cols === 3 ? "md:grid-cols-3" : "sm:grid-cols-2 lg:grid-cols-4"}`}>
           {items.map((it, i) => (
             <Reveal as="li" key={it.title} delay={i * 0.05}>
-              <Spotlight className="group flex h-full flex-col rounded-2xl border border-line bg-surface p-6 transition-[border-color,transform] duration-300 hover:-translate-y-0.5 hover:border-line-strong md:p-7">
+              <Spotlight tilt className="group flex h-full flex-col rounded-2xl border border-line bg-surface p-6 transition-[border-color,transform] duration-300 hover:-translate-y-0.5 hover:border-line-strong md:p-7">
                 <span className="flex items-center justify-between">
                   <span className="font-mono text-xs text-muted">0{i + 1}</span>
                   <span aria-hidden className="h-px w-10 bg-gradient-to-r from-gold to-transparent transition-[width] duration-500 group-hover:w-16" />

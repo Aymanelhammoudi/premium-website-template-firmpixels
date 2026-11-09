@@ -8,7 +8,7 @@ const { person, seo, cv, experience } = getSite("nl");
 const chrome = getChrome();
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { CommandMenu } from "@/components/layout/CommandMenu";
+import { CommandMenuLoader } from "@/components/layout/CommandMenuLoader";
 import { LivingMotion } from "@/components/layout/LivingMotion";
 import { ScrollProgress } from "@/components/layout/ScrollProgress";
 import "./globals.css";
@@ -40,8 +40,9 @@ export const metadata: Metadata = {
     description: seo.description,
     firstName: person.firstName,
     lastName: person.lastName,
+    images: [{ url: "/og/home-nl.png", width: 1200, height: 630, alt: seo.title }],
   },
-  twitter: { card: "summary_large_image", title: seo.title, description: seo.description },
+  twitter: { card: "summary_large_image", title: seo.title, description: seo.description, images: ["/og/home-nl.png"] },
   robots: { index: true, follow: true },
 };
 
@@ -95,7 +96,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             {children}
           </main>
           <Footer chrome={chrome} />
-          <CommandMenu chrome={chrome} />
+          <CommandMenuLoader chrome={chrome} />
           <LivingMotion />
         </MotionConfig>
       </body>

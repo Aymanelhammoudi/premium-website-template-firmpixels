@@ -17,7 +17,7 @@ export function QuickLinks({ locale, index }: { locale: Locale; index?: string }
           {q.items.map((it, i) => (
             <Reveal as="li" key={it.key} delay={i * 0.05}>
               <Link href={PAGES[it.key][locale]} className="group block h-full rounded-2xl">
-                <Spotlight className="flex h-full flex-col rounded-2xl border border-line bg-surface p-6 transition-[border-color,transform] duration-300 group-hover:-translate-y-0.5 group-hover:border-line-strong md:p-7">
+                <Spotlight tilt className="flex h-full flex-col rounded-2xl border border-line bg-surface p-6 transition-[border-color,transform] duration-300 group-hover:-translate-y-0.5 group-hover:border-line-strong md:p-7">
                   <span className="flex items-center justify-between">
                     <span className="font-mono text-xs text-muted">0{i + 1}</span>
                     <ArrowUpRight className="size-4 text-muted transition-[transform,color] duration-300 group-hover:rotate-45 group-hover:text-ink" />

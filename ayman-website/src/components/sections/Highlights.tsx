@@ -24,7 +24,7 @@ export function Highlights({ locale }: { locale: Locale }) {
                 style={{ top: `calc(6.5rem + ${i} * 1.75rem)` }}
               >
                 <Link href={routes.experience(locale, item.id)} className="group block rounded-3xl">
-                  <Spotlight className="grid gap-8 rounded-3xl border border-line bg-surface p-6 shadow-[0_30px_70px_-45px_rgb(7_20_38/0.55)] transition-[border-color] duration-300 group-hover:border-line-strong md:min-h-[17rem] md:grid-cols-12 md:items-center md:p-10">
+                  <Spotlight tilt className="grid gap-8 rounded-3xl border border-line bg-surface p-6 shadow-[0_30px_70px_-45px_rgb(7_20_38/0.55)] transition-[border-color] duration-300 group-hover:border-line-strong md:min-h-[17rem] md:grid-cols-12 md:items-center md:p-10">
                     <div className="flex items-center justify-between md:col-span-3 md:flex-col md:items-start md:justify-center md:gap-4">
                       <span className="font-mono text-[clamp(2.5rem,5vw,4.5rem)] leading-none font-medium tracking-tight text-line-strong transition-colors duration-500 group-hover:text-gold">
                         0{i + 1}

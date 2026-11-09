@@ -11,13 +11,13 @@ import { EASE } from "../ui/motion";
 const norm = (s: string) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
 
 /** ⌘K / Ctrl+K: snel naar een pagina of ervaring springen. */
-export function CommandMenu({ chrome }: { chrome: Chrome }) {
+export function CommandMenu({ chrome, defaultOpen = false }: { chrome: Chrome; defaultOpen?: boolean }) {
   const router = useRouter();
   const pathname = usePathname();
   const locale = localeFromPath(pathname);
   const { search, ui } = chrome[locale];
   const t = ui.nav2;
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(defaultOpen);
   const [query, setQuery] = useState("");
   const [index, setIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);

@@ -40,7 +40,7 @@ export function CareerRail({ locale }: { locale: Locale }) {
             {experience.map((e, i) => (
               <li key={e.id} className="w-[78vw] max-w-[22rem] shrink-0 snap-start sm:w-[22rem]">
                 <Link href={routes.experience(locale, e.id)} className="group block h-full">
-                  <article className="spotlight flex h-full min-h-[22rem] flex-col rounded-3xl border border-line bg-surface p-6 transition-[border-color,transform] duration-500 group-hover:-translate-y-1 group-hover:border-line-strong md:p-7">
+                  <article data-tilt className="spotlight flex h-full min-h-[22rem] flex-col rounded-3xl border border-line bg-surface p-6 transition-[border-color,transform] duration-500 group-hover:-translate-y-1 group-hover:border-line-strong md:p-7">
                     <div className="flex items-start justify-between">
                       <span className="grid size-14 place-items-center rounded-2xl border border-line bg-bg">
                         <BrandMark item={e} size={e.logo ? 30 : 28} />
