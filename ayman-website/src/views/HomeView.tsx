@@ -3,6 +3,7 @@ import { Hero } from "@/components/sections/Hero";
 import { LogoMarquee } from "@/components/sections/LogoMarquee";
 import { QuickScan } from "@/components/sections/QuickScan";
 import { Highlights } from "@/components/sections/Highlights";
+import { CareerRail } from "@/components/sections/CareerRail";
 import { Expertise } from "@/components/sections/Expertise";
 import { SplitStatement } from "@/components/sections/SplitStatement";
 import { TracksTeaser } from "@/components/sections/TracksTeaser";
@@ -32,6 +33,7 @@ export function HomeView({ locale }: { locale: Locale }) {
       <LogoMarquee locale={locale} />
       <QuickScan locale={locale} />
       <Highlights locale={locale} />
+      <CareerRail locale={locale} />
       <Expertise locale={locale} />
       <SplitStatement
         id="person-title"

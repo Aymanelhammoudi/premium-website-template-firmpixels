@@ -1,5 +1,6 @@
 import { getSite, type Locale } from "@content";
 import { CountUp } from "../ui/CountUp";
+import { ScrollWords } from "../ui/ScrollWords";
 import { Reveal } from "../ui/Reveal";
 import { SectionHeading } from "../ui/SectionHeading";
 import { Spotlight } from "../ui/Spotlight";
@@ -14,10 +15,9 @@ export function About({ locale, heading = true }: { locale: Locale; heading?: bo
 
         {/* Statement */}
         <div className={`md:grid md:grid-cols-12 ${heading ? "mt-20 md:mt-28" : ""}`}>
-          <p className="enter font-display text-[clamp(1.9rem,4vw,3.6rem)] leading-[1.12] font-light text-pretty md:col-span-10 md:col-start-2">
-            {before}
-            <span className="font-normal">{about.statementAccent}</span>
-            {after} <span className="text-muted">{about.lead}</span>
+          <p className="font-display text-[clamp(1.9rem,4vw,3.6rem)] leading-[1.12] font-light text-pretty md:col-span-10 md:col-start-2">
+            <ScrollWords lines={[before.trim(), about.statementAccent + after]} />{" "}
+            <span className="text-muted">{about.lead}</span>
           </p>
         </div>
 

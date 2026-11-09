@@ -566,3 +566,78 @@ html.theme-vt::view-transition-new(root) {
   }
   .btn-shine::after { display: none; }
 }
+
+/* ───────────── Levende interacties ───────────── */
+
+/* Puntenveld in de hero: verschijnt zacht zodra het canvas leeft */
+canvas[data-dotfield] { opacity: 0; transition: opacity 1.2s var(--ease-out-expo); }
+canvas[data-dotfield].is-live { opacity: 1; }
+
+/* Diepte-lagen en magnetische knoppen bewegen met 'translate' (los van andere transforms) */
+[data-depth] { will-change: translate; }
+[data-magnetic] { transition: translate 0.35s var(--ease-out-expo), background-color 0.2s, color 0.2s, transform 0.2s; }
+[data-magnetic].is-magnet { transition: translate 0.12s linear, background-color 0.2s, color 0.2s, transform 0.2s; }
+
+/* Logoband buigt licht mee met de scrollsnelheid */
+.marquee[data-velocity] { transform: skewX(calc(var(--vel, 0) * -7deg)); transition: transform 0.25s var(--ease-out-expo); }
+
+/* Horizontale rail: alleen vastgezet als JavaScript hem aanzet (desktop) */
+.rail-viewport { scroll-snap-type: x mandatory; }
+.rail[data-rail-on] .rail-sticky { position: sticky; top: 0; height: 100vh; height: 100svh; }
+.rail[data-rail-on] .rail-viewport { overflow: visible; scroll-snap-type: none; }
+.rail[data-rail-on] .rail-track { will-change: transform; }
+
+/* Woorden die oplichten tijdens het scrollen */
+@supports (animation-timeline: view()) {
+  .sw-root { view-timeline-name: --sw; }
+  .sw {
+    animation: sw-light linear both;
+    animation-timeline: --sw;
+    animation-range: cover calc(10% + var(--p) * 38%) cover calc(16% + var(--p) * 38%);
+  }
+  @keyframes sw-light { from { opacity: 0.5; } to { opacity: 1; } }
+
+  /* Sfeerbeelden openen als een gordijn wanneer ze in beeld komen */
+  .reveal-clip {
+    animation: reveal-clip linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 40%;
+  }
+  @keyframes reveal-clip {
+    from { clip-path: inset(10% 8% 10% 8% round 2rem); }
+    to { clip-path: inset(0 0 0 0 round 1.5rem); }
+  }
+
+  /* Gestapelde kaarten krimpen licht als de volgende eroverheen schuift */
+  .stack-card > * {
+    animation: stack-shrink linear both;
+    animation-timeline: view();
+    animation-range: exit-crossing 0% exit-crossing 100%;
+  }
+  @keyframes stack-shrink { to { transform: scale(0.94); filter: brightness(0.92); } }
+
+  /* Groot naamlogo in de footer rijst letter voor letter op */
+  .wordmark span {
+    display: inline-block;
+    animation: wordmark-rise linear both;
+    animation-timeline: view();
+    animation-range: entry calc(var(--i) * 3%) entry calc(70% + var(--i) * 2%);
+  }
+  @keyframes wordmark-rise { from { transform: translateY(70%); opacity: 0; } }
+}
+
+.wordmark {
+  font-size: 11cqw;
+  line-height: 0.82;
+  letter-spacing: -0.06em;
+  font-weight: 650;
+  white-space: nowrap;
+  color: var(--ink);
+  -webkit-mask-image: linear-gradient(to bottom, #000 35%, transparent 95%);
+  mask-image: linear-gradient(to bottom, #000 35%, transparent 95%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sw, .reveal-clip, .stack-card > *, .wordmark span { animation: none !important; opacity: 1 !important; clip-path: none !important; }
+  .marquee[data-velocity] { transform: none; }
+}

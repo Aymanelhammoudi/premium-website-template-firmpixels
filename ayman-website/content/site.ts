@@ -920,6 +920,14 @@ export const atmosphere = {
 };
 
 export const sections = {
+  rail: {
+    label: "Alle ervaring",
+    title: "Elke ervaring.",
+    accent: "Een eigen plek.",
+    intro: "Scroll door alle onderdelen van mijn loopbaan en ondernemerschap. Open een kaart voor de volledige pagina.",
+    hint: "Blijf scrollen",
+    open: "Bekijk",
+  },
   homePerson: {
     label: "De persoon achter het werk",
     title: "Goed advies begint met",

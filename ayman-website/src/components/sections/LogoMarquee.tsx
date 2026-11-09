@@ -9,7 +9,7 @@ export function LogoMarquee({ locale }: { locale: Locale }) {
       <div className="container-x mb-5">
         <p className="eyebrow">{ui.marquee}</p>
       </div>
-      <div className="marquee overflow-hidden">
+      <div className="marquee overflow-hidden" data-velocity>
         <ul aria-hidden className="marquee-track flex w-max items-center gap-16 pr-16">
           {items.map((e, i) => (
             <li

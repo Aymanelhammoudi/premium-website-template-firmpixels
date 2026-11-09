@@ -61,9 +61,8 @@ export function Hero({
 }) {
   const d = (s: number) => ({ "--d": `${s}s` }) as CSSProperties;
   return (
-    <section id="top" aria-labelledby="hero-title" className="relative isolate overflow-hidden border-b border-line">
-      <div aria-hidden className="dot-grid absolute inset-0 -z-10" />
-      <div aria-hidden className="grid-fade absolute inset-0 -z-10 opacity-60" />
+    <section id="top" data-depth-root aria-labelledby="hero-title" className="relative isolate overflow-hidden border-b border-line">
+      <canvas data-dotfield aria-hidden className="pointer-events-none absolute inset-0 -z-10 size-full" />
       <div aria-hidden className="aurora -top-40 right-[-10%] -z-10 size-[36rem] bg-gold/12" />
       <div aria-hidden className="aurora bottom-[-30%] left-[-15%] -z-10 size-[32rem] bg-[#3b5b8c]/15" style={{ animationDelay: "-8s" }} />
 
@@ -111,7 +110,7 @@ export function Hero({
         </div>
 
         <div className="relative mx-auto w-full max-w-[24rem] lg:col-span-5 lg:max-w-[28rem] lg:justify-self-end">
-          <div className="portrait-in">
+          <div className="portrait-in" data-depth="0.45">
             <TiltCard className="rounded-3xl">
               <div className="beam relative aspect-[4/5] overflow-hidden rounded-3xl border border-line bg-surface shadow-[0_30px_80px_-40px_rgb(7_20_38/0.55)]">
                 <Image
@@ -137,6 +136,7 @@ export function Hero({
             <div
               key={c.text}
               aria-hidden
+              data-depth={i === 0 ? "1.2" : "0.9"}
               className={`enter absolute z-10 hidden lg:block ${i === 0 ? "top-12 -left-14" : "-right-8 bottom-28"}`}
               style={d(0.6 + i * 0.15)}
             >

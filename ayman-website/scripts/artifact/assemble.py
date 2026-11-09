@@ -71,6 +71,13 @@ def process(html, lang, prefix=None):
             a['href'] = nh
             for x in ('target', 'rel', 'download', 'hreflang'):
                 if x in a.attrs and x != 'hreflang': del a[x]
+    # Toestand van de levende interacties (gezet tijdens het vastleggen) weer neutraal maken.
+    for el in soup.select('[data-rail], [data-rail-track], [data-rail-progress], [data-depth], [data-magnetic], [data-velocity], canvas[data-dotfield]'):
+        for x in ('style', 'data-rail-on', 'width', 'height'):
+            if x in el.attrs: del el[x]
+        if el.name == 'canvas': el['class'] = [c for c in el.get('class', []) if c != 'is-live']
+        if el.has_attr('class'): el['class'] = [c for c in el['class'] if c != 'is-magnet']
+    for el in soup.select('[data-rail-count]'): el.string = '01'
     if prefix:
         for el in soup.find_all(id=True):
             el['id'] = f"{prefix}-{el['id']}"
@@ -177,7 +184,8 @@ panels = {v: {k: str(process(h, VIEWS[v]['lang'], prefix=v)) for k, h in ps.item
 css = ''.join(open(f).read() for f in sorted(glob.glob(os.path.join(SITE, 'out/_next/static/chunks/*.css'))))
 css = re.sub(r'@font-face\{[^}]*url\([^)]*(_next|\.\./media)[^)]*\)[^}]*\}', '', css)
 extra = open(os.path.join(HERE, 'extra.css')).read()
-js = open(os.path.join(HERE, 'runtime.js')).read()
+living = open(os.path.join(SITE, 'src/lib/living.js')).read().replace('export function initLiving', 'function initLiving')
+js = open(os.path.join(HERE, 'runtime.js')).read().replace('/*__LIVING__*/', living)
 
 data = json.dumps({'states': states, 'panels': panels, 'pairs': cap['pairs'], 'search': search}).replace('</', '<\\/')
 page = f'''<meta charset="utf-8">

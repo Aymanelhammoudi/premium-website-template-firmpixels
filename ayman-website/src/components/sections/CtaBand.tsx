@@ -8,7 +8,7 @@ export function CtaBand({ locale }: { locale: Locale }) {
   const { cv, person, sections, ui } = getSite(locale);
   const n = sections.next;
   return (
-    <section data-theme="dark" aria-labelledby="cta-title" className="relative isolate overflow-hidden bg-bg py-24 text-ink md:py-32">
+    <section data-theme="dark" aria-labelledby="cta-title" className="relative isolate overflow-hidden border-t border-line bg-bg py-24 text-ink md:py-32">
       <div aria-hidden className="grid-fade absolute inset-0 -z-10 opacity-70" />
       <div aria-hidden className="aurora top-[-40%] left-1/2 -z-10 size-[42rem] -translate-x-1/2 bg-gold/15" />
       <div aria-hidden className="aurora right-[-20%] bottom-[-50%] -z-10 size-[30rem] bg-[#3b5b8c]/25" style={{ animationDelay: "-11s" }} />

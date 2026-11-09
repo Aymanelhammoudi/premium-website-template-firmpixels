@@ -1,5 +1,6 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -125,6 +126,15 @@ export function Footer({ chrome }: { chrome: Chrome }) {
             </span>
           </button>
         </div>
+      </div>
+      <div aria-hidden className="container-x overflow-hidden pt-2 [container-type:inline-size]">
+        <p className="wordmark select-none">
+          {[...person.fullName].map((ch, i) => (
+            <span key={i} style={{ "--i": i } as CSSProperties}>
+              {ch === " " ? "\u00a0" : ch}
+            </span>
+          ))}
+        </p>
       </div>
       <div className="container-x flex flex-col gap-2 border-t border-line py-6 text-xs text-muted md:flex-row md:items-center md:justify-between">
         <span>

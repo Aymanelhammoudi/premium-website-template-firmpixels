@@ -136,6 +136,7 @@ export function Header({ chrome }: { chrome: Chrome }) {
             <Link
               href={PAGES.contact[locale]}
               aria-current={active === "contact" ? "page" : undefined}
+              data-magnetic
               className="group hidden h-10 items-center gap-1.5 rounded-full bg-ink px-4 text-sm font-medium text-bg transition-[background-color,transform] duration-200 hover:bg-gold hover:text-on-gold active:scale-[0.98] md:inline-flex"
             >
               {ui.nav2.contact}

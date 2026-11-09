@@ -9,6 +9,7 @@ const chrome = getChrome();
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CommandMenu } from "@/components/layout/CommandMenu";
+import { LivingMotion } from "@/components/layout/LivingMotion";
 import { ScrollProgress } from "@/components/layout/ScrollProgress";
 import "./globals.css";
 
@@ -95,6 +96,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           </main>
           <Footer chrome={chrome} />
           <CommandMenu chrome={chrome} />
+          <LivingMotion />
         </MotionConfig>
       </body>
     </html>

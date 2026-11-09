@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { Atmosphere, type AtmosphereImage } from "../ui/Atmosphere";
 import { ArrowRight } from "../ui/Icons";
 import { Reveal, RevealLines } from "../ui/Reveal";
+import { ScrollWords } from "../ui/ScrollWords";
 
 /** Statement met sfeerbeeld: label, grote regels, tekst en één duidelijke vervolgstap. */
 export function SplitStatement({
@@ -56,7 +57,7 @@ export function SplitStatement({
                 : "heading text-[clamp(2.2rem,4.6vw,3.75rem)]"
             }
           >
-            <RevealLines lines={lines.map((l, i) => (i === lines.length - 1 && lines.length > 1 ? <em key={i} className={serif ? "text-muted not-italic" : ""}>{l}</em> : l))} />
+            {serif ? <ScrollWords lines={lines} /> : <RevealLines lines={lines.map((l, i) => (i === lines.length - 1 && lines.length > 1 ? <em key={i}>{l}</em> : l))} />}
           </h2>
           <div className="mt-7 max-w-xl space-y-4 text-lg text-muted">
             {text.map((t, i) => (

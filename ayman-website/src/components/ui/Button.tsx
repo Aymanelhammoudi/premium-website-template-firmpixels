@@ -14,6 +14,7 @@ export function Button({ children, variant = "primary", icon, className, ...rest
       : "border border-line-strong text-ink hover:border-ink";
   return (
     <a
+      {...(variant === "primary" ? { "data-magnetic": "" } : {})}
       {...rest}
       className={`group relative inline-flex h-11 items-center gap-2.5 overflow-hidden rounded-full px-5 text-sm font-medium transition-[background-color,border-color,color,transform] duration-200 active:scale-[0.98] ${styles} ${className ?? ""}`}
     >

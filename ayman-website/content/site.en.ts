@@ -722,6 +722,14 @@ export const atmosphere = {
 };
 
 export const sections = {
+  rail: {
+    label: "All experience",
+    title: "Every experience.",
+    accent: "Its own place.",
+    intro: "Scroll through every part of my career and ventures. Open a card to see its full page.",
+    hint: "Keep scrolling",
+    open: "View",
+  },
   homePerson: {
     label: "The person behind the work",
     title: "Good advice starts with",

@@ -1,5 +1,7 @@
 (() => {
   "use strict";
+  /*__LIVING__*/
+  let livingCleanup = null;
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
   const root = document.documentElement;
@@ -117,6 +119,11 @@
     const h1 = v?.querySelector("h1")?.textContent.trim();
     document.title = name === "home" || name === "en" || !h1 ? "Ayman El Hammoudi" : `${h1} | Ayman El Hammoudi`;
     bindView(v);
+    // Levende interacties (puntenveld, diepte, magneet, rail) voor de zichtbare weergave.
+    requestAnimationFrame(() => {
+      if (livingCleanup) livingCleanup();
+      livingCleanup = initLiving(document);
+    });
   }
   function route(withTransition) {
     const h = decodeURIComponent(location.hash.slice(1));
@@ -361,7 +368,7 @@
   function bindCounters(scope) {
     if (reduce || !("IntersectionObserver" in window)) return;
     $$(".tabular-nums", scope).forEach((el) => {
-      if (el.dataset.cntBound) return;
+      if (el.dataset.cntBound || el.children.length) return;
       el.dataset.cntBound = "1";
       const target = parseInt(el.textContent, 10);
       if (!isFinite(target) || target > 1900) return; // jaartallen niet laten optellen
